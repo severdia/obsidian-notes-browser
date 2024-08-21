@@ -1,8 +1,71 @@
-/*
-
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
+.ayy-flex {
+    display: flex
+}
+.ayy-h-full {
+    height: 100%
+}
+.ayy-min-h-9 {
+    min-height: 2.25rem
+}
+.ayy-w-full {
+    width: 100%
+}
+.ayy-min-w-9 {
+    min-width: 2.25rem
+}
+.ayy-flex-grow {
+    flex-grow: 1
+}
+.ayy-flex-row {
+    flex-direction: row
+}
+.ayy-flex-col {
+    flex-direction: column
+}
+.ayy-justify-between {
+    justify-content: space-between
+}
+.ayy-gap-2 {
+    gap: 0.5rem
+}
+.ayy-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+.ayy-text-nowrap {
+    text-wrap: nowrap
+}
+.ayy-rounded {
+    border-radius: 0.25rem
+}
+.ayy-bg-white {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity))
+}
+.ayy-p-3 {
+    padding: 0.75rem
+}
+.ayy-pl-4 {
+    padding-left: 1rem
+}
+.ayy-text-\[14px\] {
+    font-size: 14px
+}
+.ayy-text-\[16px\] {
+    font-size: 16px
+}
+.ayy-font-bold {
+    font-weight: 700
+}
+.ayy-font-semibold {
+    font-weight: 600
+}
+.ayy-text-blue-300 {
+    --tw-text-opacity: 1;
+    color: rgb(147 197 253 / var(--tw-text-opacity))
+}
+.ayy-text-gray-400 {
+    --tw-text-opacity: 1;
+    color: rgb(156 163 175 / var(--tw-text-opacity))
+}

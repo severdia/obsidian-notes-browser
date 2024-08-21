@@ -1,11 +1,11 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
-import { ReactView } from "./ReactView";
+import { SingleView } from "./SingleView";
 import { StrictMode } from "react";
 
-export const VIEW_TYPE_EXAMPLE = "example-view";
+export const VIEW_TYPE = "obsidian-notes-browser";
 
-export class ExampleView extends ItemView {
+export class PluginView extends ItemView {
 	root: Root | null = null;
 
 	constructor(leaf: WorkspaceLeaf) {
@@ -13,7 +13,7 @@ export class ExampleView extends ItemView {
 	}
 
 	getViewType() {
-		return VIEW_TYPE_EXAMPLE;
+		return VIEW_TYPE;
 	}
 
 	getDisplayText() {
@@ -24,7 +24,7 @@ export class ExampleView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<ReactView />,
+				<SingleView />,
 			</StrictMode>
 		);
 	}

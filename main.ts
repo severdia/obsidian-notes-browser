@@ -1,5 +1,5 @@
 import { Notice, Plugin, WorkspaceLeaf } from "obsidian";
-import { ExampleView, VIEW_TYPE_EXAMPLE } from "src/ExampleView";
+import { PluginView, VIEW_TYPE } from "src/PluginView";
 
 // Remember to rename these classes and interfaces!
 
@@ -31,7 +31,7 @@ export default class MyPlugin extends Plugin {
 			console.log("click", evt);
 		});
 
-		this.registerView(VIEW_TYPE_EXAMPLE, (leaf) => new ExampleView(leaf));
+		this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf));
 
 		this.addRibbonIcon("dice", "Activate view", () => {
 			this.activateView();
@@ -58,13 +58,13 @@ export default class MyPlugin extends Plugin {
 		const { workspace } = this.app;
 
 		let leaf: WorkspaceLeaf | null = null;
-		const leaves = workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE);
+		const leaves = workspace.getLeavesOfType(VIEW_TYPE);
 
 		if (leaves.length > 0) {
 			leaf = leaves[0];
 		} else {
 			leaf = workspace.getRightLeaf(false);
-			await leaf?.setViewState({ type: VIEW_TYPE_EXAMPLE, active: true });
+			await leaf?.setViewState({ type: VIEW_TYPE, active: true });
 		}
 
 		leaf && workspace.revealLeaf(leaf);
