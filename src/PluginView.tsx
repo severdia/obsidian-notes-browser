@@ -1,7 +1,7 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
-import { SingleView } from "./SingleView";
-import { StrictMode } from "react";
+import { PluginUI } from "./PluginUI";
+import { AppContext } from "./utils/appContext";
 
 export const VIEW_TYPE = "obsidian-notes-browser";
 
@@ -23,9 +23,9 @@ export class PluginView extends ItemView {
 	async onOpen() {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
-			<StrictMode>
-				<SingleView />,
-			</StrictMode>
+			<AppContext.Provider value={this.app}>
+				<PluginUI />,
+			</AppContext.Provider>
 		);
 	}
 

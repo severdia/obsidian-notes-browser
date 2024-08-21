@@ -15,7 +15,7 @@ export function Note(props: NoteProps) {
 					<div className="ayy-text-gray-400 ayy-truncate ayy-text-[14px]">{props.description}</div>
 				</div>
 			</div>
-			<img src={props.image} alt="" className="ayy-min-h-9 ayy-min-w-9" />
+			{props.image && <img src={props.image} alt="" className="ayy-min-h-9 ayy-min-w-9" />}
 		</div>
 	);
 }

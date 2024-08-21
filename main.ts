@@ -1,5 +1,5 @@
 import { Notice, Plugin, WorkspaceLeaf } from "obsidian";
-import { PluginView, VIEW_TYPE } from "src/PluginView";
+import { PluginView, VIEW_TYPE } from "./src/PluginView";
 
 // Remember to rename these classes and interfaces!
 

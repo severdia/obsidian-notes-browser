@@ -1,3 +1,6 @@
+.ayy-box-border {
+    box-sizing: border-box
+}
 .ayy-flex {
     display: flex
 }
@@ -10,8 +13,30 @@
 .ayy-w-full {
     width: 100%
 }
+.ayy-w-fit {
+    width: -moz-fit-content;
+    width: fit-content
+}
+.ayy-w-\[130px\] {
+    width: 130px
+}
+.ayy-w-\[200px\] {
+    width: 200px
+}
+.ayy-w-\[00px\] {
+    width: 00px
+}
+.ayy-w-\[256px\] {
+    width: 256px
+}
 .ayy-min-w-9 {
     min-width: 2.25rem
+}
+.ayy-min-w-\[300px\] {
+    min-width: 300px
+}
+.ayy-min-w-\[200px\] {
+    min-width: 200px
 }
 .ayy-flex-grow {
     flex-grow: 1
@@ -21,6 +46,9 @@
 }
 .ayy-flex-col {
     flex-direction: column
+}
+.ayy-items-center {
+    align-items: center
 }
 .ayy-justify-between {
     justify-content: space-between
@@ -42,6 +70,14 @@
 .ayy-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
+}
+.ayy-bg-red-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity))
+}
+.ayy-bg-green-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(134 239 172 / var(--tw-bg-opacity))
 }
 .ayy-p-3 {
     padding: 0.75rem
@@ -68,4 +104,8 @@
 .ayy-text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity))
+}
+.ayy-text-blue-600 {
+    --tw-text-opacity: 1;
+    color: rgb(37 99 235 / var(--tw-text-opacity))
 }
