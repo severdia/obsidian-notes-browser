@@ -10,41 +10,96 @@ import { useStore } from "store";
 
 export function TreeView() {
 	const app = useApp();
-	const setNotes = useStore((state) => state.setNotes);
-	const [folders, setFolders] = useState<TAbstractFile[]>([]);
-	const showRootNotes = () => {
-		const rootFolder = app?.vault.getRoot();
-		if (!rootFolder) return;
-		const notes = rootFolder.children.filter(
-			(abstractFile) => abstractFile instanceof TFile
-		);
-		setNotes(notes);
-	};
+	const rootFolder = app?.vault.getAbstractFileByPath(
+		app.vault.getRoot().path
+	);
 
-	useEffect(() => {
-		if (!app) return;
-		const allFolders = app.vault.getAbstractFileByPath(
-			app.vault.getRoot().path
-		);
-		allFolders instanceof TFolder && setFolders(allFolders.children);
-	}, [app]);
+	if (app && rootFolder) {
+		rootFolder.name = app.vault.getName();
+	}
 
 	return (
 		<div
-			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-bg-blue-200 ayy-min-w-[200px] ayy-p-3"
+			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full"
 			// onClick={showRootNotes}
 		>
-			<Folder data={folders} />
+			{rootFolder instanceof TFolder && (
+				<FilesystemItem node={rootFolder} />
+			)}
 		</div>
 	);
 }
 
-export function Folder(props: Readonly<{ data: TAbstractFile[] }>) {
-	const [isOpen, setIsOpen] = useState(false);
+function isContainFolders(folder: TFolder) {
+	return folder.children.some(
+		(abstractFile) => abstractFile instanceof TFolder
+	);
+}
+
+function sortFilesAlphabetically(files?: TAbstractFile[]): TAbstractFile[] {
+	if (!files) return [];
+	return files.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+interface FolderProps {
+	isOpen: boolean;
+	onClick: () => void;
+	node: TFolder;
+}
+
+function Folder(props: FolderProps) {
+	return (
+		<div className="ayy-w-full ayy-flex ayy-items-center ayy-justify-between">
+			<span
+				className="ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1"
+				onClick={props.onClick}
+			>
+				<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
+					<div className="ayy-size-6 ayy-min-w-6 ayy-min-h-6">
+						{props.node.children &&
+							props.node.children.length > 0 &&
+							(!props.isOpen ? (
+								<IoChevronForward className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+							) : (
+								<IoChevronDown className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+							))}
+					</div>
+
+					{props.node.children && (
+						<IoFolderOutline
+							className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 ${
+								props.node.children.length === 0
+									? "ayy-ml-6"
+									: ""
+							}`}
+						/>
+					)}
+				</span>
+
+				<span className="ayy-truncate ayy-text-nowrap">
+					{props.node.name}
+				</span>
+			</span>
+			{props.node.children?.length !== 0 && (
+				<div>{props.node.children.length}</div>
+			)}
+		</div>
+	);
+}
+
+export function FilesystemItem({
+	node,
+	isRoot = false,
+}: Readonly<{ node: TFolder; isRoot?: boolean }>) {
 	const setNotes = useStore((state) => state.setNotes);
 
 	const app = useApp();
+	let [isOpen, setIsOpen] = useState<boolean>(
+		Boolean(localStorage.getItem(node.path))
+	);
+
 	const handleClick = (folder: TFolder) => {
+		localStorage.setItem(node.path, `${!isOpen}`);
 		setIsOpen(!isOpen);
 		if (!app) return;
 		const filesUnderFolder = app.vault.getFolderByPath(
@@ -63,42 +118,38 @@ export function Folder(props: Readonly<{ data: TAbstractFile[] }>) {
 		setNotes(notes);
 	};
 
-	return (
-		<>
-			{props.data.map(
-				(folder) =>
-					folder instanceof TFolder && (
-						<div key={folder.path}>
-							<div
-								className="ayy-flex ayy-flex-row ayy-w-full ayy-justify-between "
-								onClick={() => handleClick(folder)}
-							>
-								<div className="ayy-flex ayy-flex-row ayy-gap-2">
-									<div className="ayy-flex ayy-flex-row ayy-items-center ayy-gap-2">
-										{isOpen ? (
-											<IoChevronDown />
-										) : (
-											<IoChevronForward />
-										)}
-										<IoFolderOutline className="ayy-text-blue-600" />
-									</div>
-									<div>{folder.name}</div>
-								</div>
-								{folder.children?.length !== 0 && (
-									<div>{folder.children.length}</div>
-								)}
-							</div>
+	// Only render if it's not the root or if it's open
+	if (isRoot) {
+		return (
+			<ul className="ayy-pl-6 ayy-list-none">
+				{sortFilesAlphabetically(node.children).map(
+					(node) =>
+						node instanceof TFolder && (
+							<FilesystemItem node={node} key={node.name} />
+						)
+				)}
+			</ul>
+		);
+	}
 
-							{isOpen && (
-								<div className="ayy-flex ayy-flex-col ayy-pl-4 ayy-w-full">
-									<Folder
-										data={folder.children as TFolder[]}
-									/>
-								</div>
-							)}
-						</div>
-					)
+	return (
+		<li key={node.path} className="ayy-list-none ayy-w-full">
+			<Folder
+				node={node}
+				onClick={() => handleClick(node)}
+				isOpen={isOpen}
+			/>
+
+			{isOpen && (
+				<ul className="ayy-pl-6 ayy-list-none ayy-m-0">
+					{sortFilesAlphabetically(node.children).map(
+						(node) =>
+							node instanceof TFolder && (
+								<FilesystemItem node={node} key={node.path} />
+							)
+					)}
+				</ul>
 			)}
-		</>
+		</li>
 	);
 }
