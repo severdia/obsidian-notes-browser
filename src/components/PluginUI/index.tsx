@@ -1,5 +1,5 @@
-import { TreeView } from "../TreeView";
-import { NotesView } from "../NotesView";
+import { TreeView } from "components/TreeView";
+import { NotesView } from "components/NotesView";
 
 export function PluginUI() {
 	return (

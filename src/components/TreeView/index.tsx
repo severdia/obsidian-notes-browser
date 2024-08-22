@@ -4,12 +4,22 @@ import {
 	IoChevronForward,
 	IoFolderOutline,
 } from "react-icons/io5";
-import { useApp } from "../hooks/useApp";
-import { TFolder, TAbstractFile } from "obsidian";
+import { useApp } from "hooks";
+import { TFolder, TAbstractFile, TFile } from "obsidian";
+import { useStore } from "store";
 
 export function TreeView() {
 	const app = useApp();
+	const setNotes = useStore((state) => state.setNotes);
 	const [folders, setFolders] = useState<TAbstractFile[]>([]);
+	const showRootNotes = () => {
+		const rootFolder = app?.vault.getRoot();
+		if (!rootFolder) return;
+		const notes = rootFolder.children.filter(
+			(abstractFile) => abstractFile instanceof TFile
+		);
+		setNotes(notes);
+	};
 
 	useEffect(() => {
 		if (!app) return;
@@ -20,7 +30,10 @@ export function TreeView() {
 	}, [app]);
 
 	return (
-		<div className="ayy-flex ayy-flex-col ayy-w-full ayy-min-w-[200px] ayy-p-3">
+		<div
+			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-bg-blue-200 ayy-min-w-[200px] ayy-p-3"
+			// onClick={showRootNotes}
+		>
 			<Folder data={folders} />
 		</div>
 	);
@@ -28,12 +41,26 @@ export function TreeView() {
 
 export function Folder(props: Readonly<{ data: TAbstractFile[] }>) {
 	const [isOpen, setIsOpen] = useState(false);
+	const setNotes = useStore((state) => state.setNotes);
+
 	const app = useApp();
 	const handleClick = (folder: TFolder) => {
 		setIsOpen(!isOpen);
 		if (!app) return;
-		console.log(folder.name);
-		console.log(app.vault.getFolderByPath(folder.path)?.children);
+		const filesUnderFolder = app.vault.getFolderByPath(
+			folder.path
+		)?.children;
+		if (!filesUnderFolder) return;
+
+		const notes: TFile[] = [];
+
+		for (const abstractFile of filesUnderFolder) {
+			if (abstractFile instanceof TFile) {
+				notes.push(abstractFile);
+			}
+		}
+
+		setNotes(notes);
 	};
 
 	return (
