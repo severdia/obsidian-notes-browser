@@ -27,10 +27,6 @@ export default class MyPlugin extends Plugin {
 		);
 		ribbonIconEl.addClass("my-plugin-ribbon-class");
 
-		this.registerDomEvent(document, "click", (evt: MouseEvent) => {
-			console.log("click", evt);
-		});
-
 		this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf));
 
 		this.addRibbonIcon("dice", "Activate view", () => {

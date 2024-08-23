@@ -20,7 +20,7 @@ export function TreeView() {
 
 	return (
 		<div
-			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full"
+			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-px-5 ayy-py-1 ayy-pl-1"
 			// onClick={showRootNotes}
 		>
 			{rootFolder instanceof TFolder && (
@@ -47,6 +47,10 @@ interface FolderProps {
 	node: TFolder;
 }
 
+function getNumberOfNotes(files: TAbstractFile[]) {
+	return files.filter((file) => file instanceof TFile).length;
+}
+
 function Folder(props: FolderProps) {
 	return (
 		<div className="ayy-w-full ayy-flex ayy-items-center ayy-justify-between">
@@ -57,7 +61,7 @@ function Folder(props: FolderProps) {
 				<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
 					<div className="ayy-size-6 ayy-min-w-6 ayy-min-h-6">
 						{props.node.children &&
-							props.node.children.length > 0 &&
+							isContainFolders(props.node) &&
 							(!props.isOpen ? (
 								<IoChevronForward className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
 							) : (
@@ -81,7 +85,7 @@ function Folder(props: FolderProps) {
 				</span>
 			</span>
 			{props.node.children?.length !== 0 && (
-				<div>{props.node.children.length}</div>
+				<div>{getNumberOfNotes(props.node.children)}</div>
 			)}
 		</div>
 	);
