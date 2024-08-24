@@ -16,7 +16,7 @@ export function TreeView() {
 	);
 
 	useEffect(() => {
-		console.log("update file system")
+		console.log("update file system");
 		const rootFolder = app?.vault.getAbstractFileByPath(
 			app.vault.getRoot().path
 		);
@@ -106,7 +106,7 @@ export function FilesystemItem({
 	const setNotes = useStore((state) => state.setNotes);
 
 	const app = useApp();
-	let [isOpen, setIsOpen] = useState<boolean>(
+	const [isOpen, setIsOpen] = useState<boolean>(
 		Boolean(localStorage.getItem(node.path))
 	);
 
