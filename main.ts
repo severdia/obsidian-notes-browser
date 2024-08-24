@@ -48,6 +48,10 @@ export default class NotesBrowser extends Plugin {
 		this.app.vault.on("rename", () => {
 			useStore.getState().setForceFilesystemUpdate();
 		});
+
+		this.app.vault.on("modify", (file)=>{
+			console.log("modification")
+		})
 	}
 
 	onunload() {}
