@@ -16,20 +16,23 @@
 .ayy-flex {
     display: flex
 }
-.ayy-size-6 {
-    width: 1.5rem;
-    height: 1.5rem
-}
 .ayy-size-5 {
     width: 1.25rem;
     height: 1.25rem
 }
-.ayy-h-full {
-    height: 100%
+.ayy-size-6 {
+    width: 1.5rem;
+    height: 1.5rem
 }
 .ayy-h-fit {
     height: -moz-fit-content;
     height: fit-content
+}
+.ayy-h-full {
+    height: 100%
+}
+.ayy-min-h-5 {
+    min-height: 1.25rem
 }
 .ayy-min-h-6 {
     min-height: 1.5rem
@@ -40,12 +43,15 @@
 .ayy-w-\[var\(--divider-width\)\] {
     width: var(--divider-width)
 }
-.ayy-w-full {
-    width: 100%
-}
 .ayy-w-fit {
     width: -moz-fit-content;
     width: fit-content
+}
+.ayy-w-full {
+    width: 100%
+}
+.ayy-min-w-5 {
+    min-width: 1.25rem
 }
 .ayy-min-w-6 {
     min-width: 1.5rem
@@ -97,20 +103,8 @@
 .ayy-border {
     border-width: 1px
 }
-.ayy-border-\[2px\] {
-    border-width: 2px
-}
 .ayy-border-0 {
     border-width: 0px
-}
-.ayy-border-b {
-    border-bottom-width: 1px
-}
-.ayy-border-b-\[2px\] {
-    border-bottom-width: 2px
-}
-.ayy-border-b-\[1px\] {
-    border-bottom-width: 1px
 }
 .ayy-border-b-\[1\.5px\] {
     border-bottom-width: 1.5px
@@ -122,29 +116,8 @@
     --tw-border-opacity: 1;
     border-color: rgb(209 213 219 / var(--tw-border-opacity))
 }
-.ayy-border-b-\[\] {
-    border-bottom-color: 
-}
-.ayy-border-b-\[--var\(\)\] {
-    border-bottom-color: var(--var())
-}
-.ayy-border-b-\[--var\(di\)\] {
-    border-bottom-color: var(--var(di))
-}
-.ayy-border-b-\[var\(--divider\)\] {
-    border-bottom-color: var(--divider)
-}
 .ayy-border-b-\[var\(--divider-color\)\] {
     border-bottom-color: var(--divider-color)
-}
-.ayy-border-b-\[var\(\)\] {
-    border-bottom-color: var()
-}
-.ayy-border-b-\[var\(--di\)\] {
-    border-bottom-color: var(--di)
-}
-.ayy-border-b-\[var\(--divider-width\)\] {
-    border-bottom-color: var(--divider-width)
 }
 .ayy-bg-\[var\(--divider-color\)\] {
     background-color: var(--divider-color)
@@ -157,22 +130,15 @@
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
-.ayy-bg-red-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(239 68 68 / var(--tw-bg-opacity))
-}
-.ayy-bg-red-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(254 202 202 / var(--tw-bg-opacity))
-}
 .ayy-p-2 {
     padding: 0.5rem
 }
 .ayy-p-3 {
     padding: 0.75rem
 }
-.ayy-p-0 {
-    padding: 0px
+.ayy-px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem
 }
 .ayy-px-5 {
     padding-left: 1.25rem;
@@ -182,17 +148,9 @@
     padding-top: 0.25rem;
     padding-bottom: 0.25rem
 }
-.ayy-py-3 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem
-}
 .ayy-py-2 {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem
-}
-.ayy-px-2 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem
 }
 .ayy-pl-1 {
     padding-left: 0.25rem
@@ -212,6 +170,9 @@
 .ayy-font-semibold {
     font-weight: 600
 }
+.ayy-text-\[var\(--icon-color\)\] {
+    color: var(--icon-color)
+}
 .ayy-text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity))
@@ -219,7 +180,4 @@
 .ayy-text-sky-500 {
     --tw-text-opacity: 1;
     color: rgb(14 165 233 / var(--tw-text-opacity))
-}
-.ayy-text-\[var\(--icon-color\)\] {
-    color: var(--icon-color)
 }

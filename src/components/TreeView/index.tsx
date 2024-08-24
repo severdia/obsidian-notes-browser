@@ -59,6 +59,10 @@ function getNumberOfNotes(files: TAbstractFile[]) {
 	return files.filter((file) => file instanceof TFile).length;
 }
 
+function toBoolean(value: string | null) {
+	return value === "true";
+}
+
 function Folder(props: FolderProps) {
 	const containsFolders = isContainFolders(props.node);
 	return (
@@ -72,12 +76,12 @@ function Folder(props: FolderProps) {
 				{props.node.children && (
 					<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
 						{containsFolders && (
-							<div className="ayy-size-6 ayy-min-w-6 ayy-min-h-6">
+							<div className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6">
 								{props.node.children &&
 									(!props.isOpen ? (
-										<IoChevronForward className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+										<IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
 									) : (
-										<IoChevronDown className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+										<IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
 									))}
 							</div>
 						)}
@@ -107,11 +111,10 @@ export function FilesystemItem({
 
 	const app = useApp();
 	const [isOpen, setIsOpen] = useState<boolean>(
-		Boolean(localStorage.getItem(node.path))
+		toBoolean(localStorage.getItem(node.path))
 	);
 
 	const handleClick = (folder: TFolder) => {
-		localStorage.setItem(node.path, `${!isOpen}`);
 		setIsOpen(!isOpen);
 		if (!app) return;
 		const filesUnderFolder = app.vault.getFolderByPath(
