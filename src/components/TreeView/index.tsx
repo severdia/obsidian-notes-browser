@@ -10,22 +10,30 @@ import { useStore } from "store";
 
 export function TreeView() {
 	const app = useApp();
-	const rootFolder = app?.vault.getAbstractFileByPath(
-		app.vault.getRoot().path
+	const [root, setRoot] = useState<TAbstractFile | null>();
+	const forceFilesystemUpdate = useStore(
+		(state) => state.forceFilesyetemUpdate
 	);
 
-	if (app && rootFolder) {
-		rootFolder.name = app.vault.getName();
-	}
+	useEffect(() => {
+		console.log("update file system")
+		const rootFolder = app?.vault.getAbstractFileByPath(
+			app.vault.getRoot().path
+		);
+
+		if (app && rootFolder) {
+			rootFolder.name = app.vault.getName();
+		}
+
+		setRoot(rootFolder);
+	}, [forceFilesystemUpdate]);
 
 	return (
 		<div
 			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-px-5 ayy-py-1 ayy-pl-1"
 			// onClick={showRootNotes}
 		>
-			{rootFolder instanceof TFolder && (
-				<FilesystemItem node={rootFolder} />
-			)}
+			{root instanceof TFolder && <FilesystemItem node={root} />}
 		</div>
 	);
 }
@@ -52,33 +60,33 @@ function getNumberOfNotes(files: TAbstractFile[]) {
 }
 
 function Folder(props: FolderProps) {
+	const containsFolders = isContainFolders(props.node);
 	return (
 		<div className="ayy-w-full ayy-flex ayy-items-center ayy-justify-between">
 			<span
-				className="ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1"
+				className={`ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1 ${
+					containsFolders ? "" : "ayy-ml-6"
+				}`}
 				onClick={props.onClick}
 			>
-				<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
-					<div className="ayy-size-6 ayy-min-w-6 ayy-min-h-6">
-						{props.node.children &&
-							isContainFolders(props.node) &&
-							(!props.isOpen ? (
-								<IoChevronForward className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
-							) : (
-								<IoChevronDown className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
-							))}
-					</div>
+				{props.node.children && (
+					<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
+						{containsFolders && (
+							<div className="ayy-size-6 ayy-min-w-6 ayy-min-h-6">
+								{props.node.children &&
+									(!props.isOpen ? (
+										<IoChevronForward className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+									) : (
+										<IoChevronDown className=" ayy-size-6 ayy-min-w-6 ayy-min-h-6 " />
+									))}
+							</div>
+						)}
 
-					{props.node.children && (
 						<IoFolderOutline
-							className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 ${
-								props.node.children.length === 0
-									? "ayy-ml-6"
-									: ""
-							}`}
+							className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
 						/>
-					)}
-				</span>
+					</span>
+				)}
 
 				<span className="ayy-truncate ayy-text-nowrap">
 					{props.node.name}

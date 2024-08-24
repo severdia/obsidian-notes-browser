@@ -3,7 +3,6 @@ import { Note } from "components/Note";
 import { TFile } from "obsidian";
 import { useApp } from "hooks";
 import { useEffect, useState } from "react";
-import { describe } from "node:test";
 
 function getLastModified(note: TFile) {
 	const lastModified = new Date(note.stat.mtime);
@@ -13,7 +12,7 @@ function getLastModified(note: TFile) {
 
 	if (isToday) {
 		return lastModified.toLocaleTimeString([], {
-			hour: "numeric",
+			hour: "2-digit",
 			minute: "2-digit",
 			hour12: true,
 		});
@@ -42,7 +41,10 @@ export function NotesView() {
 				const content = await app.vault.cachedRead(file);
 				data.push({
 					title: file.name,
-					description: content.slice(0, Math.max(content.length, 400)),
+					description: content.slice(
+						0,
+						Math.max(content.length, 400)
+					),
 					time: getLastModified(file),
 					file: file,
 				});
@@ -68,7 +70,7 @@ export function NotesView() {
 	};
 
 	return (
-		<div className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-p-2 ayy-flex-grow ayy-gap-2">
+		<div className="ayy-flex ayy-flex-col ayy-bg-white ayy-h-full ayy-w-full ayy-p-2 ayy-flex-grow ayy-gap-2">
 			{notes.map((note) => (
 				<Note
 					key={note.file.path}
@@ -76,6 +78,7 @@ export function NotesView() {
 					description={note.description}
 					time={note.time}
 					onClick={() => openFile(note.file)}
+					file={note.file}
 				/>
 			))}
 		</div>

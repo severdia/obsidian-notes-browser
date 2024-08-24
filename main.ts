@@ -1,18 +1,17 @@
 import { Notice, Plugin, WorkspaceLeaf } from "obsidian";
 import { PluginView, VIEW_TYPE } from "./src/PluginView";
+import { useStore } from "store";
 
-// Remember to rename these classes and interfaces!
-
-interface MyPluginSettings {
+interface NotesBrowserSettings {
 	mySetting: string;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: NotesBrowserSettings = {
 	mySetting: "default",
 };
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class NotesBrowser extends Plugin {
+	settings: NotesBrowserSettings;
 
 	async onload() {
 		await this.loadSettings();
@@ -32,11 +31,26 @@ export default class MyPlugin extends Plugin {
 		this.addRibbonIcon("dice", "Activate view", () => {
 			this.activateView();
 		});
+
+		this.app.workspace.on("active-leaf-change", () => {
+			const currentOpenFile = this.app.workspace.getActiveFile();
+			useStore.getState().setCurrentActiveFile(currentOpenFile);
+		});
+
+		this.app.vault.on("create", () => {
+			useStore.getState().setForceFilesystemUpdate();
+		});
+
+		this.app.vault.on("delete", () => {
+			useStore.getState().setForceFilesystemUpdate();
+		});
+
+		this.app.vault.on("rename", () => {
+			useStore.getState().setForceFilesystemUpdate();
+		});
 	}
 
-	onunload() {
-		// DO NOTHING
-	}
+	onunload() {}
 
 	async loadSettings() {
 		this.settings = Object.assign(
