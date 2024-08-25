@@ -8,6 +8,7 @@ import { useApp } from "hooks";
 import { TFolder, TAbstractFile, TFile, Notice } from "obsidian";
 import { useStore } from "store";
 import Dropzone from "react-dropzone";
+import { useDragHandlers } from "hooks";
 
 export function TreeView() {
 	const app = useApp();
@@ -68,6 +69,7 @@ function Folder(props: Readonly<FolderProps>) {
 	const [isDropping, setIsDropping] = useState(false);
 	const containsFolders = isContainFolders(props.node);
 	const app = useApp();
+	const { onDragStart } = useDragHandlers(props.node);
 
 	const handleOnDropFiles = (droppabaleFiles: File[]) => {
 		if (!app) return;
@@ -81,25 +83,41 @@ function Folder(props: Readonly<FolderProps>) {
 		});
 	};
 
-	const onDropNote: DragEventHandler<HTMLDivElement> = (dropEvent) => {
+	const onDrop: DragEventHandler<HTMLDivElement> = (dropEvent) => {
+		setIsDropping(false);
 		if (!app) return;
 		const data = dropEvent.dataTransfer.getData("application/json");
-		if (data !== "") {
-			const dataJson = JSON.parse(data);
-
-			if (dataJson["filePath"]) {
-				const filePath = dataJson.filePath;
-				const file = app.vault.getAbstractFileByPath(filePath);
-				if (file) {
-					app.vault
-						.rename(file, `${props.node.path}/${file.name}`)
-						.catch((e) => new Notice(`${e}`));
-				}
-			}
-		}
-
 		dropEvent.dataTransfer.clearData();
-		setIsDropping(false);
+
+		if (data === "") return;
+
+		const { type, path } = JSON.parse(data);
+		const abstractFilePath = app.vault.getAbstractFileByPath(path);
+		if (!abstractFilePath) return;
+
+		switch (type) {
+			case "file":
+				app.vault
+					.rename(
+						abstractFilePath,
+						`${props.node.path}/${abstractFilePath.name}`
+					)
+					.catch((e) => new Notice(`${e}`));
+				return;
+
+			case "folder":
+				if (!props.node.path.startsWith(abstractFilePath.path)) {
+					app.vault
+						.rename(
+							abstractFilePath,
+							`${props.node.path}/${abstractFilePath.name}`
+						)
+						.catch((e) => new Notice(`${e}`));
+					return;
+				}
+				new Notice("You can't move a parent folder under its children");
+				return;
+		}
 	};
 
 	return (
@@ -132,9 +150,10 @@ function Folder(props: Readonly<FolderProps>) {
 					onDragLeave={() => {
 						setIsDropping(false);
 					}}
-					onDrop={onDropNote}
+					onDrop={onDrop}
 					data-path={props.node.path}
 					draggable
+					onDragStart={onDragStart}
 				>
 					<div
 						{...getRootProps()}

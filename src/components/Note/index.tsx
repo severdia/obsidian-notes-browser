@@ -1,4 +1,4 @@
-import { useApp } from "hooks";
+import { useApp, useDragHandlers } from "hooks";
 import { TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
 import { useStore } from "store";
@@ -26,9 +26,10 @@ function getLastModified(note: TFile) {
 
 export const Note = memo(({ file }: NoteProps) => {
 	const currentActiveFile = useStore((state) => state.currentActiveFile);
+	const app = useApp();
 	const [thumbnail, setThumbnail] = useState<string | null>(null);
 	const [description, setDescription] = useState<string>("loading");
-	const app = useApp();
+	const { onDragStart } = useDragHandlers(file);
 	const backgroundColorClass =
 		currentActiveFile == file.path ? "ayy-bg-gray-200" : "ayy-bg-white";
 
@@ -53,23 +54,12 @@ export const Note = memo(({ file }: NoteProps) => {
 		leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
 	};
 
-	const dragStarted = (e: React.DragEvent<HTMLDivElement>) => {
-		if (!app) return;
-		e.dataTransfer.setData(
-			"application/json",
-			JSON.stringify({ filePath: file.path })
-		);
-		const dragManager = (app as any).dragManager;
-		const dragData = dragManager.dragFile(e.nativeEvent, file);
-		dragManager.onDragStart(e.nativeEvent, dragData);
-	};
-
 	return (
 		<div
 			className={`ayy-p-3 ${backgroundColorClass} ayy-rounded ayy-flex ayy-flex-row"`}
 			onClick={openFile}
 			draggable
-			onDragStart={dragStarted}
+			onDragStart={onDragStart}
 			data-path={file.path}
 		>
 			<div className="ayy-flex-grow ayy-flex-col ayy-truncate">
