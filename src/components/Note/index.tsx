@@ -73,7 +73,9 @@ export const Note = memo(({ file }: NoteProps) => {
 			data-path={file.path}
 		>
 			<div className="ayy-flex-grow ayy-flex-col ayy-truncate">
-				<div className="ayy-text-[16px] ayy-font-bold">{file.name}</div>
+				<div className="ayy-text-[16px] ayy-font-bold">
+					{file.basename}
+				</div>
 				<div className="ayy-flex ayy-flex-row ayy-gap-2 ayy-w-full">
 					<div className="ayy-text-[14px] ayy-font-semibold ayy-text-nowrap">
 						{getLastModified(file)}

@@ -118,6 +118,7 @@ function Folder(props: Readonly<FolderProps>) {
 				setIsDropping(false);
 			}}
 			onDrop={handleOnDropFiles}
+			noClick={true}
 		>
 			{({ getRootProps, getInputProps }) => (
 				<div
