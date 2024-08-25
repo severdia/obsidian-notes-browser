@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	IoChevronDown,
 	IoChevronForward,
@@ -7,6 +7,7 @@ import {
 import { useApp } from "hooks";
 import { TFolder, TAbstractFile, TFile } from "obsidian";
 import { useStore } from "store";
+import Dropzone from "react-dropzone";
 
 export function TreeView() {
 	const app = useApp();
@@ -63,43 +64,84 @@ function toBoolean(value: string | null) {
 	return value === "true";
 }
 
-function Folder(props: FolderProps) {
+function Folder(props: Readonly<FolderProps>) {
+	const [isDropping, setIsDropping] = useState(false);
 	const containsFolders = isContainFolders(props.node);
+	const app = useApp();
+
+	const handleOnDropFiles = (droppabaleFiles: File[]) => {
+		if (!app) return;
+		droppabaleFiles.map(async (file) => {
+			file.arrayBuffer().then((content) => {
+				app.vault.adapter.writeBinary(
+					`${props.node.path}/${file.name}`,
+					content
+				);
+			});
+		});
+	};
+
 	return (
-		<div className="ayy-w-full ayy-flex ayy-items-center ayy-justify-between">
-			<span
-				className={`ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1 ${
-					containsFolders ? "" : "ayy-ml-6"
-				}`}
-				onClick={props.onClick}
-			>
-				{props.node.children && (
-					<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
-						{containsFolders && (
-							<div className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6">
-								{props.node.children &&
-									(!props.isOpen ? (
-										<IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-									) : (
-										<IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-									))}
-							</div>
+		<Dropzone
+			onDragOver={() => setIsDropping(true)}
+			onDragEnter={() => {
+				setIsDropping(true);
+			}}
+			onDropAccepted={() => {
+				setIsDropping(false);
+			}}
+			onDropRejected={() => {
+				setIsDropping(false);
+			}}
+			onDragLeave={() => {
+				setIsDropping(false);
+			}}
+			onDrop={handleOnDropFiles}
+			noClick
+		>
+			{({ getRootProps, getInputProps }) => (
+				<div
+					className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ${
+						isDropping ? "ayy-bg-[#c7c6ca]" : ""
+					}`}
+					{...getRootProps()}
+				>
+					<input {...getInputProps()} />
+					<span
+						className={`ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1 ${
+							containsFolders ? "" : "ayy-ml-6"
+						}`}
+						onClick={props.onClick}
+					>
+						{props.node.children && (
+							<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
+								{containsFolders && (
+									<div className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6">
+										{props.node.children &&
+											(!props.isOpen ? (
+												<IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
+											) : (
+												<IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
+											))}
+									</div>
+								)}
+
+								<IoFolderOutline
+									className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
+								/>
+							</span>
 						)}
 
-						<IoFolderOutline
-							className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
-						/>
+						<span className="ayy-truncate ayy-text-nowrap">
+							{props.node.name}
+						</span>
 					</span>
-				)}
-
-				<span className="ayy-truncate ayy-text-nowrap">
-					{props.node.name}
-				</span>
-			</span>
-			{props.node.children?.length !== 0 && (
-				<div>{getNumberOfNotes(props.node.children)}</div>
+					{props.node.children?.length !== 0 && (
+						<div>{getNumberOfNotes(props.node.children)}</div>
+					)}
+				</div>
 			)}
-		</div>
+		</Dropzone>
 	);
 }
 
@@ -114,24 +156,27 @@ export function FilesystemItem({
 		toBoolean(localStorage.getItem(node.path))
 	);
 
-	const handleClick = (folder: TFolder) => {
-		setIsOpen(!isOpen);
-		if (!app) return;
-		const filesUnderFolder = app.vault.getFolderByPath(
-			folder.path
-		)?.children;
-		if (!filesUnderFolder) return;
+	const handleClick = useCallback(
+		(folder: TFolder) => {
+			setIsOpen(!isOpen);
+			if (!app) return;
+			const filesUnderFolder = app.vault.getFolderByPath(
+				folder.path
+			)?.children;
+			if (!filesUnderFolder) return;
 
-		const notes: TFile[] = [];
+			const notes: TFile[] = [];
 
-		for (const abstractFile of filesUnderFolder) {
-			if (abstractFile instanceof TFile) {
-				notes.push(abstractFile);
+			for (const abstractFile of filesUnderFolder) {
+				if (abstractFile instanceof TFile) {
+					notes.push(abstractFile);
+				}
 			}
-		}
 
-		setNotes(notes);
-	};
+			setNotes(notes);
+		},
+		[isOpen]
+	);
 
 	// Only render if it's not the root or if it's open
 	if (isRoot) {

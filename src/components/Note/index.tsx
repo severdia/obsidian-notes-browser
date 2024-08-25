@@ -53,10 +53,27 @@ export const Note = memo(({ file }: NoteProps) => {
 		leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
 	};
 
+	const dragStarted = (e: React.DragEvent<HTMLDivElement>) => {
+		if (!app) return;
+		const obsidianFile = app.vault.getAbstractFileByPath(file.path);
+		if (!obsidianFile) return;
+
+		e.dataTransfer.setData(
+			"application/json",
+			JSON.stringify({ filePath: file.path })
+		);
+
+		const dragManager = (app as any).dragManager;
+		const dragData = dragManager.dragFile(e.nativeEvent, obsidianFile);
+		dragManager.onDragStart(e.nativeEvent, dragData);
+	};
+
 	return (
 		<div
 			className={`ayy-p-3 ${backgroundColorClass} ayy-rounded ayy-flex ayy-flex-row"`}
 			onClick={openFile}
+			draggable
+			onDragStart={dragStarted}
 		>
 			<div className="ayy-flex-grow ayy-flex-col ayy-truncate">
 				<div className="ayy-text-[16px] ayy-font-bold">{file.name}</div>
