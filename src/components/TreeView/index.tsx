@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { DragEventHandler, useCallback, useEffect, useState } from "react";
 import {
 	IoChevronDown,
 	IoChevronForward,
 	IoFolderOutline,
 } from "react-icons/io5";
 import { useApp } from "hooks";
-import { TFolder, TAbstractFile, TFile } from "obsidian";
+import { TFolder, TAbstractFile, TFile, Notice } from "obsidian";
 import { useStore } from "store";
 import Dropzone from "react-dropzone";
 
@@ -31,7 +31,7 @@ export function TreeView() {
 
 	return (
 		<div
-			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-px-5 ayy-py-1 ayy-pl-1"
+			className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-p-2"
 			// onClick={showRootNotes}
 		>
 			{root instanceof TFolder && <FilesystemItem node={root} />}
@@ -81,6 +81,27 @@ function Folder(props: Readonly<FolderProps>) {
 		});
 	};
 
+	const onDropNote: DragEventHandler<HTMLDivElement> = (dropEvent) => {
+		if (!app) return;
+		const data = dropEvent.dataTransfer.getData("application/json");
+		if (data !== "") {
+			const dataJson = JSON.parse(data);
+
+			if (dataJson["filePath"]) {
+				const filePath = dataJson.filePath;
+				const file = app.vault.getAbstractFileByPath(filePath);
+				if (file) {
+					app.vault
+						.rename(file, `${props.node.path}/${file.name}`)
+						.catch((e) => new Notice(`${e}`));
+				}
+			}
+		}
+
+		dropEvent.dataTransfer.clearData();
+		setIsDropping(false);
+	};
+
 	return (
 		<Dropzone
 			onDragOver={() => setIsDropping(true)}
@@ -97,48 +118,63 @@ function Folder(props: Readonly<FolderProps>) {
 				setIsDropping(false);
 			}}
 			onDrop={handleOnDropFiles}
-			noClick
 		>
 			{({ getRootProps, getInputProps }) => (
 				<div
-					className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ${
+					className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ayy-pr-2 ${
 						isDropping ? "ayy-bg-[#c7c6ca]" : ""
 					}`}
-					{...getRootProps()}
+					onDragOver={() => setIsDropping(true)}
+					onDragEnter={() => {
+						setIsDropping(true);
+					}}
+					onDragLeave={() => {
+						setIsDropping(false);
+					}}
+					onDrop={onDropNote}
+					data-path={props.node.path}
+					draggable
 				>
-					<input {...getInputProps()} />
-					<span
-						className={`ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1 ${
-							containsFolders ? "" : "ayy-ml-6"
+					<div
+						{...getRootProps()}
+						className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-pr-2 ayy-items-center ayy-justify-between ${
+							isDropping ? "ayy-bg-[#c7c6ca]" : ""
 						}`}
-						onClick={props.onClick}
 					>
-						{props.node.children && (
-							<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
-								{containsFolders && (
-									<div className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6">
-										{props.node.children &&
-											(!props.isOpen ? (
-												<IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-											) : (
-												<IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-											))}
-									</div>
-								)}
+						<input {...getInputProps()} />
+						<span
+							className={`ayy-flex ayy-items-center ayy-gap-1.5 ayy-py-1 ${
+								containsFolders ? "" : "ayy-ml-6"
+							}`}
+							onClick={props.onClick}
+						>
+							{props.node.children && (
+								<span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center">
+									{containsFolders && (
+										<div className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6">
+											{props.node.children &&
+												(!props.isOpen ? (
+													<IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
+												) : (
+													<IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
+												))}
+										</div>
+									)}
 
-								<IoFolderOutline
-									className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
-								/>
+									<IoFolderOutline
+										className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
+									/>
+								</span>
+							)}
+
+							<span className="ayy-truncate ayy-text-nowrap">
+								{props.node.name}
 							</span>
-						)}
-
-						<span className="ayy-truncate ayy-text-nowrap">
-							{props.node.name}
 						</span>
-					</span>
-					{props.node.children?.length !== 0 && (
-						<div>{getNumberOfNotes(props.node.children)}</div>
-					)}
+						{props.node.children?.length !== 0 && (
+							<div>{getNumberOfNotes(props.node.children)}</div>
+						)}
+					</div>
 				</div>
 			)}
 		</Dropzone>

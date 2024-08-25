@@ -55,16 +55,12 @@ export const Note = memo(({ file }: NoteProps) => {
 
 	const dragStarted = (e: React.DragEvent<HTMLDivElement>) => {
 		if (!app) return;
-		const obsidianFile = app.vault.getAbstractFileByPath(file.path);
-		if (!obsidianFile) return;
-
 		e.dataTransfer.setData(
 			"application/json",
 			JSON.stringify({ filePath: file.path })
 		);
-
 		const dragManager = (app as any).dragManager;
-		const dragData = dragManager.dragFile(e.nativeEvent, obsidianFile);
+		const dragData = dragManager.dragFile(e.nativeEvent, file);
 		dragManager.onDragStart(e.nativeEvent, dragData);
 	};
 
@@ -74,6 +70,7 @@ export const Note = memo(({ file }: NoteProps) => {
 			onClick={openFile}
 			draggable
 			onDragStart={dragStarted}
+			data-path={file.path}
 		>
 			<div className="ayy-flex-grow ayy-flex-col ayy-truncate">
 				<div className="ayy-text-[16px] ayy-font-bold">{file.name}</div>

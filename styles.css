@@ -122,6 +122,10 @@
 .ayy-border-b-\[var\(--divider-color\)\] {
     border-bottom-color: var(--divider-color)
 }
+.ayy-bg-\[\#c7c6ca\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(199 198 202 / var(--tw-bg-opacity))
+}
 .ayy-bg-\[var\(--divider-color\)\] {
     background-color: var(--divider-color)
 }
@@ -132,18 +136,6 @@
 .ayy-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
-}
-.ayy-bg-gray-400 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(156 163 175 / var(--tw-bg-opacity))
-}
-.ayy-bg-gray-100 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(243 244 246 / var(--tw-bg-opacity))
-}
-.ayy-bg-\[\#c7c6ca\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(199 198 202 / var(--tw-bg-opacity))
 }
 .ayy-p-2 {
     padding: 0.5rem
@@ -172,6 +164,15 @@
 }
 .ayy-pl-6 {
     padding-left: 1.5rem
+}
+.ayy-pl-2 {
+    padding-left: 0.5rem
+}
+.ayy-pl-5 {
+    padding-left: 1.25rem
+}
+.ayy-pr-2 {
+    padding-right: 0.5rem
 }
 .ayy-text-\[14px\] {
     font-size: 14px
