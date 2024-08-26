@@ -184,3 +184,7 @@
     --tw-text-opacity: 1;
     color: rgb(14 165 233 / var(--tw-text-opacity))
 }
+.hover\:ayy-bg-slate-200:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(226 232 240 / var(--tw-bg-opacity))
+}

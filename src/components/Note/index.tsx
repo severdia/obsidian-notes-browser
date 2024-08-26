@@ -1,6 +1,8 @@
+import { CustomModal } from "components/CustomModal";
 import { useApp, useDragHandlers } from "hooks";
-import { TFile } from "obsidian";
+import { Menu, Modal, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
 import { useStore } from "store";
 
 interface NoteProps {
@@ -54,6 +56,41 @@ export const Note = memo(({ file }: NoteProps) => {
 		leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
 	};
 
+	const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (!app) return;
+		const fileMenu = new Menu();
+		const fileToTrigger = app.vault.getAbstractFileByPath(file.path);
+
+		if (!fileToTrigger) return;
+
+		fileMenu.addItem((menuItem) => {
+			menuItem.setTitle("Delete");
+			menuItem.setIcon("trash");
+			menuItem.onClick((ev: MouseEvent) => {
+				if (!app) return;
+				const modal = new Modal(app);
+				modal.setTitle("Delete file");
+				const modalRoot = createRoot(modal.contentEl);
+				modalRoot.render(
+					<CustomModal modal={modal} fileName={file.name} />
+				);
+
+				modal.open();
+				modal.onClose = () => {
+					modalRoot.unmount();
+				};
+			});
+		});
+
+		app.workspace.trigger(
+			"file-menu",
+			fileMenu,
+			fileToTrigger,
+			"file-explorer"
+		);
+
+		fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
+	};
 	return (
 		<div
 			className={`ayy-p-3 ${backgroundColorClass} ayy-rounded ayy-flex ayy-flex-row"`}
@@ -61,6 +98,7 @@ export const Note = memo(({ file }: NoteProps) => {
 			draggable
 			onDragStart={onDragStart}
 			data-path={file.path}
+			onContextMenu={handleContextMenu}
 		>
 			<div className="ayy-flex-grow ayy-flex-col ayy-truncate">
 				<div className="ayy-text-[16px] ayy-font-bold">
