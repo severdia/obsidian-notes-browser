@@ -4,6 +4,7 @@ import { Menu, Modal, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { useStore } from "store";
+import { AppContext } from "utils";
 
 interface NoteProps {
 	file: TFile;
@@ -63,23 +64,28 @@ export const Note = memo(({ file }: NoteProps) => {
 
 		if (!fileToTrigger) return;
 
+		const handleDelete = () => {
+			if (!app) return;
+			const modal = new Modal(app);
+			const modalRoot = createRoot(modal.contentEl);
+			modalRoot.render(
+				<AppContext.Provider value={app}>
+					<CustomModal
+						modal={modal}
+						filename={file.name}
+						filePath={file.path}
+					/>
+				</AppContext.Provider>
+			);
+
+			modal.open();
+			modal.onClose = () => modalRoot.unmount();
+		};
+
 		fileMenu.addItem((menuItem) => {
 			menuItem.setTitle("Delete");
 			menuItem.setIcon("trash");
-			menuItem.onClick((ev: MouseEvent) => {
-				if (!app) return;
-				const modal = new Modal(app);
-				modal.setTitle("Delete file");
-				const modalRoot = createRoot(modal.contentEl);
-				modalRoot.render(
-					<CustomModal modal={modal} fileName={file.name} />
-				);
-
-				modal.open();
-				modal.onClose = () => {
-					modalRoot.unmount();
-				};
-			});
+			menuItem.onClick(handleDelete);
 		});
 
 		app.workspace.trigger(

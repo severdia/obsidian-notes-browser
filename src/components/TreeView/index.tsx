@@ -18,8 +18,8 @@ export function TreeView() {
 	);
 
 	useEffect(() => {
-		console.log("update file system");
-		const rootFolder = app?.vault.getAbstractFileByPath(
+		if (!app) return;
+		const rootFolder = app.vault.getAbstractFileByPath(
 			app.vault.getRoot().path
 		);
 
@@ -221,15 +221,11 @@ export function FilesystemItem({
 			)?.children;
 			if (!filesUnderFolder) return;
 
-			const notes: TFile[] = [];
-
-			for (const abstractFile of filesUnderFolder) {
-				if (abstractFile instanceof TFile) {
-					notes.push(abstractFile);
-				}
-			}
-
-			setNotes(notes);
+			setNotes(
+				filesUnderFolder.filter(
+					(abstractFile) => abstractFile instanceof TFile
+				)
+			);
 		},
 		[isOpen]
 	);

@@ -1,7 +1,7 @@
 import { useStore } from "store";
 import { Note } from "components/Note";
 import { IoGridOutline, IoTrashOutline } from "react-icons/io5";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { FaListUl } from "react-icons/fa";
 
 const NotesViewHeader = (props: React.ComponentProps<"div">) => {
