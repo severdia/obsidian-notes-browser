@@ -30,40 +30,51 @@ export function TreeView() {
       className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-p-2"
       // onClick={showRootNotes}
     >
-      {root instanceof TFolder && <FilesystemItem node={root} />}
+      {root instanceof TFolder && <FilesystemItem folder={root} />}
     </div>
   );
 }
 
 export function FilesystemItem({
-  node,
+  folder,
   isRoot = false,
-}: Readonly<{ node: TFolder; isRoot?: boolean }>) {
+}: Readonly<{ folder: TFolder; isRoot?: boolean }>) {
   const setNotes = useStore((state) => state.setNotes);
+  const setCurrentActiveFolderPath = useStore(
+    (state) => state.setCurrentActiveFolderPath
+  );
 
   const app = useApp();
   const [isOpen, setIsOpen] = useState<boolean>(
-    toBoolean(localStorage.getItem(node.path))
+    toBoolean(localStorage.getItem(folder.path))
   );
 
   const showNotesUnderFolder = useCallback((folder: TFolder) => {
     if (!app) return;
     const filesUnderFolder = app.vault.getFolderByPath(folder.path)?.children;
     if (!filesUnderFolder) return;
-
+    setCurrentActiveFolderPath(folder.path);
     setNotes(
       filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
     );
   }, []);
 
+  const showSubfolders = useCallback(
+    (folder: TFolder) => {
+      localStorage.setItem(folder.path, `${!isOpen}`);
+      setIsOpen(!isOpen);
+    },
+    [isOpen]
+  );
+
   // Only render if it's not the root or if it's open
   if (isRoot) {
     return (
       <ul className="ayy-pl-6 ayy-list-none">
-        {sortFilesAlphabetically(node.children).map(
-          (node) =>
-            node instanceof TFolder && (
-              <FilesystemItem node={node} key={node.name} />
+        {sortFilesAlphabetically(folder.children).map(
+          (folder) =>
+            folder instanceof TFolder && (
+              <FilesystemItem folder={folder} key={folder.name} />
             )
         )}
       </ul>
@@ -71,20 +82,20 @@ export function FilesystemItem({
   }
 
   return (
-    <li key={node.path} className="ayy-list-none ayy-w-full">
+    <li key={folder.path} className="ayy-list-none ayy-w-full">
       <Folder
-        node={node}
-        onClickChevron={() => setIsOpen(!isOpen)}
-        onClickFolder={() => showNotesUnderFolder(node)}
+        folder={folder}
+        onClickChevron={() => showSubfolders(folder)}
+        onClickFolder={() => showNotesUnderFolder(folder)}
         isOpen={isOpen}
       />
 
       {isOpen && (
         <ul className="ayy-pl-6 ayy-list-none ayy-m-0">
-          {sortFilesAlphabetically(node.children).map(
-            (node) =>
-              node instanceof TFolder && (
-                <FilesystemItem node={node} key={node.path} />
+          {sortFilesAlphabetically(folder.children).map(
+            (folder) =>
+              folder instanceof TFolder && (
+                <FilesystemItem folder={folder} key={folder.path} />
               )
           )}
         </ul>

@@ -7,27 +7,38 @@ import {
   IoChevronDown,
   IoFolderOutline,
 } from "react-icons/io5";
+
+import { useStore } from "store";
 import { isContainFolders, getNumberOfNotes } from "utils";
 
 interface FolderProps {
   isOpen: boolean;
   onClickChevron: () => void;
   onClickFolder: () => void;
-  node: TFolder;
+  folder: TFolder;
 }
 
 export function Folder(props: Readonly<FolderProps>) {
   const [isDropping, setIsDropping] = useState(false);
-  const containsFolders = isContainFolders(props.node);
+  const containsFolders = isContainFolders(props.folder);
   const app = useApp();
-  const { onDragStart } = useDragHandlers(props.node);
+  const { onDragStart } = useDragHandlers(props.folder);
+
+  const currentActiveFolderPath = useStore(
+    (state) => state.currentActiveFolderPath
+  );
+
+  const isActive = currentActiveFolderPath === props.folder.path;
+  const activeBackgroundColor = isActive
+    ? "ayy-bg-[#6AA0F9] !ayy-text-white"
+    : "";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
     if (!app) return;
     droppabaleFiles.map(async (file) => {
       file.arrayBuffer().then((content) => {
         app.vault.adapter.writeBinary(
-          `${props.node.path}/${file.name}`,
+          `${props.folder.path}/${file.name}`,
           content
         );
       });
@@ -51,17 +62,17 @@ export function Folder(props: Readonly<FolderProps>) {
         app.vault
           .rename(
             abstractFilePath,
-            `${props.node.path}/${abstractFilePath.name}`
+            `${props.folder.path}/${abstractFilePath.name}`
           )
           .catch((e) => new Notice(`${e}`));
         return;
 
       case "folder":
-        if (!props.node.path.startsWith(abstractFilePath.path)) {
+        if (!props.folder.path.startsWith(abstractFilePath.path)) {
           app.vault
             .rename(
               abstractFilePath,
-              `${props.node.path}/${abstractFilePath.name}`
+              `${props.folder.path}/${abstractFilePath.name}`
             )
             .catch((e) => new Notice(`${e}`));
           return;
@@ -91,8 +102,8 @@ export function Folder(props: Readonly<FolderProps>) {
     >
       {({ getRootProps, getInputProps }) => (
         <div
-          className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ayy-pr-2 ${
-            isDropping ? "ayy-bg-[#c7c6ca]" : ""
+          className={`ayy-w-full ${activeBackgroundColor} ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ayy-pr-2 ${
+            !isActive && isDropping ? "ayy-bg-[#c7c6ca]" : ""
           }`}
           onDragOver={() => setIsDropping(true)}
           onDragEnter={() => {
@@ -102,14 +113,14 @@ export function Folder(props: Readonly<FolderProps>) {
             setIsDropping(false);
           }}
           onDrop={onDrop}
-          data-path={props.node.path}
+          data-path={props.folder.path}
           draggable
           onDragStart={onDragStart}
         >
           <div
             {...getRootProps()}
-            className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-pr-2 ayy-items-center ayy-justify-between ${
-              isDropping ? "ayy-bg-[#c7c6ca]" : ""
+            className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ${
+              !isActive && isDropping ? "ayy-bg-[#c7c6ca]" : ""
             }`}
           >
             <input {...getInputProps()} />
@@ -118,39 +129,47 @@ export function Folder(props: Readonly<FolderProps>) {
                 containsFolders ? "" : "ayy-ml-6"
               }`}
             >
-              {props.node.children && (
-                <span className="size-fit ayy-flex ayy-flex-row ayy-flex-nowrap ayy-items-center ">
-                  {containsFolders && (
-                    <div
-                      className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6"
-                      onClick={props.onClickChevron}
-                    >
-                      {props.node.children &&
-                        (!props.isOpen ? (
-                          <IoChevronForward className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-                        ) : (
-                          <IoChevronDown className=" ayy-size-5 ayy-min-w-5 ayy-min-h-5 " />
-                        ))}
-                    </div>
-                  )}
-                </span>
+              {props.folder.children && containsFolders && (
+                <div
+                  className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6"
+                  onClick={props.onClickChevron}
+                >
+                  {props.folder.children &&
+                    (!props.isOpen ? (
+                      <IoChevronForward
+                        className={`ayy-size-5 ayy-min-w-5 ayy-min-h-5  ${
+                          isActive ? "ayy-text-white" : "ayy-text-[#616064]"
+                        } `}
+                      />
+                    ) : (
+                      <IoChevronDown
+                        className={`ayy-size-5 ayy-min-w-5 ayy-min-h-5  ${
+                          isActive ? "ayy-text-white" : "ayy-text-[#616064]"
+                        } `}
+                      />
+                    ))}
+                </div>
               )}
+            </span>
 
-              <span
-                className="ayy-flex ayy-gap-1.5 ayy-flex-row ayy-flex-nowrap ayy-items-center"
-                onClick={props.onClickFolder}
-              >
+            <div
+              className="ayy-w-full ayy-py-1 ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between"
+              onClick={props.onClickFolder}
+            >
+              <span className="ayy-flex ayy-gap-1.5 ayy-flex-row ayy-flex-nowrap ayy-items-center">
                 <IoFolderOutline
-                  className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ayy-text-sky-500 `}
+                  className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ${
+                    isActive ? "ayy-text-white" : "ayy-text-sky-500"
+                  } `}
                 />
                 <span className="ayy-truncate ayy-text-nowrap">
-                  {props.node.name}
+                  {props.folder.name}
                 </span>
               </span>
-            </span>
-            {props.node.children?.length !== 0 && (
-              <div>{getNumberOfNotes(props.node.children)}</div>
-            )}
+              {props.folder.children?.length !== 0 && (
+                <div>{getNumberOfNotes(props.folder.children)}</div>
+              )}
+            </div>
           </div>
         </div>
       )}

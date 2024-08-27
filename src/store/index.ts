@@ -1,15 +1,15 @@
-import { TFile, TFolder } from "obsidian";
+import { TFile } from "obsidian";
 import { create } from "zustand";
 
 interface State {
   notes: TFile[];
-  currentActiveFile: string;
-  currentActiveFolder: string;
+  currentActiveFilePath: string;
+  currentActiveFolderPath: string;
   forceFilesyetemUpdate: number;
   forceNotesViewUpdate: number;
   setNotes: (notes: TFile[]) => void;
-  setCurrentActiveFile: (file: TFile | null) => void;
-  setCurrentActiveFolder: (folder: TFolder | null) => void;
+  setCurrentActiveFilePath: (file: string | null) => void;
+  setCurrentActiveFolderPath: (folder: string | null) => void;
   setForceFilesystemUpdate: () => void;
   setForceNotesViewUpdate: () => void;
 }
@@ -28,17 +28,17 @@ export const useStore = create<State>()((set) => ({
       ...state,
       forceNotesViewUpdate: state.forceNotesViewUpdate + 1,
     })),
-  currentActiveFile: `${localStorage.getItem("LatestActiveFile")}`,
-  currentActiveFolder: `${localStorage.getItem("LatestActiveFolder")}`,
+  currentActiveFilePath: `${localStorage.getItem("LatestActiveFile")}`,
+  currentActiveFolderPath: `${localStorage.getItem("LatestActiveFolder")}`,
   setNotes: (newNotes) => set((state) => ({ ...state, notes: newNotes })),
-  setCurrentActiveFile: (file: TFile | null) =>
+  setCurrentActiveFilePath: (path: string | null) =>
     set((state) => {
-      if (!file) return state;
-      return { ...state, currentActiveFile: file.path };
+      if (!path) return state;
+      return { ...state, currentActiveFilePath: path };
     }),
-  setCurrentActiveFolder: (folder: TFolder | null) =>
+  setCurrentActiveFolderPath: (path: string | null) =>
     set((state) => {
-      if (!folder) return state;
-      return { ...state, currentActiveFile: folder.path };
+      if (!path) return state;
+      return { ...state, currentActiveFolderPath: path };
     }),
 }));

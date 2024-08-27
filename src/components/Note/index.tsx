@@ -11,13 +11,15 @@ interface NoteProps {
 }
 
 export const Note = memo(({ file }: NoteProps) => {
-  const currentActiveFile = useStore((state) => state.currentActiveFile);
+  const currentActiveFilePath = useStore(
+    (state) => state.currentActiveFilePath
+  );
   const app = useApp();
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const backgroundColorClass =
-    currentActiveFile == file.path ? "ayy-bg-gray-200" : "ayy-bg-white";
+    currentActiveFilePath == file.path ? "ayy-bg-gray-200" : "ayy-bg-white";
 
   useEffect(() => {
     if (!app) return;
