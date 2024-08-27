@@ -133,6 +133,10 @@
     --tw-bg-opacity: 1;
     background-color: rgb(229 231 235 / var(--tw-bg-opacity))
 }
+.ayy-bg-red-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity))
+}
 .ayy-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
@@ -183,8 +187,4 @@
 .ayy-text-sky-500 {
     --tw-text-opacity: 1;
     color: rgb(14 165 233 / var(--tw-text-opacity))
-}
-.hover\:ayy-bg-slate-200:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(226 232 240 / var(--tw-bg-opacity))
 }
