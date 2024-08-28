@@ -1,4 +1,4 @@
-import { Notice, Plugin, WorkspaceLeaf } from "obsidian";
+import { Notice, Plugin, TFile, WorkspaceLeaf } from "obsidian";
 import { PluginView, VIEW_TYPE } from "./src/PluginView";
 import { useStore } from "store";
 
@@ -43,7 +43,19 @@ export default class NotesBrowser extends Plugin {
     });
 
     this.app.vault.on("delete", () => {
-      useStore.getState().setForceFilesystemUpdate();
+      const { currentActiveFolderPath, setForceFilesystemUpdate, setNotes } =
+        useStore.getState();
+
+      setForceFilesystemUpdate();
+
+      const filesUnderFolder = this.app.vault.getFolderByPath(
+        currentActiveFolderPath
+      )?.children;
+      if (!filesUnderFolder) return;
+
+      setNotes(
+        filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
+      );
     });
 
     this.app.vault.on("rename", () => {

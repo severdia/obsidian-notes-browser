@@ -1,6 +1,9 @@
+import { CustomModal } from "components/CustomModal";
+import { BaseModal } from "components/CustomModal/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
-import { TFolder, Notice } from "obsidian";
+import { TFolder, Notice, Menu, Modal } from "obsidian";
 import { useState, DragEventHandler } from "react";
+import { createRoot } from "react-dom/client";
 import Dropzone from "react-dropzone";
 import {
   IoChevronForward,
@@ -9,7 +12,7 @@ import {
 } from "react-icons/io5";
 
 import { useStore } from "store";
-import { isContainFolders, getNumberOfNotes } from "utils";
+import { isContainFolders, getNumberOfNotes, AppContext } from "utils";
 
 interface FolderProps {
   isOpen: boolean;
@@ -82,6 +85,42 @@ export function Folder(props: Readonly<FolderProps>) {
     }
   };
 
+  const handleDelete = () => {
+    if (!app) return;
+    const confirmation = new BaseModal(app, () => (
+      <CustomModal
+        modal={confirmation}
+        abstractFileName={props.folder.name}
+        abstractFilePath={props.folder.path}
+      />
+    ));
+
+    confirmation.open();
+  };
+
+  const handleFolderContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!app) return;
+    const fileMenu = new Menu();
+    const fileToTrigger = app.vault.getAbstractFileByPath(props.folder.path);
+
+    if (!fileToTrigger) return;
+
+    fileMenu.addItem((menuItem) => {
+      menuItem.setTitle("Delete");
+      menuItem.setIcon("trash");
+      menuItem.onClick(handleDelete);
+    });
+
+    app.workspace.trigger(
+      "file-menu",
+      fileMenu,
+      fileToTrigger,
+      "file-explorer"
+    );
+
+    fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
+  };
+
   return (
     <Dropzone
       onDragOver={() => setIsDropping(true)}
@@ -116,6 +155,7 @@ export function Folder(props: Readonly<FolderProps>) {
           data-path={props.folder.path}
           draggable
           onDragStart={onDragStart}
+          onContextMenu={handleFolderContextMenu}
         >
           <div
             {...getRootProps()}

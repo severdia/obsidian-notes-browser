@@ -1,10 +1,10 @@
 import { CustomModal } from "components/CustomModal";
+import { BaseModal } from "components/CustomModal/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
-import { Menu, Modal, TFile } from "obsidian";
+import { Menu, TAbstractFile, TFile, TFolder } from "obsidian";
 import { memo, useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
 import { useStore } from "store";
-import { AppContext, getLastModified } from "utils";
+import { getLastModified } from "utils";
 
 interface NoteProps {
   file: TFile;
@@ -42,6 +42,24 @@ export const Note = memo(({ file }: NoteProps) => {
     leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
   };
 
+  const handleDelete = () => {
+    if (!app) return;
+    const confirmation = new BaseModal(app, () => (
+      <CustomModal
+        modal={confirmation}
+        abstractFileName={file.name}
+        abstractFilePath={file.path}
+      />
+    ));
+
+    confirmation.open();
+  };
+
+  const handleRename = () => {
+    if (!app) return;
+    app.fileManager.renameFile(file, `${file.parent?.path}/Hello world.${file.extension}`);
+  };
+
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!app) return;
     const fileMenu = new Menu();
@@ -49,28 +67,16 @@ export const Note = memo(({ file }: NoteProps) => {
 
     if (!fileToTrigger) return;
 
-    const handleDelete = () => {
-      if (!app) return;
-      const modal = new Modal(app);
-      const modalRoot = createRoot(modal.contentEl);
-      modalRoot.render(
-        <AppContext.Provider value={app}>
-          <CustomModal
-            modal={modal}
-            filename={file.name}
-            filePath={file.path}
-          />
-        </AppContext.Provider>
-      );
-
-      modal.open();
-      modal.onClose = () => modalRoot.unmount();
-    };
-
     fileMenu.addItem((menuItem) => {
       menuItem.setTitle("Delete");
       menuItem.setIcon("trash");
       menuItem.onClick(handleDelete);
+    });
+
+    fileMenu.addItem((menuItem) => {
+      menuItem.setTitle("Rename");
+      menuItem.setIcon("pencil");
+      menuItem.onClick(handleRename);
     });
 
     app.workspace.trigger(
@@ -82,6 +88,7 @@ export const Note = memo(({ file }: NoteProps) => {
 
     fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
+
   return (
     <div
       className={`ayy-p-3 ${backgroundColorClass} ayy-rounded ayy-flex ayy-flex-row"`}

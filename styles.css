@@ -10,20 +10,8 @@
 .ayy-m-0 {
     margin: 0px
 }
-.-ayy-m-6 {
-    margin: -1.5rem
-}
 .ayy-ml-6 {
     margin-left: 1.5rem
-}
-.ayy-ml-3 {
-    margin-left: 0.75rem
-}
-.-ayy-ml-6 {
-    margin-left: -1.5rem
-}
-.-ayy-ml-3 {
-    margin-left: -0.75rem
 }
 .ayy-flex {
     display: flex
@@ -73,18 +61,6 @@
 }
 .ayy-flex-grow {
     flex-grow: 1
-}
-.-ayy-translate-x-3 {
-    --tw-translate-x: -0.75rem;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
-}
-.-ayy-translate-x-full {
-    --tw-translate-x: -100%;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
-}
-.-ayy-translate-x-6 {
-    --tw-translate-x: -1.5rem;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 .ayy-list-none {
     list-style-type: none
@@ -146,6 +122,10 @@
 .ayy-border-b-\[var\(--divider-color\)\] {
     border-bottom-color: var(--divider-color)
 }
+.ayy-bg-\[\#6AA0F9\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(106 160 249 / var(--tw-bg-opacity))
+}
 .ayy-bg-\[\#c7c6ca\] {
     --tw-bg-opacity: 1;
     background-color: rgb(199 198 202 / var(--tw-bg-opacity))
@@ -157,21 +137,9 @@
     --tw-bg-opacity: 1;
     background-color: rgb(229 231 235 / var(--tw-bg-opacity))
 }
-.ayy-bg-red-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(252 165 165 / var(--tw-bg-opacity))
-}
 .ayy-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
-}
-.ayy-bg-\[\#6AA0F9\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(106 160 249 / var(--tw-bg-opacity))
-}
-.ayy-bg-red-400 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(248 113 113 / var(--tw-bg-opacity))
 }
 .ayy-p-2 {
     padding: 0.5rem
@@ -209,6 +177,14 @@
 .ayy-font-semibold {
     font-weight: 600
 }
+.\!ayy-text-white {
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 255 255 / var(--tw-text-opacity)) !important
+}
+.ayy-text-\[\#616064\] {
+    --tw-text-opacity: 1;
+    color: rgb(97 96 100 / var(--tw-text-opacity))
+}
 .ayy-text-\[var\(--icon-color\)\] {
     color: var(--icon-color)
 }
@@ -223,15 +199,4 @@
 .ayy-text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity))
-}
-.\!ayy-text-white {
-    --tw-text-opacity: 1 !important;
-    color: rgb(255 255 255 / var(--tw-text-opacity)) !important
-}
-.ayy-text-\[\#\#616064\] {
-    color: ##616064
-}
-.ayy-text-\[\#616064\] {
-    --tw-text-opacity: 1;
-    color: rgb(97 96 100 / var(--tw-text-opacity))
 }
