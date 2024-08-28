@@ -1,10 +1,10 @@
-import { CustomModal } from "components/CustomModal";
+import { ConfirmDeleteModal } from "components/CustomModal";
 import { BaseModal } from "components/CustomModal/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
-import { TFolder, Notice, Menu, Modal } from "obsidian";
+import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
-import { createRoot } from "react-dom/client";
 import Dropzone from "react-dropzone";
+
 import {
   IoChevronForward,
   IoChevronDown,
@@ -12,7 +12,7 @@ import {
 } from "react-icons/io5";
 
 import { useStore } from "store";
-import { isContainFolders, getNumberOfNotes, AppContext } from "utils";
+import { isContainFolders, getNumberOfNotes } from "utils";
 
 interface FolderProps {
   isOpen: boolean;
@@ -88,7 +88,7 @@ export function Folder(props: Readonly<FolderProps>) {
   const handleDelete = () => {
     if (!app) return;
     const confirmation = new BaseModal(app, () => (
-      <CustomModal
+      <ConfirmDeleteModal
         modal={confirmation}
         abstractFileName={props.folder.name}
         abstractFilePath={props.folder.path}

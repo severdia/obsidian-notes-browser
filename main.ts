@@ -43,23 +43,11 @@ export default class NotesBrowser extends Plugin {
     });
 
     this.app.vault.on("delete", () => {
-      const { currentActiveFolderPath, setForceFilesystemUpdate, setNotes } =
-        useStore.getState();
-
-      setForceFilesystemUpdate();
-
-      const filesUnderFolder = this.app.vault.getFolderByPath(
-        currentActiveFolderPath
-      )?.children;
-      if (!filesUnderFolder) return;
-
-      setNotes(
-        filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
-      );
+      this.updateNotesView();
     });
 
     this.app.vault.on("rename", () => {
-      useStore.getState().setForceFilesystemUpdate();
+      this.updateNotesView();
     });
 
     this.app.vault.on("modify", (file) => {
@@ -68,6 +56,22 @@ export default class NotesBrowser extends Plugin {
   }
 
   onunload() {}
+
+  updateNotesView() {
+    const { currentActiveFolderPath, setForceFilesystemUpdate, setNotes } =
+      useStore.getState();
+
+    setForceFilesystemUpdate();
+
+    const filesUnderFolder = this.app.vault.getFolderByPath(
+      currentActiveFolderPath
+    )?.children;
+    if (!filesUnderFolder) return;
+
+    setNotes(
+      filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
+    );
+  }
 
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());

@@ -1,7 +1,7 @@
-import { CustomModal } from "components/CustomModal";
+import { ConfirmDeleteModal, RenameModal } from "components/CustomModal";
 import { BaseModal } from "components/CustomModal/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
-import { Menu, TAbstractFile, TFile, TFolder } from "obsidian";
+import { Menu, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
 import { useStore } from "store";
 import { getLastModified } from "utils";
@@ -45,7 +45,7 @@ export const Note = memo(({ file }: NoteProps) => {
   const handleDelete = () => {
     if (!app) return;
     const confirmation = new BaseModal(app, () => (
-      <CustomModal
+      <ConfirmDeleteModal
         modal={confirmation}
         abstractFileName={file.name}
         abstractFilePath={file.path}
@@ -57,7 +57,11 @@ export const Note = memo(({ file }: NoteProps) => {
 
   const handleRename = () => {
     if (!app) return;
-    app.fileManager.renameFile(file, `${file.parent?.path}/Hello world.${file.extension}`);
+    const renameFileModal = new BaseModal(app, () => (
+      <RenameModal modal={renameFileModal} file={file} />
+    ));
+
+    renameFileModal.open();
   };
 
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {

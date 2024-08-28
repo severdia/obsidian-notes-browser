@@ -9,7 +9,7 @@ interface CustomModalProps {
   abstractFileName: string;
 }
 
-export function CustomModal(props: Readonly<CustomModalProps>) {
+export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
   const app = useApp();
   const setForceNotesViewUpdate = useStore(
     (state) => state.setForceNotesViewUpdate
