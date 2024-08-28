@@ -27,7 +27,7 @@ export function TreeView() {
 
   return (
     <div
-      className="ayy-flex ayy-flex-col ayy-h-full ayy-w-full ayy-p-2"
+      className="onb-flex onb-flex-col onb-h-full onb-w-full onb-p-2"
       // onClick={showRootNotes}
     >
       {root instanceof TFolder && <FilesystemItem folder={root} />}
@@ -70,7 +70,7 @@ export function FilesystemItem({
   // Only render if it's not the root or if it's open
   if (isRoot) {
     return (
-      <ul className="ayy-pl-6 ayy-list-none">
+      <ul className="onb-pl-6 onb-list-none">
         {sortFilesAlphabetically(folder.children).map(
           (folder) =>
             folder instanceof TFolder && (
@@ -82,7 +82,7 @@ export function FilesystemItem({
   }
 
   return (
-    <li key={folder.path} className="ayy-list-none ayy-w-full">
+    <li key={folder.path} className="onb-list-none onb-w-full">
       <Folder
         folder={folder}
         onClickChevron={() => showSubfolders(folder)}
@@ -91,7 +91,7 @@ export function FilesystemItem({
       />
 
       {isOpen && (
-        <ul className="ayy-pl-6 ayy-list-none ayy-m-0">
+        <ul className="onb-pl-6 onb-list-none onb-m-0">
           {sortFilesAlphabetically(folder.children).map(
             (folder) =>
               folder instanceof TFolder && (

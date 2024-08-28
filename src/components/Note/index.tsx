@@ -19,7 +19,7 @@ export const Note = memo(({ file }: NoteProps) => {
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const backgroundColorClass =
-    currentActiveFilePath == file.path ? "ayy-bg-gray-200" : "ayy-bg-white";
+    currentActiveFilePath == file.path ? "onb-bg-gray-200" : "onb-bg-white";
 
   useEffect(() => {
     if (!app) return;
@@ -95,20 +95,20 @@ export const Note = memo(({ file }: NoteProps) => {
 
   return (
     <div
-      className={`ayy-p-3 ${backgroundColorClass} ayy-rounded ayy-flex ayy-flex-row"`}
+      className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row"`}
       onClick={openFile}
       draggable
       onDragStart={onDragStart}
       data-path={file.path}
       onContextMenu={handleContextMenu}
     >
-      <div className="ayy-flex-grow ayy-flex-col ayy-truncate">
-        <div className="ayy-text-[16px] ayy-font-bold">{file.basename}</div>
-        <div className="ayy-flex ayy-flex-row ayy-gap-2 ayy-w-full">
-          <div className="ayy-text-[14px] ayy-font-semibold ayy-text-nowrap">
+      <div className="onb-flex-grow onb-flex-col onb-truncate">
+        <div className="onb-text-[16px] onb-font-bold">{file.basename}</div>
+        <div className="onb-flex onb-flex-row onb-gap-2 onb-w-full">
+          <div className="onb-text-[14px] onb-font-semibold onb-text-nowrap">
             {getLastModified(file)}
           </div>
-          <div className="ayy-text-gray-400 ayy-truncate ayy-text-[14px]">
+          <div className="onb-text-gray-400 onb-truncate onb-text-[14px]">
             {description}
           </div>
         </div>
@@ -117,7 +117,7 @@ export const Note = memo(({ file }: NoteProps) => {
         <img
           src={thumbnail}
           alt=""
-          className="ayy-min-h-9 ayy-min-w-9 ayy-border ayy-border-gray-300 ayy-rounded"
+          className="onb-min-h-9 onb-min-w-9 onb-border onb-border-gray-300 onb-rounded"
         />
       )}
     </div>

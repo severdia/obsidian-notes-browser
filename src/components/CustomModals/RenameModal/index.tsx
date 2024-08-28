@@ -47,7 +47,7 @@ export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
     <>
       <input
         ref={inputRef}
-        className="ayy-w-full ayy-p-2 ayy-border-solid ayy-border ayy-rounded-md ayy-border-gray-400"
+        className="onb-w-full onb-p-2 onb-border-solid onb-border onb-rounded-md onb-border-gray-400"
         placeholder="name .."
       />
       <div className="modal-button-container">

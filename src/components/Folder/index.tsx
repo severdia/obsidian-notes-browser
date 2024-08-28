@@ -33,7 +33,7 @@ export function Folder(props: Readonly<FolderProps>) {
 
   const isActive = currentActiveFolderPath === props.folder.path;
   const activeBackgroundColor = isActive
-    ? "ayy-bg-[#6AA0F9] !ayy-text-white"
+    ? "onb-bg-[#6AA0F9] !onb-text-white"
     : "";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
@@ -155,8 +155,8 @@ export function Folder(props: Readonly<FolderProps>) {
     >
       {({ getRootProps, getInputProps }) => (
         <div
-          className={`ayy-w-full ${activeBackgroundColor} ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ayy-pr-2 ${
-            !isActive && isDropping ? "ayy-bg-[#c7c6ca]" : ""
+          className={`onb-w-full ${activeBackgroundColor} onb-flex onb-rounded-sm onb-items-center onb-justify-between onb-pr-2 ${
+            !isActive && isDropping ? "onb-bg-[#c7c6ca]" : ""
           }`}
           onDragOver={() => setIsDropping(true)}
           onDragEnter={() => {
@@ -173,32 +173,32 @@ export function Folder(props: Readonly<FolderProps>) {
         >
           <div
             {...getRootProps()}
-            className={`ayy-w-full ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between ${
-              !isActive && isDropping ? "ayy-bg-[#c7c6ca]" : ""
+            className={`onb-w-full onb-flex onb-rounded-sm onb-items-center onb-justify-between ${
+              !isActive && isDropping ? "onb-bg-[#c7c6ca]" : ""
             }`}
           >
             <input {...getInputProps()} />
             <span
-              className={`ayy-flex ayy-items-center ayy-py-1 ${
-                containsFolders ? "" : "ayy-ml-6"
+              className={`onb-flex onb-items-center onb-py-1 ${
+                containsFolders ? "" : "onb-ml-6"
               }`}
             >
               {props.folder.children && containsFolders && (
                 <div
-                  className="ayy-size-6 ayy-min-w-6 ayy-flex ayy-items-center ayy-justify-center ayy-min-h-6"
+                  className="onb-size-6 onb-min-w-6 onb-flex onb-items-center onb-justify-center onb-min-h-6"
                   onClick={props.onClickChevron}
                 >
                   {props.folder.children &&
                     (!props.isOpen ? (
                       <IoChevronForward
-                        className={`ayy-size-5 ayy-min-w-5 ayy-min-h-5  ${
-                          isActive ? "ayy-text-white" : "ayy-text-[#616064]"
+                        className={`onb-size-5 onb-min-w-5 onb-min-h-5  ${
+                          isActive ? "onb-text-white" : "onb-text-[#616064]"
                         } `}
                       />
                     ) : (
                       <IoChevronDown
-                        className={`ayy-size-5 ayy-min-w-5 ayy-min-h-5  ${
-                          isActive ? "ayy-text-white" : "ayy-text-[#616064]"
+                        className={`onb-size-5 onb-min-w-5 onb-min-h-5  ${
+                          isActive ? "onb-text-white" : "onb-text-[#616064]"
                         } `}
                       />
                     ))}
@@ -207,16 +207,16 @@ export function Folder(props: Readonly<FolderProps>) {
             </span>
 
             <div
-              className="ayy-w-full ayy-py-1 ayy-flex ayy-rounded-sm ayy-items-center ayy-justify-between"
+              className="onb-w-full onb-py-1 onb-flex onb-rounded-sm onb-items-center onb-justify-between"
               onClick={props.onClickFolder}
             >
-              <span className="ayy-flex ayy-gap-1.5 ayy-flex-row ayy-flex-nowrap ayy-items-center">
+              <span className="onb-flex onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
                 <IoFolderOutline
-                  className={`ayy-size-6 ayy-min-w-6 ayy-min-h-6  ${
-                    isActive ? "ayy-text-white" : "ayy-text-sky-500"
+                  className={`onb-size-6 onb-min-w-6 onb-min-h-6  ${
+                    isActive ? "onb-text-white" : "onb-text-sky-500"
                   } `}
                 />
-                <span className="ayy-truncate ayy-text-nowrap">
+                <span className="onb-truncate onb-text-nowrap">
                   {props.folder.name}
                 </span>
               </span>

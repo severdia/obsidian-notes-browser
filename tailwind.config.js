@@ -8,5 +8,5 @@ export default {
 		extend: {},
 	},
 	darkmode: false,
-	prefix: 'ayy-',
+	prefix: 'onb-',
 }

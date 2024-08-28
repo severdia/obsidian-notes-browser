@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { FaListUl } from "react-icons/fa";
 
 const Tab = ({ children }: { children: ReactNode }) => (
-  <div className="ayy-h-fit ayy-px-2 ayy-flex ayy-items-center ayy-justify-center">
+  <div className="onb-h-fit onb-px-2 onb-flex onb-items-center onb-justify-center">
     {children}
   </div>
 );
@@ -13,19 +13,19 @@ const Tab = ({ children }: { children: ReactNode }) => (
 const NotesViewHeader = (props: React.ComponentProps<"div">) => {
   return (
     <div
-      className="ayy-flex ayy-w-full ayy-flex-row ayy-border-0 ayy-items-center ayy-py-2 ayy-border-b-[var(--divider-color)] ayy-border-b-[1.5px] ayy-justify-between ayy-border-solid ayy-px-2 ayy-text-[var(--icon-color)]"
+      className="onb-flex onb-w-full onb-flex-row onb-border-0 onb-items-center onb-py-2 onb-border-b-[var(--divider-color)] onb-border-b-[1.5px] onb-justify-between onb-border-solid onb-px-2 onb-text-[var(--icon-color)]"
       {...props}
     >
-      <div className="ayy-flex ayy-w-fit ayy-flex-row ayy-items-center ayy-justify-between">
+      <div className="onb-flex onb-w-fit onb-flex-row onb-items-center onb-justify-between">
         <Tab>
-          <FaListUl className="ayy-size-5" />
+          <FaListUl className="onb-size-5" />
         </Tab>
         <Tab>
-          <IoGridOutline className="ayy-size-5" />
+          <IoGridOutline className="onb-size-5" />
         </Tab>
       </div>
       <Tab>
-        <IoTrashOutline className="ayy-size-5" />
+        <IoTrashOutline className="onb-size-5" />
       </Tab>
     </div>
   );
@@ -35,9 +35,9 @@ export function NotesView() {
   const files = useStore((state) => state.notes);
 
   return (
-    <div className="ayy-flex ayy-flex-col ayy-bg-white ayy-h-full ayy-w-full  ayy-flex-grow">
+    <div className="onb-flex onb-flex-col onb-bg-white onb-h-full onb-w-full  onb-flex-grow">
       <NotesViewHeader />
-      <div className="ayy-w-full ayy-h-full ayy-p-2 ayy-gap-2">
+      <div className="onb-w-full onb-h-full onb-p-2 onb-gap-2">
         {files.length > 0 &&
           files.map(
             (file) =>
@@ -45,7 +45,7 @@ export function NotesView() {
           )}
 
         {files.length === 0 && (
-          <div className="ayy-w-full ayy-h-full ayy-flex ayy-items-center  ayy-justify-center ayy-text-gray-400">
+          <div className="onb-w-full onb-h-full onb-flex onb-items-center  onb-justify-center onb-text-gray-400">
             No Notes
           </div>
         )}

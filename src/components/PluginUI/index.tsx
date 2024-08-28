@@ -6,12 +6,12 @@ export function PluginUI() {
 	return (
 		<PanelGroup
 			direction="horizontal"
-			className="ayy-fixed ayy-w-full !ayy-top-0 !ayy-left-0 ayy-h-full"
+			className="onb-fixed onb-w-full !onb-top-0 !onb-left-0 onb-h-full"
 		>
 			<Panel defaultSize={50} minSize={40}>
 				<TreeView />
 			</Panel>
-			<PanelResizeHandle className="ayy-w-[var(--divider-width)] ayy-bg-[var(--divider-color)]" />
+			<PanelResizeHandle className="onb-w-[var(--divider-width)] onb-bg-[var(--divider-color)]" />
 			<Panel defaultSize={50} minSize={20}>
 				<NotesView />
 			</Panel>
