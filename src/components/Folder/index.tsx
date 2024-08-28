@@ -1,5 +1,5 @@
-import { ConfirmDeleteModal } from "components/CustomModal";
-import { BaseModal } from "components/CustomModal/BaseModal";
+import { ConfirmDeleteModal, RenameModal } from "components/CustomModals";
+import { BaseModal } from "components/CustomModals/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
@@ -94,8 +94,16 @@ export function Folder(props: Readonly<FolderProps>) {
         abstractFilePath={props.folder.path}
       />
     ));
-
     confirmation.open();
+  };
+
+  const handleRename = () => {
+    if (!app) return;
+    const renameFileModal = new BaseModal(app, () => (
+      <RenameModal modal={renameFileModal} file={props.folder} />
+    ));
+
+    renameFileModal.open();
   };
 
   const handleFolderContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -109,6 +117,12 @@ export function Folder(props: Readonly<FolderProps>) {
       menuItem.setTitle("Delete");
       menuItem.setIcon("trash");
       menuItem.onClick(handleDelete);
+    });
+
+    fileMenu.addItem((menuItem) => {
+      menuItem.setTitle("Rename");
+      menuItem.setIcon("pencil");
+      menuItem.onClick(handleRename);
     });
 
     app.workspace.trigger(

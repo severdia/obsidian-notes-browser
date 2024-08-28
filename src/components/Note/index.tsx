@@ -1,5 +1,5 @@
-import { ConfirmDeleteModal, RenameModal } from "components/CustomModal";
-import { BaseModal } from "components/CustomModal/BaseModal";
+import { ConfirmDeleteModal, RenameModal } from "components/CustomModals";
+import { BaseModal } from "components/CustomModals/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
 import { Menu, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";

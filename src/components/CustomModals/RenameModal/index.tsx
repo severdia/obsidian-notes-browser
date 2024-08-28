@@ -1,11 +1,11 @@
 import { useApp } from "hooks";
-import { Modal, TFile } from "obsidian";
+import { Modal, TAbstractFile, TFile, TFolder } from "obsidian";
 import { useEffect, useRef } from "react";
 import { useStore } from "store";
 
 interface CustomModalProps {
   modal: Modal;
-  file: TFile;
+  file: TAbstractFile;
 }
 
 export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
@@ -17,6 +17,7 @@ export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
 
   useEffect(() => {
     modal.setTitle("Rename file");
+    inputRef.current?.focus()
   });
 
   const renameFile = () => {
@@ -24,10 +25,17 @@ export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
       modal.close();
       return;
     }
-    app.fileManager.renameFile(
-      file,
-      `${file.parent?.path}/${inputRef.current.value}.${file.extension}`
-    );
+    if (file instanceof TFile) {
+      app.fileManager.renameFile(
+        file,
+        `${file.parent?.path}/${inputRef.current.value}.${file.extension}`
+      );
+    } else if (file instanceof TFolder) {
+      app.fileManager.renameFile(
+        file,
+        `${file.parent?.path}/${inputRef.current.value}`
+      );
+    }
 
     setForceNotesViewUpdate();
     modal.close();
