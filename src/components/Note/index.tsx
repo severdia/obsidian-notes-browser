@@ -1,5 +1,8 @@
-import { ConfirmDeleteModal, RenameModal } from "components/CustomModals";
-import { BaseModal } from "components/CustomModals/BaseModal";
+import {
+  BaseModal,
+  ConfirmDeleteModal,
+  RenameModal,
+} from "components/CustomModals";
 import { useApp, useDragHandlers } from "hooks";
 import { Menu, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
@@ -14,6 +17,7 @@ export const Note = memo(({ file }: NoteProps) => {
   const currentActiveFilePath = useStore(
     (state) => state.currentActiveFilePath
   );
+  const forceNotesViewUpdate = useStore((state) => state.forceNotesViewUpdate);
   const app = useApp();
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
@@ -27,7 +31,7 @@ export const Note = memo(({ file }: NoteProps) => {
     content.then((text) => {
       setDescription(text.slice(0, Math.max(text.length, 400)));
     });
-  }, []);
+  }, [forceNotesViewUpdate]);
 
   const openFile = () => {
     if (!app) return;

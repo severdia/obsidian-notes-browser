@@ -50,8 +50,8 @@ export default class NotesBrowser extends Plugin {
       this.updateNotesView();
     });
 
-    this.app.vault.on("modify", (file) => {
-      console.log("modification");
+    this.app.vault.on("modify", () => {
+      useStore.getState().setForceNotesViewUpdate();
     });
   }
 
