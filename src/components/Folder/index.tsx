@@ -1,4 +1,8 @@
-import { ConfirmDeleteModal, RenameModal } from "components/CustomModals";
+import {
+  ConfirmDeleteModal,
+  NewNoteModal,
+  RenameModal,
+} from "components/CustomModals";
 import { BaseModal } from "components/CustomModals/BaseModal";
 import { useApp, useDragHandlers } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
@@ -106,33 +110,47 @@ export function Folder(props: Readonly<FolderProps>) {
     renameFileModal.open();
   };
 
+  const handleNewNote = () => {
+    if (!app) return;
+    const newNoteModal = new BaseModal(app, () => (
+      <NewNoteModal modal={newNoteModal} folderPath={props.folder.path} />
+    ));
+    newNoteModal.open();
+  };
+
   const handleFolderContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!app) return;
-    const fileMenu = new Menu();
     const fileToTrigger = app.vault.getAbstractFileByPath(props.folder.path);
-
     if (!fileToTrigger) return;
 
-    fileMenu.addItem((menuItem) => {
-      menuItem.setTitle("Delete");
-      menuItem.setIcon("trash");
-      menuItem.onClick(handleDelete);
+    const folderMenu = new Menu();
+
+    folderMenu.addItem((menuItem) => {
+      menuItem.setTitle("New note");
+      menuItem.setIcon("edit");
+      menuItem.onClick(handleNewNote);
     });
 
-    fileMenu.addItem((menuItem) => {
+    folderMenu.addItem((menuItem) => {
       menuItem.setTitle("Rename");
       menuItem.setIcon("pencil");
       menuItem.onClick(handleRename);
     });
 
+    folderMenu.addItem((menuItem) => {
+      menuItem.setTitle("Delete");
+      menuItem.setIcon("trash");
+      menuItem.onClick(handleDelete);
+    });
+
     app.workspace.trigger(
       "file-menu",
-      fileMenu,
+      folderMenu,
       fileToTrigger,
       "file-explorer"
     );
 
-    fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
+    folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
   return (
