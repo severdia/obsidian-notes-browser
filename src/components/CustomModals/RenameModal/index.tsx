@@ -51,7 +51,7 @@ export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
         placeholder="name .."
       />
       <div className="modal-button-container">
-        <button className="mod-warning" onClick={renameFile}>
+        <button className="mod-cta" onClick={renameFile}>
           Save
         </button>
         <button className="mod-cancel" onClick={cancel}>

@@ -4,6 +4,9 @@ import { TFolder, TAbstractFile, TFile } from "obsidian";
 import { useStore } from "store";
 import { sortFilesAlphabetically, toBoolean } from "utils";
 import { Folder } from "components/Folder";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { BaseModal } from "components/CustomModals/BaseModal";
+import { NewFolderModal } from "components/CustomModals";
 
 export function TreeView() {
   const app = useApp();
@@ -11,6 +14,14 @@ export function TreeView() {
   const forceFilesystemUpdate = useStore(
     (state) => state.forceFilesyetemUpdate
   );
+
+  const handleNewFolder = () => {
+    if (!app) return;
+    const newFolderModal = new BaseModal(app, () => (
+      <NewFolderModal modal={newFolderModal} />
+    ));
+    newFolderModal.open();
+  };
 
   useEffect(() => {
     if (!app) return;
@@ -26,11 +37,17 @@ export function TreeView() {
   }, [forceFilesystemUpdate]);
 
   return (
-    <div
-      className="onb-flex onb-flex-col onb-h-full onb-w-full onb-p-2"
-      // onClick={showRootNotes}
-    >
-      {root instanceof TFolder && <FilesystemItem folder={root} />}
+    <div className="onb-flex onb-flex-col onb-h-full onb-w-full onb-p-2">
+      <div className="onb-flex onb-flex-grow onb-overflow-scroll onb-flex-col onb-h-full onb-w-full onb-p-2">
+        {root instanceof TFolder && <FilesystemItem folder={root} />}
+      </div>
+      <div
+        onClick={handleNewFolder}
+        className="onb-w-full onb-flex onb-flex-row onb-items-center onb-gap-1 onb-py-1 onb-px-2 onb-rounded-sm hover:onb-bg-gray-200 hover:onb-cursor-pointer"
+      >
+        <IoAddCircleOutline />
+        <span>New Folder</span>
+      </div>
     </div>
   );
 }
