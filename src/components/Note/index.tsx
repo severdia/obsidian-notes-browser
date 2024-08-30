@@ -19,7 +19,7 @@ export const Note = memo(({ file }: NoteProps) => {
   );
   const forceNotesViewUpdate = useStore((state) => state.forceNotesViewUpdate);
   const app = useApp();
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
+  const [thumbnail, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const backgroundColorClass =
@@ -30,6 +30,28 @@ export const Note = memo(({ file }: NoteProps) => {
     const content = app.vault.cachedRead(file);
     content.then((text) => {
       setDescription(text.slice(0, Math.max(text.length, 400)));
+      const imageRegexPattern = /!\[\[(.*?)\]\]/;
+      const firstExtractedImage = text.match(imageRegexPattern);
+
+      if (!firstExtractedImage) {
+        setImageLink(null);
+        return;
+      }
+
+      const imageFilename = firstExtractedImage[1];
+      app.fileManager
+        .getAvailablePathForAttachment("")
+        .then((path) => {
+          const attachementFolder = path.slice(0, path.length - 1);
+          const imageAbstractFile = app.vault.getAbstractFileByPath(
+            `${attachementFolder}${imageFilename}`
+          );
+          if (imageAbstractFile instanceof TFile) {
+            const imageLink = app.vault.getResourcePath(imageAbstractFile);
+            setImageLink(imageLink);
+          }
+        })
+        .catch(() => setImageLink(null));
     });
   }, [forceNotesViewUpdate]);
 
@@ -99,7 +121,7 @@ export const Note = memo(({ file }: NoteProps) => {
 
   return (
     <div
-      className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row"`}
+      className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row onb-items-center"`}
       onClick={openFile}
       draggable
       onDragStart={onDragStart}
@@ -121,7 +143,7 @@ export const Note = memo(({ file }: NoteProps) => {
         <img
           src={thumbnail}
           alt=""
-          className="onb-min-h-9 onb-min-w-9 onb-border onb-border-gray-300 onb-rounded"
+          className="onb-border onb-h-9 onb-border-gray-300 onb-rounded"
         />
       )}
     </div>

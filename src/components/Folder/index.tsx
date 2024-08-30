@@ -118,6 +118,9 @@ export function Folder(props: Readonly<FolderProps>) {
     newNoteModal.open();
   };
 
+  const disableDroppingEffect = () => setIsDropping(false);
+  const enableDroppingEffect = () => setIsDropping(true);
+
   const handleFolderContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!app) return;
     const fileToTrigger = app.vault.getAbstractFileByPath(props.folder.path);
@@ -155,19 +158,11 @@ export function Folder(props: Readonly<FolderProps>) {
 
   return (
     <Dropzone
-      onDragOver={() => setIsDropping(true)}
-      onDragEnter={() => {
-        setIsDropping(true);
-      }}
-      onDropAccepted={() => {
-        setIsDropping(false);
-      }}
-      onDropRejected={() => {
-        setIsDropping(false);
-      }}
-      onDragLeave={() => {
-        setIsDropping(false);
-      }}
+      onDragOver={enableDroppingEffect}
+      onDragEnter={enableDroppingEffect}
+      onDropAccepted={disableDroppingEffect}
+      onDropRejected={disableDroppingEffect}
+      onDragLeave={disableDroppingEffect}
       onDrop={handleOnDropFiles}
       noClick={true}
     >
@@ -176,13 +171,9 @@ export function Folder(props: Readonly<FolderProps>) {
           className={`onb-w-full ${activeBackgroundColor} onb-flex onb-rounded-sm onb-items-center onb-justify-between onb-pr-2 ${
             !isActive && isDropping ? "onb-bg-[#c7c6ca]" : ""
           }`}
-          onDragOver={() => setIsDropping(true)}
-          onDragEnter={() => {
-            setIsDropping(true);
-          }}
-          onDragLeave={() => {
-            setIsDropping(false);
-          }}
+          onDragOver={enableDroppingEffect}
+          onDragEnter={enableDroppingEffect}
+          onDragLeave={disableDroppingEffect}
           onDrop={onDrop}
           data-path={props.folder.path}
           draggable
