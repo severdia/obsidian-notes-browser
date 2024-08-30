@@ -1,4 +1,4 @@
-import { Notice, Plugin, TFile, WorkspaceLeaf } from "obsidian";
+import { Plugin, TFile, WorkspaceLeaf } from "obsidian";
 import { PluginView, VIEW_TYPE } from "./src/PluginView";
 import { useStore } from "store";
 
@@ -16,19 +16,9 @@ export default class NotesBrowser extends Plugin {
   async onload() {
     await this.loadSettings();
 
-    const ribbonIconEl = this.addRibbonIcon(
-      "dice",
-      "Sample Plugin",
-      (evt: MouseEvent) => {
-        // Called when the user clicks the icon.
-        new Notice("This is a notice!");
-      }
-    );
-    ribbonIconEl.addClass("my-plugin-ribbon-class");
-
     this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf));
 
-    this.addRibbonIcon("dice", "Activate view", () => {
+    this.addRibbonIcon("folder", "Apple Notes", () => {
       this.activateView();
     });
 

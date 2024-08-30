@@ -92,9 +92,6 @@
 .onb-overflow-scroll {
     overflow: scroll
 }
-.onb-overflow-y-scroll {
-    overflow-y: scroll
-}
 .onb-truncate {
     overflow: hidden;
     text-overflow: ellipsis;
