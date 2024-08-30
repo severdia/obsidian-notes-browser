@@ -1,6 +1,6 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
-import { PluginUI } from "./components/PluginView";
+import { PluginUI } from "components/PluginView";
 import { AppContext } from "utils";
 
 export const VIEW_TYPE = "obsidian-notes-browser";

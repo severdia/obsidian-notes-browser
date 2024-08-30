@@ -22,32 +22,22 @@ export default class NotesBrowser extends Plugin {
       this.activateView();
     });
 
-    this.app.workspace.on("active-leaf-change", () => {
-      const currentOpenFile = this.app.workspace.getActiveFile();
-      if (!currentOpenFile) return;
-      useStore.getState().setCurrentActiveFilePath(currentOpenFile.path);
-    });
-
-    this.app.vault.on("create", () => {
-      useStore.getState().setForceFilesystemUpdate();
-    });
-
-    this.app.vault.on("delete", () => {
-      this.updateNotesView();
-    });
-
-    this.app.vault.on("rename", () => {
-      this.updateNotesView();
-    });
-
-    this.app.vault.on("modify", () => {
-      useStore.getState().setForceNotesViewUpdate();
-    });
+    this.app.workspace.on("active-leaf-change", this.onActiveLeafChange);
+    this.app.vault.on("create", this.onCreate);
+    this.app.vault.on("delete", this.onDelete);
+    this.app.vault.on("rename", this.onRename);
+    this.app.vault.on("modify", this.onModify);
   }
 
-  onunload() {}
+  onunload() {
+    this.app.workspace.off("active-leaf-change", this.onActiveLeafChange);
+    this.app.vault.off("create", this.onCreate);
+    this.app.vault.off("delete", this.onDelete);
+    this.app.vault.off("rename", this.onRename);
+    this.app.vault.off("modify", this.onModify);
+  }
 
-  updateNotesView() {
+  updateNotesView = () => {
     const { currentActiveFolderPath, setForceFilesystemUpdate, setNotes } =
       useStore.getState();
 
@@ -61,10 +51,32 @@ export default class NotesBrowser extends Plugin {
     setNotes(
       filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
     );
-  }
+  };
+
+  onDelete = () => {
+    this.updateNotesView();
+  };
+
+  onCreate = () => {
+    useStore.getState().setForceFilesystemUpdate();
+  };
+
+  onRename = () => {
+    this.updateNotesView();
+  };
+
+  onModify = () => {
+    useStore.getState().setForceNotesViewUpdate();
+  };
+
+  onActiveLeafChange = () => {
+    const currentOpenFile = this.app.workspace.getActiveFile();
+    if (!currentOpenFile) return;
+    useStore.getState().setCurrentActiveFilePath(currentOpenFile.path);
+  };
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = { ...DEFAULT_SETTINGS, ...(await this.loadData()) };
   }
 
   async saveSettings() {
@@ -80,7 +92,7 @@ export default class NotesBrowser extends Plugin {
     if (leaves.length > 0) {
       leaf = leaves[0];
     } else {
-      leaf = workspace.getRightLeaf(false);
+      leaf = workspace.getLeftLeaf(false);
       await leaf?.setViewState({ type: VIEW_TYPE, active: true });
     }
 
