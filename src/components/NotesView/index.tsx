@@ -46,7 +46,7 @@ export function NotesView() {
       <NotesViewHeader />
 
       <div className="onb-w-full onb-h-full onb-p-2 onb-gap-2">
-        {files.length > 0 && (
+        {notes.length > 0 && (
           <AutoSizer>
             {({ height, width }) => (
               <List
@@ -60,7 +60,7 @@ export function NotesView() {
           </AutoSizer>
         )}
 
-        {files.length === 0 && (
+        {notes.length === 0 && (
           <div className="onb-w-full onb-h-full onb-flex onb-items-center  onb-justify-center onb-text-gray-400">
             No Notes
           </div>

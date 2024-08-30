@@ -17,7 +17,8 @@ export function sortFilesAlphabetically(
 }
 
 export function getNumberOfNotes(files: TAbstractFile[]) {
-  return files.filter((file) => file instanceof TFile).length;
+  return files.filter((file) => file instanceof TFile && file.extension == "md")
+    .length;
 }
 
 export function toBoolean(value: string | null) {

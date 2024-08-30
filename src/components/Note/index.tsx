@@ -19,7 +19,7 @@ export const Note = memo(({ file }: NoteProps) => {
   );
   const forceNotesViewUpdate = useStore((state) => state.forceNotesViewUpdate);
   const app = useApp();
-  const [thumbnail, setImageLink] = useState<string | null>(null);
+  const [imageLink, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const backgroundColorClass =
@@ -31,7 +31,7 @@ export const Note = memo(({ file }: NoteProps) => {
     content.then((text) => {
       setDescription(text.slice(0, Math.max(text.length, 400)));
       const imageRegexPattern = /!\[\[(.*?)\]\]/;
-      const firstExtractedImage = text.match(imageRegexPattern);
+      const firstExtractedImage = RegExp(imageRegexPattern).exec(text);
 
       if (!firstExtractedImage) {
         setImageLink(null);
@@ -139,9 +139,9 @@ export const Note = memo(({ file }: NoteProps) => {
           </div>
         </div>
       </div>
-      {thumbnail && (
+      {imageLink && (
         <img
-          src={thumbnail}
+          src={imageLink}
           alt=""
           className="onb-border onb-h-9 onb-border-gray-300 onb-rounded"
         />
