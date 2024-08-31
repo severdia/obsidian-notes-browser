@@ -4,16 +4,12 @@ import {
   RenameModal,
 } from "components/CustomModals";
 import { BaseModal } from "components/CustomModals/BaseModal";
+import { IcChevron } from "components/Icons/IcChevron";
+import { IcFolderOutline } from "components/Icons/IcFolderOutline";
 import { useApp, useDragHandlers } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
 import Dropzone from "react-dropzone";
-
-import {
-  IoChevronForward,
-  IoChevronDown,
-  IoFolderOutline,
-} from "react-icons/io5";
 
 import { useStore } from "store";
 import { isContainFolders, getNumberOfNotes } from "utils";
@@ -156,6 +152,18 @@ export function Folder(props: Readonly<FolderProps>) {
     folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
+  const IcChevronBase = ({ direction }: { direction: "forward" | "down" }) => {
+    const style = direction == "forward" ? {} : { transform: "rotate(90deg)" };
+    return (
+      <IcChevron
+        style={style}
+        className={`onb-size-fit onb-min-w-fit onb-min-h-fit ${
+          isActive ? "onb-text-white" : "onb-text-[#616064]"
+        } `}
+      />
+    );
+  };
+
   return (
     <Dropzone
       onDragOver={enableDroppingEffect}
@@ -197,20 +205,11 @@ export function Folder(props: Readonly<FolderProps>) {
                   className="onb-size-6 onb-min-w-6 onb-flex onb-items-center onb-justify-center onb-min-h-6"
                   onClick={props.onClickChevron}
                 >
-                  {props.folder.children &&
-                    (!props.isOpen ? (
-                      <IoChevronForward
-                        className={`onb-size-5 onb-min-w-5 onb-min-h-5  ${
-                          isActive ? "onb-text-white" : "onb-text-[#616064]"
-                        } `}
-                      />
-                    ) : (
-                      <IoChevronDown
-                        className={`onb-size-5 onb-min-w-5 onb-min-h-5  ${
-                          isActive ? "onb-text-white" : "onb-text-[#616064]"
-                        } `}
-                      />
-                    ))}
+                  {props.folder.children && (
+                    <IcChevronBase
+                      direction={!props.isOpen ? "forward" : "down"}
+                    />
+                  )}
                 </div>
               )}
             </span>
@@ -220,8 +219,8 @@ export function Folder(props: Readonly<FolderProps>) {
               onClick={props.onClickFolder}
             >
               <span className="onb-flex onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
-                <IoFolderOutline
-                  className={`onb-size-6 onb-min-w-6 onb-min-h-6  ${
+                <IcFolderOutline
+                  className={`onb-size-fit onb-min-w-fit onb-min-h-fit  ${
                     isActive ? "onb-text-white" : "onb-text-sky-500"
                   } `}
                 />

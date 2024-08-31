@@ -37,13 +37,13 @@ export function TreeView() {
   }, [forceFilesystemUpdate]);
 
   return (
-    <div className="onb-flex onb-flex-col onb-h-full onb-w-full onb-p-2">
+    <div className="onb-flex onb-flex-col onb-h-full onb-w-full onb-py-2 onb-pl-2">
       <div className="onb-flex onb-flex-grow onb-overflow-scroll onb-flex-col onb-h-full onb-w-full onb-p-2">
         {root instanceof TFolder && <FilesystemItem folder={root} />}
       </div>
       <div
         onClick={handleNewFolder}
-        className="onb-w-full onb-flex onb-flex-row onb-items-center onb-gap-1 onb-py-1 onb-px-2 onb-rounded-sm hover:onb-bg-gray-200 hover:onb-cursor-pointer"
+        className="onb-w-[calc(100%-8px)] onb-flex onb-flex-row onb-items-center onb-gap-1 onb-py-1 onb-px-2 onb-rounded-sm hover:onb-bg-gray-200 hover:onb-cursor-pointer"
       >
         <IoAddCircleOutline />
         <span>New Folder</span>

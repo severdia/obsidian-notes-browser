@@ -55,6 +55,7 @@ export function NotesView() {
                 rowCount={notes.length}
                 rowHeight={64}
                 rowRenderer={RowRenderer}
+                aria-label=""
               />
             )}
           </AutoSizer>
