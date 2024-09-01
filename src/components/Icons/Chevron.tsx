@@ -1,6 +1,6 @@
-import { IcChevron } from "./IcChevron";
+import { IcChevron } from "./ChevronBase";
 
-export const IcChevronBase = ({
+export const Chevron = ({
   direction,
   isActive,
 }: {

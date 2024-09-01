@@ -1,4 +1,4 @@
-export function IcFolderOutline(
+export function FolderOutline(
   props: Readonly<React.SVGProps<SVGSVGElement>>
 ) {
   return (

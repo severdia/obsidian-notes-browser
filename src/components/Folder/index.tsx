@@ -4,8 +4,8 @@ import {
   RenameModal,
 } from "components/CustomModals";
 import { BaseModal } from "components/CustomModals/BaseModal";
-import { IcChevronBase } from "components/Icons/IcChevronBase";
-import { IcFolderOutline } from "components/Icons/IcFolderOutline";
+import { Chevron } from "components/Icons/Chevron";
+import { FolderOutline } from "components/Icons/FolderOutline";
 import { useDragHandlers, usePlugin } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
@@ -38,7 +38,7 @@ export function Folder(props: Readonly<FolderProps>) {
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
     if (!app) return;
-    droppabaleFiles.map(async (file) => {
+    droppabaleFiles.map((file) => {
       file.arrayBuffer().then((content) => {
         app.vault.adapter.writeBinary(
           `${props.folder.path}/${file.name}`,
@@ -160,8 +160,8 @@ export function Folder(props: Readonly<FolderProps>) {
       onDropRejected={disableDroppingEffect}
       onDragLeave={disableDroppingEffect}
       onDrop={handleOnDropFiles}
-      disabled={settings.isDraggingFilesAndFoldersEnabled}
       noClick={true}
+      noDrag={settings.isDraggingFilesAndFoldersEnabled}
     >
       {({ getRootProps, getInputProps }) => (
         <div
@@ -195,7 +195,7 @@ export function Folder(props: Readonly<FolderProps>) {
                   onClick={props.onClickChevron}
                 >
                   {props.folder.children && (
-                    <IcChevronBase
+                    <Chevron
                       direction={!props.isOpen ? "forward" : "down"}
                       isActive={isActive}
                     />
@@ -209,7 +209,7 @@ export function Folder(props: Readonly<FolderProps>) {
               onClick={props.onClickFolder}
             >
               <div className="onb-flex onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
-                <IcFolderOutline
+                <FolderOutline
                   fill={isActive ? "white" : "#699FF9"}
                   className="onb-size-fit onb-min-w-fit onb-min-h-fit"
                 />

@@ -1,9 +1,10 @@
 import { useStore } from "store";
 import { Note } from "components/Note";
-import { IoGridOutline, IoTrashOutline } from "react-icons/io5";
 import { ReactNode } from "react";
-import { FaListUl } from "react-icons/fa";
 import { AutoSizer, List, ListRowProps } from "react-virtualized";
+import { List as ListIcon } from "components/Icons/List";
+import { Grid } from "components/Icons/Grid";
+import { Trash } from "components/Icons/Trash";
 
 const Tab = ({ children }: { children: ReactNode }) => (
   <div className="onb-h-fit onb-px-2 onb-flex onb-items-center onb-justify-center">
@@ -19,14 +20,14 @@ const NotesViewHeader = (props: React.ComponentProps<"div">) => {
     >
       <div className="onb-flex onb-w-fit onb-flex-row onb-items-center onb-justify-between">
         <Tab>
-          <FaListUl className="onb-size-5" />
+          <ListIcon style={{ transform: "scale(1.5)" }} />
         </Tab>
         <Tab>
-          <IoGridOutline className="onb-size-5" />
+          <Grid style={{ transform: "scale(1.5)" }} />
         </Tab>
       </div>
       <Tab>
-        <IoTrashOutline className="onb-size-5" />
+        <Trash style={{ transform: "scale(1.5)" }} />
       </Tab>
     </div>
   );
