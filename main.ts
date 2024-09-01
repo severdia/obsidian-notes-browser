@@ -1,13 +1,16 @@
 import { Plugin, TFile, WorkspaceLeaf } from "obsidian";
 import { PluginView, VIEW_TYPE } from "./src/PluginView";
 import { useStore } from "store";
+import { SettingTab } from "./SettingTab";
 
 interface NotesBrowserSettings {
-  mySetting: string;
+  isDraggingFilesAndFoldersEnabled: boolean;
+  showAttachmentFolder: boolean;
 }
 
 const DEFAULT_SETTINGS: NotesBrowserSettings = {
-  mySetting: "default",
+  isDraggingFilesAndFoldersEnabled: true,
+  showAttachmentFolder: true,
 };
 
 export default class NotesBrowser extends Plugin {
@@ -15,8 +18,8 @@ export default class NotesBrowser extends Plugin {
 
   async onload() {
     await this.loadSettings();
-
-    this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf));
+    this.addSettingTab(new SettingTab(this.app, this));
+    this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf, this));
 
     this.addRibbonIcon("folder", "Apple Notes", () => {
       this.activateView();

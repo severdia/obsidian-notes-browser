@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { pluginContext } from "../utils/pluginContext";
-import { Plugin } from "obsidian";
+import { PluginContext } from "utils";
+import NotesBrowser from "main";
 
-export const usePlugin = (): Plugin | undefined => {
-	return useContext(pluginContext);
+export const usePlugin = (): NotesBrowser => {
+  return useContext(PluginContext) as NotesBrowser;
 };

@@ -40,9 +40,6 @@
 .onb-h-full {
     height: 100%
 }
-.onb-h-\[9px\] {
-    height: 9px
-}
 .onb-min-h-6 {
     min-height: 1.5rem
 }
@@ -63,30 +60,12 @@
 .onb-w-full {
     width: 100%
 }
-.onb-w-\[120px\] {
-    width: 120px
-}
-.onb-w-\[calc\(100\%-\)\] {
-    width: calc(100% - )
-}
-.onb-w-\[calc\(100\%-24px\)\] {
-    width: calc(100% - 24px)
-}
 .onb-min-w-6 {
     min-width: 1.5rem
 }
 .onb-min-w-fit {
     min-width: -moz-fit-content;
     min-width: fit-content
-}
-.onb-flex-1 {
-    flex: 1 1 0%
-}
-.onb-flex-shrink {
-    flex-shrink: 1
-}
-.onb-flex-shrink-0 {
-    flex-shrink: 0
 }
 .onb-flex-grow {
     flex-grow: 1
@@ -120,9 +99,6 @@
 }
 .onb-gap-2 {
     gap: 0.5rem
-}
-.onb-overflow-hidden {
-    overflow: hidden
 }
 .onb-overflow-scroll {
     overflow: scroll
@@ -186,14 +162,6 @@
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
-.onb-bg-red-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(252 165 165 / var(--tw-bg-opacity))
-}
-.onb-bg-blue-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(147 197 253 / var(--tw-bg-opacity))
-}
 .onb-p-2 {
     padding: 0.5rem
 }
@@ -221,40 +189,29 @@
 .onb-pr-2 {
     padding-right: 0.5rem
 }
-.onb-pl-3 {
-    padding-left: 0.75rem
-}
-.onb-font-\[\] {
-    font-family: 
+.onb-text-\[12px\] {
+    font-size: 12px
 }
 .onb-text-\[14px\] {
     font-size: 14px
 }
-.onb-text-\[16px\] {
-    font-size: 16px
-}
-.onb-text-\[12px\] {
-    font-size: 12px
-}
-.onb-font-bold {
-    font-weight: 700
+.onb-font-normal {
+    font-weight: 400
 }
 .onb-font-semibold {
     font-weight: 600
-}
-.onb-font-\[400\] {
-    font-weight: 400
-}
-.onb-font-normal {
-    font-weight: 400
 }
 .\!onb-text-white {
     --tw-text-opacity: 1 !important;
     color: rgb(255 255 255 / var(--tw-text-opacity)) !important
 }
-.onb-text-\[\#616064\] {
+.onb-text-\[\#272727\] {
     --tw-text-opacity: 1;
-    color: rgb(97 96 100 / var(--tw-text-opacity))
+    color: rgb(39 39 39 / var(--tw-text-opacity))
+}
+.onb-text-\[\#808080\] {
+    --tw-text-opacity: 1;
+    color: rgb(128 128 128 / var(--tw-text-opacity))
 }
 .onb-text-\[var\(--icon-color\)\] {
     color: var(--icon-color)
@@ -262,30 +219,6 @@
 .onb-text-gray-400 {
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity))
-}
-.onb-text-sky-500 {
-    --tw-text-opacity: 1;
-    color: rgb(14 165 233 / var(--tw-text-opacity))
-}
-.onb-text-white {
-    --tw-text-opacity: 1;
-    color: rgb(255 255 255 / var(--tw-text-opacity))
-}
-.onb-text-blue-600 {
-    --tw-text-opacity: 1;
-    color: rgb(37 99 235 / var(--tw-text-opacity))
-}
-.onb-text-\[\#808080\] {
-    --tw-text-opacity: 1;
-    color: rgb(128 128 128 / var(--tw-text-opacity))
-}
-.onb-text-\[\#272727\] {
-    --tw-text-opacity: 1;
-    color: rgb(39 39 39 / var(--tw-text-opacity))
-}
-.onb-text-red-400 {
-    --tw-text-opacity: 1;
-    color: rgb(248 113 113 / var(--tw-text-opacity))
 }
 .hover\:onb-cursor-pointer:hover {
     cursor: pointer

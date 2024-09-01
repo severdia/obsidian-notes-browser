@@ -1,15 +1,18 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
 import { PluginUI } from "components/PluginView";
-import { AppContext } from "utils";
+import { PluginContext } from "utils";
+import NotesBrowser from "main";
 
 export const VIEW_TYPE = "obsidian-notes-browser";
 
 export class PluginView extends ItemView {
   root: Root | null = null;
+  plugin: NotesBrowser;
 
-  constructor(leaf: WorkspaceLeaf) {
+  constructor(leaf: WorkspaceLeaf, plugin: NotesBrowser) {
     super(leaf);
+    this.plugin = plugin;
   }
 
   getViewType() {
@@ -27,9 +30,9 @@ export class PluginView extends ItemView {
   async onOpen() {
     this.root = createRoot(this.containerEl.children[1]);
     this.root.render(
-      <AppContext.Provider value={this.app}>
+      <PluginContext.Provider value={this.plugin}>
         <PluginUI />
-      </AppContext.Provider>
+      </PluginContext.Provider>
     );
   }
 

@@ -1,4 +1,4 @@
-import { useApp } from "hooks";
+import { useLocalApp } from "hooks";
 import { Modal, TAbstractFile, TFile, TFolder } from "obsidian";
 import { useEffect, useRef } from "react";
 import { useStore } from "store";
@@ -10,14 +10,14 @@ interface CustomModalProps {
 
 export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const app = useApp();
+  const app = useLocalApp();
   const setForceNotesViewUpdate = useStore(
     (state) => state.setForceNotesViewUpdate
   );
 
   useEffect(() => {
     modal.setTitle("Rename file");
-    inputRef.current?.focus()
+    inputRef.current?.focus();
   });
 
   const renameFile = () => {

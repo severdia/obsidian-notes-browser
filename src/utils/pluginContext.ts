@@ -1,4 +1,4 @@
 import { createContext } from "react";
-import { Plugin } from "obsidian";
+import NotesBrowser from "main";
 
-export const PluginContext = createContext<Plugin | undefined>(undefined);
+export const PluginContext = createContext<NotesBrowser | undefined>(undefined);

@@ -1,4 +1,4 @@
-import { useApp } from "hooks";
+import { useLocalApp } from "hooks";
 import { Modal, Notice } from "obsidian";
 import { useEffect, useRef } from "react";
 
@@ -12,7 +12,7 @@ export function NewNoteModal({
   folderPath,
 }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const app = useApp();
+  const app = useLocalApp();
 
   useEffect(() => {
     modal.setTitle("New note");

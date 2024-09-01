@@ -3,7 +3,7 @@ import {
   ConfirmDeleteModal,
   RenameModal,
 } from "components/CustomModals";
-import { useApp, useDragHandlers } from "hooks";
+import { useDragHandlers, usePlugin } from "hooks";
 import { Menu, TFile } from "obsidian";
 import { memo, useEffect, useState } from "react";
 import { useStore } from "store";
@@ -18,7 +18,7 @@ export const Note = memo(({ file }: NoteProps) => {
     (state) => state.currentActiveFilePath
   );
   const forceNotesViewUpdate = useStore((state) => state.forceNotesViewUpdate);
-  const app = useApp();
+  const { app, settings } = usePlugin();
   const [imageLink, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
@@ -62,6 +62,7 @@ export const Note = memo(({ file }: NoteProps) => {
           firstLocalExtractedImage.index < firstRemoteExtractedImage.index)
       ) {
         const imageFilename = firstLocalExtractedImage[1];
+
         app.fileManager
           .getAvailablePathForAttachment("")
           .then((path) => {
@@ -147,7 +148,7 @@ export const Note = memo(({ file }: NoteProps) => {
     <div
       className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row onb-items-center"`}
       onClick={openFile}
-      draggable
+      draggable={settings.isDraggingFilesAndFoldersEnabled}
       onDragStart={onDragStart}
       data-path={file.path}
       onContextMenu={handleContextMenu}

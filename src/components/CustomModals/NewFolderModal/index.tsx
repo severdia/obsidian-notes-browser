@@ -1,4 +1,4 @@
-import { useApp } from "hooks";
+import { useLocalApp } from "hooks";
 import { Modal, Notice } from "obsidian";
 import { useEffect, useRef } from "react";
 import { useStore } from "store";
@@ -9,7 +9,7 @@ interface CustomModalProps {
 
 export function NewFolderModal({ modal }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const app = useApp();
+  const app = useLocalApp();
 
   const currentActiveFolderPath = useStore(
     (state) => state.currentActiveFolderPath

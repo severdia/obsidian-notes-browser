@@ -1,4 +1,4 @@
-import { useApp } from "hooks";
+import { useLocalApp } from "hooks";
 import { Modal } from "obsidian";
 import { useEffect } from "react";
 import { useStore } from "store";
@@ -10,7 +10,7 @@ interface CustomModalProps {
 }
 
 export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
-  const app = useApp();
+  const app = useLocalApp();
   const setForceNotesViewUpdate = useStore(
     (state) => state.setForceNotesViewUpdate
   );
@@ -21,6 +21,7 @@ export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
 
   const deleteFile = () => {
     if (!app) {
+      console.log('There is no app here')
       props.modal.close();
       return;
     }

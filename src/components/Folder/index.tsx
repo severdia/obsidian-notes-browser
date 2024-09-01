@@ -4,9 +4,9 @@ import {
   RenameModal,
 } from "components/CustomModals";
 import { BaseModal } from "components/CustomModals/BaseModal";
-import { IcChevron } from "components/Icons/IcChevron";
+import { IcChevronBase } from "components/Icons/IcChevronBase";
 import { IcFolderOutline } from "components/Icons/IcFolderOutline";
-import { useApp, useDragHandlers } from "hooks";
+import { useDragHandlers, usePlugin } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
 import Dropzone from "react-dropzone";
@@ -24,7 +24,7 @@ interface FolderProps {
 export function Folder(props: Readonly<FolderProps>) {
   const [isDropping, setIsDropping] = useState(false);
   const containsFolders = isContainFolders(props.folder);
-  const app = useApp();
+  const { app, settings } = usePlugin();
   const { onDragStart } = useDragHandlers(props.folder);
 
   const currentActiveFolderPath = useStore(
@@ -152,17 +152,6 @@ export function Folder(props: Readonly<FolderProps>) {
     folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
-  const IcChevronBase = ({ direction }: { direction: "forward" | "down" }) => {
-    const style = direction == "forward" ? {} : { transform: "rotate(90deg)" };
-    return (
-      <IcChevron
-        style={style}
-        fill={isActive ? "white" : "#616064"}
-        className="onb-size-fit  onb-min-w-fit"
-      />
-    );
-  };
-
   return (
     <Dropzone
       onDragOver={enableDroppingEffect}
@@ -171,6 +160,7 @@ export function Folder(props: Readonly<FolderProps>) {
       onDropRejected={disableDroppingEffect}
       onDragLeave={disableDroppingEffect}
       onDrop={handleOnDropFiles}
+      disabled={settings.isDraggingFilesAndFoldersEnabled}
       noClick={true}
     >
       {({ getRootProps, getInputProps }) => (
@@ -183,7 +173,7 @@ export function Folder(props: Readonly<FolderProps>) {
           onDragLeave={disableDroppingEffect}
           onDrop={onDrop}
           data-path={props.folder.path}
-          draggable
+          draggable={settings.isDraggingFilesAndFoldersEnabled}
           onDragStart={onDragStart}
           onContextMenu={handleFolderContextMenu}
         >
@@ -207,6 +197,7 @@ export function Folder(props: Readonly<FolderProps>) {
                   {props.folder.children && (
                     <IcChevronBase
                       direction={!props.isOpen ? "forward" : "down"}
+                      isActive={isActive}
                     />
                   )}
                 </div>

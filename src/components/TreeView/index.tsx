@@ -52,16 +52,21 @@ export function TreeView() {
   );
 }
 
-export function FilesystemItem({
-  folder,
-  isRoot = false,
-}: Readonly<{ folder: TFolder; isRoot?: boolean }>) {
+interface FilesystemItemProps {
+  folder: TFolder;
+  isRoot?: boolean;
+  attachementFolderPath?: string;
+}
+
+export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
+  const { folder, isRoot = false } = props;
   const setNotes = useStore((state) => state.setNotes);
   const setCurrentActiveFolderPath = useStore(
     (state) => state.setCurrentActiveFolderPath
   );
 
   const app = useApp();
+
   const [isOpen, setIsOpen] = useState<boolean>(
     toBoolean(localStorage.getItem(folder.path))
   );

@@ -1,7 +1,7 @@
 import { TAbstractFile, TFile, TFolder } from "obsidian";
 
-export { AppContext } from "./appContext";
-export { PluginContext } from "./pluginContext";
+export { PluginContext } from "./PluginContext";
+export { AppContext } from "./AppContext";
 
 export function isContainFolders(folder: TFolder) {
   return folder.children.some(

@@ -8,11 +8,10 @@ export class BaseModal extends Modal {
 
   constructor(app: App, CustomModal: () => JSX.Element) {
     super(app);
-    this.app = app;
     this.CustomModal = CustomModal;
   }
 
-  onOpen(): void {
+  onOpen = () => {
     const modalRoot = createRoot(this.contentEl);
     this.root = modalRoot;
 
@@ -21,5 +20,5 @@ export class BaseModal extends Modal {
         <this.CustomModal />
       </AppContext.Provider>
     );
-  }
+  };
 }
