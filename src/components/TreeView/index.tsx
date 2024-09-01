@@ -108,7 +108,7 @@ export function FilesystemItem({
       />
 
       {isOpen && (
-        <ul className="onb-pl-6 onb-list-none onb-m-0">
+        <ul className="onb-pl-2 onb-list-none onb-m-0">
           {sortFilesAlphabetically(folder.children).map(
             (folder) =>
               folder instanceof TFolder && (
