@@ -28,7 +28,7 @@ export class PluginView extends ItemView {
     this.root = createRoot(this.containerEl.children[1]);
     this.root.render(
       <AppContext.Provider value={this.app}>
-        <PluginUI />,
+        <PluginUI />
       </AppContext.Provider>
     );
   }

@@ -153,7 +153,7 @@ export const Note = memo(({ file }: NoteProps) => {
       onContextMenu={handleContextMenu}
     >
       <div className="onb-flex-grow onb-flex-col onb-truncate">
-        <div className="onb-text-[16px] onb-font-bold">{file.basename}</div>
+        <div className="onb-text-[16px] onb-truncate onb-font-bold">{file.basename}</div>
         <div className="onb-flex onb-flex-row onb-gap-2 onb-w-full">
           <div className="onb-text-[14px] onb-font-semibold onb-text-nowrap">
             {getLastModified(file)}

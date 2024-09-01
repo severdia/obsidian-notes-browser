@@ -13,9 +13,6 @@
 .onb-ml-6 {
     margin-left: 1.5rem
 }
-.onb-mr-2 {
-    margin-right: 0.5rem
-}
 .onb-flex {
     display: flex
 }
@@ -50,6 +47,9 @@
     min-height: -moz-fit-content;
     min-height: fit-content
 }
+.onb-w-\[calc\(100\%-8px\)\] {
+    width: calc(100% - 8px)
+}
 .onb-w-\[var\(--divider-width\)\] {
     width: var(--divider-width)
 }
@@ -60,15 +60,6 @@
 .onb-w-full {
     width: 100%
 }
-.onb-w-\[calc\(\)\] {
-    width: calc()
-}
-.onb-w-\[calc\(100\%-4px\)\] {
-    width: calc(100% - 4px)
-}
-.onb-w-\[calc\(100\%-8px\)\] {
-    width: calc(100% - 8px)
-}
 .onb-min-w-6 {
     min-width: 1.5rem
 }
@@ -78,10 +69,6 @@
 }
 .onb-flex-grow {
     flex-grow: 1
-}
-.onb-rotate-90 {
-    --tw-rotate: 90deg;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 .onb-list-none {
     list-style-type: none
