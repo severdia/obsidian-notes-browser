@@ -215,22 +215,24 @@ export function Folder(props: Readonly<FolderProps>) {
             </span>
 
             <div
-              className="onb-w-full onb-py-1 onb-flex onb-rounded-sm onb-items-center onb-justify-between"
+              className="onb-flex-grow onb-py-1 onb-truncate onb-flex onb-rounded-sm onb-items-center"
               onClick={props.onClickFolder}
             >
-              <span className="onb-flex onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
+              <div className="onb-flex onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
                 <IcFolderOutline
                   className={`onb-size-fit onb-min-w-fit onb-min-h-fit  ${
                     isActive ? "onb-text-white" : "onb-text-sky-500"
                   } `}
                 />
-                <span className="onb-truncate onb-text-nowrap">
+                <div className="onb-truncate onb-text-[14px]">
                   {props.folder.name}
-                </span>
-              </span>
-              {props.folder.children?.length !== 0 && (
-                <div>{getNumberOfNotes(props.folder.children)}</div>
-              )}
+                </div>
+              </div>
+              <div className="onb-size-fit min-h-fit onb-min-w-fit">
+                {props.folder.children?.length !== 0 && (
+                  <span>{getNumberOfNotes(props.folder.children)}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>

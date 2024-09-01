@@ -60,12 +60,30 @@
 .onb-w-full {
     width: 100%
 }
+.onb-w-\[120px\] {
+    width: 120px
+}
+.onb-w-\[calc\(100\%-\)\] {
+    width: calc(100% - )
+}
+.onb-w-\[calc\(100\%-24px\)\] {
+    width: calc(100% - 24px)
+}
 .onb-min-w-6 {
     min-width: 1.5rem
 }
 .onb-min-w-fit {
     min-width: -moz-fit-content;
     min-width: fit-content
+}
+.onb-flex-1 {
+    flex: 1 1 0%
+}
+.onb-flex-shrink {
+    flex-shrink: 1
+}
+.onb-flex-shrink-0 {
+    flex-shrink: 0
 }
 .onb-flex-grow {
     flex-grow: 1
@@ -99,6 +117,9 @@
 }
 .onb-gap-2 {
     gap: 0.5rem
+}
+.onb-overflow-hidden {
+    overflow: hidden
 }
 .onb-overflow-scroll {
     overflow: scroll
@@ -162,6 +183,14 @@
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
+.onb-bg-red-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity))
+}
+.onb-bg-blue-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(147 197 253 / var(--tw-bg-opacity))
+}
 .onb-p-2 {
     padding: 0.5rem
 }
@@ -223,6 +252,10 @@
 .onb-text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity))
+}
+.onb-text-blue-600 {
+    --tw-text-opacity: 1;
+    color: rgb(37 99 235 / var(--tw-text-opacity))
 }
 .hover\:onb-cursor-pointer:hover {
     cursor: pointer
