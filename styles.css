@@ -218,17 +218,29 @@
 .onb-pr-2 {
     padding-right: 0.5rem
 }
+.onb-font-\[\] {
+    font-family: 
+}
 .onb-text-\[14px\] {
     font-size: 14px
 }
 .onb-text-\[16px\] {
     font-size: 16px
 }
+.onb-text-\[12px\] {
+    font-size: 12px
+}
 .onb-font-bold {
     font-weight: 700
 }
 .onb-font-semibold {
     font-weight: 600
+}
+.onb-font-\[400\] {
+    font-weight: 400
+}
+.onb-font-normal {
+    font-weight: 400
 }
 .\!onb-text-white {
     --tw-text-opacity: 1 !important;
@@ -256,6 +268,14 @@
 .onb-text-blue-600 {
     --tw-text-opacity: 1;
     color: rgb(37 99 235 / var(--tw-text-opacity))
+}
+.onb-text-\[\#808080\] {
+    --tw-text-opacity: 1;
+    color: rgb(128 128 128 / var(--tw-text-opacity))
+}
+.onb-text-\[\#272727\] {
+    --tw-text-opacity: 1;
+    color: rgb(39 39 39 / var(--tw-text-opacity))
 }
 .hover\:onb-cursor-pointer:hover {
     cursor: pointer
