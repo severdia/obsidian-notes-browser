@@ -83,8 +83,8 @@ export const Note = memo(({ file }: NoteProps) => {
     if (!app) return;
     const fileToOpen = app.vault.getAbstractFileByPath(file.path);
     if (!fileToOpen) return;
-    const leaf = app.workspace.getLeaf("tab");
 
+    const leaf = app.workspace.getLeaf(false);
     app.workspace.setActiveLeaf(leaf, {
       focus: true,
     });

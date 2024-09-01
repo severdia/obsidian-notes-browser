@@ -45,7 +45,7 @@ export function NotesView() {
     <div className="onb-flex onb-flex-col onb-bg-white onb-h-full onb-w-full  onb-flex-grow">
       <NotesViewHeader />
 
-      <div className="onb-w-full onb-h-full onb-py-2 onb-pl-2 onb-gap-2">
+      <div className="onb-w-full onb-h-full onb-p-2 onb-gap-2">
         {notes.length > 0 && (
           <AutoSizer>
             {({ height, width }) => (
