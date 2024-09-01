@@ -157,9 +157,8 @@ export function Folder(props: Readonly<FolderProps>) {
     return (
       <IcChevron
         style={style}
-        className={`onb-size-fit onb-min-w-fit onb-min-h-fit ${
-          isActive ? "onb-text-white" : "onb-text-[#616064]"
-        } `}
+        fill={isActive ? "white" : "#616064"}
+        className="onb-size-fit  onb-min-w-fit"
       />
     );
   };
@@ -220,9 +219,8 @@ export function Folder(props: Readonly<FolderProps>) {
             >
               <div className="onb-flex onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
                 <IcFolderOutline
-                  className={`onb-size-fit onb-min-w-fit onb-min-h-fit  ${
-                    isActive ? "onb-text-white" : "onb-text-sky-500"
-                  } `}
+                  fill={isActive ? "white" : "#699FF9"}
+                  className="onb-size-fit onb-min-w-fit onb-min-h-fit"
                 />
                 <div className="onb-truncate onb-text-[14px]">
                   {props.folder.name}
