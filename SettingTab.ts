@@ -1,6 +1,6 @@
 import { useStore } from "store";
 import NotesBrowser from "./main";
-import { App, Notice, PluginSettingTab, Setting } from "obsidian";
+import { App, PluginSettingTab, Setting } from "obsidian";
 
 export class SettingTab extends PluginSettingTab {
   plugin: NotesBrowser;
@@ -21,21 +21,25 @@ export class SettingTab extends PluginSettingTab {
         toggleComp.setValue(
           this.plugin.settings.isDraggingFilesAndFoldersEnabled
         );
-        toggleComp.onChange(this.updateSettings);
+        toggleComp.onChange(async (value: boolean) => {
+          this.plugin.settings.isDraggingFilesAndFoldersEnabled = value;
+          this.updateSettings();
+        });
       });
 
     new Setting(containerEl)
-      .setName("Show attachements folder")
+      .setName("Show attachments folder")
       .addToggle((toggleComp) => {
         toggleComp.setValue(this.plugin.settings.showAttachmentFolder);
-        toggleComp.onChange(this.updateSettings);
+        toggleComp.onChange(async (value: boolean) => {
+          this.plugin.settings.showAttachmentFolder = value;
+          this.updateSettings();
+        });
       });
   }
 
-  updateSettings = async (value: boolean) => {
-    this.plugin.settings.isDraggingFilesAndFoldersEnabled = value;
+  updateSettings = async () => {
     await this.plugin.saveSettings();
-    new Notice("Obsidian Notes Browser settings are updated");
     useStore.getState().setForceFilesystemUpdate();
     useStore.getState().setForceNotesViewUpdate();
   };

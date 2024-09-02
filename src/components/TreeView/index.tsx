@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useApp } from "hooks";
+import { useApp, usePlugin } from "hooks";
 import { TFolder, TAbstractFile, TFile } from "obsidian";
 import { useStore } from "store";
 import { sortFilesAlphabetically, toBoolean } from "utils";
@@ -10,7 +10,7 @@ import { NewFolderModal } from "components/CustomModals";
 
 export function TreeView() {
   const app = useApp();
-  const [root, setRoot] = useState<TAbstractFile | null>();
+  const [root, setRoot] = useState<TAbstractFile | null>(null);
   const forceFilesystemUpdate = useStore(
     (state) => state.forceFilesyetemUpdate
   );
@@ -54,22 +54,28 @@ export function TreeView() {
 
 interface FilesystemItemProps {
   folder: TFolder;
-  isRoot?: boolean;
-  attachementFolderPath?: string;
 }
 
 export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
-  const { folder, isRoot = false } = props;
+  const { folder } = props;
   const setNotes = useStore((state) => state.setNotes);
   const setCurrentActiveFolderPath = useStore(
     (state) => state.setCurrentActiveFolderPath
   );
 
-  const app = useApp();
-
+  const { app, settings } = usePlugin();
   const [isOpen, setIsOpen] = useState<boolean>(
     toBoolean(localStorage.getItem(folder.path))
   );
+  const [attachmentFolder, setAttachmentFolder] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!app) return;
+    app.fileManager
+      .getAvailablePathForAttachment("")
+      .then((path) => setAttachmentFolder(path.slice(0, -2)))
+      .catch(() => setAttachmentFolder(null));
+  }, [app]);
 
   const showNotesUnderFolder = useCallback((folder: TFolder) => {
     if (!app) return;
@@ -89,18 +95,10 @@ export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
     [isOpen]
   );
 
-  // Only render if it's not the root or if it's open
-  if (isRoot) {
-    return (
-      <ul className="onb-pl-6 onb-list-none">
-        {sortFilesAlphabetically(folder.children).map(
-          (folder) =>
-            folder instanceof TFolder && (
-              <FilesystemItem folder={folder} key={folder.name} />
-            )
-        )}
-      </ul>
-    );
+  const isAttachmentFolder = folder.path === attachmentFolder;
+
+  if (!settings.showAttachmentFolder && isAttachmentFolder) {
+    return null;
   }
 
   return (
@@ -114,12 +112,16 @@ export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
 
       {isOpen && (
         <ul className="onb-pl-2 onb-list-none onb-m-0">
-          {sortFilesAlphabetically(folder.children).map(
-            (folder) =>
-              folder instanceof TFolder && (
-                <FilesystemItem folder={folder} key={folder.path} />
-              )
-          )}
+          {sortFilesAlphabetically(folder.children).map((child) => {
+            if (child instanceof TFolder) {
+              if (
+                settings.showAttachmentFolder ||
+                child.path !== attachmentFolder
+              ) {
+                return <FilesystemItem folder={child} key={child.path} />;
+              }
+            }
+          })}
         </ul>
       )}
     </li>

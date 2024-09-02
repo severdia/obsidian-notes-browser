@@ -66,9 +66,10 @@ export const Note = memo(({ file }: NoteProps) => {
         app.fileManager
           .getAvailablePathForAttachment("")
           .then((path) => {
-            const attachementFolder = path.slice(0, path.length - 1);
+            //remove trailing slashed -> "//"
+            const attachmentFolder = path.slice(0, -2);
             const imageAbstractFile = app.vault.getAbstractFileByPath(
-              `${attachementFolder}${imageFilename}`
+              `${attachmentFolder}/${imageFilename}`
             );
             if (imageAbstractFile instanceof TFile) {
               const imageLink = app.vault.getResourcePath(imageAbstractFile);
