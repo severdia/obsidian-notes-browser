@@ -1,37 +1,53 @@
 import { useStore } from "store";
-import { memo, useMemo } from "react";
+import { HTMLAttributes, memo, useMemo } from "react";
 import { AutoSizer, List, ListRowProps } from "react-virtualized";
 import { List as ListIcon } from "components/Icons/List";
 import { Grid } from "components/Icons/Grid";
 import { Trash } from "components/Icons/Trash";
 import { Note } from "components/Note";
 
-const Tab = (props: React.ComponentProps<"div">) => (
-  <div
-    className="onb-h-fit onb-px-2 onb-flex onb-items-center onb-justify-center"
-    {...props}
-  >
-    {props.children}
-  </div>
-);
+interface TabProps extends HTMLAttributes<HTMLDivElement> {
+  tabId?: "LIST" | "GRID";
+}
 
-const NotesViewHeader = memo((props: React.ComponentProps<"div">) => {
-  const setNotesViewType = useStore((state) => state.setNotesViewType);
+const Tab = (props: TabProps) => {
+  const { setNotesViewType, notesViewType } = useStore((state) => ({
+    setNotesViewType: state.setNotesViewType,
+    notesViewType: state.notesViewType,
+  }));
+
+  const styleClasses =
+    notesViewType === props.tabId
+      ? "onb-bg-[#F2F2F2] onb-text-[#494a49]"
+      : "onb-text-[#757575]";
+  const { tabId, ...divProps } = props;
+
   return (
     <div
-      className="onb-flex onb-w-full onb-flex-row onb-border-0 onb-items-center onb-py-2 onb-border-b-[var(--divider-color)] onb-border-b-[1.5px] onb-justify-between onb-border-solid onb-px-2 onb-text-[var(--icon-color)]"
+      className={`onb-px-4 ${styleClasses} onb-py-4 onb-rounded-md  onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer`}
+      onClick={() => tabId && setNotesViewType(tabId)}
+      {...divProps}
+    >
+      {props.children}
+    </div>
+  );
+};
+const NotesViewHeader = memo((props: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className="onb-flex onb-w-full onb-flex-row onb-h-12 onb-border-0 onb-items-center onb-py-2 onb-border-b-[var(--divider-color)] onb-border-b-[1.5px] onb-justify-between onb-border-solid onb-px-2 onb-text-[var(--icon-color)]"
       {...props}
     >
-      <div className="onb-flex onb-w-fit onb-flex-row onb-items-center onb-justify-between">
-        <Tab onClick={() => setNotesViewType("LIST")}>
-          <ListIcon style={{ transform: "scale(1.5)" }} />
+      <div className="onb-flex onb-w-fit onb-flex-row onb-gap-1 onb-items-center onb-justify-between">
+        <Tab tabId="LIST">
+          <ListIcon style={{ transform: "scale(1.75)" }} />
         </Tab>
-        <Tab onClick={() => setNotesViewType("GRID")}>
-          <Grid style={{ transform: "scale(1.5)" }} />
+        <Tab tabId="GRID">
+          <Grid style={{ transform: "scale(1.75)" }} />
         </Tab>
       </div>
       <Tab>
-        <Trash style={{ transform: "scale(1.5)" }} />
+        <Trash style={{ transform: "scale(1.75)" }} />
       </Tab>
     </div>
   );
@@ -47,7 +63,7 @@ export function NotesView() {
     () => files.filter((file) => file.extension == "md"),
     [files]
   );
-  
+
   const RowRenderer = (props: ListRowProps) => (
     <div aria-label="" key={notes[props.index].path} style={props.style}>
       <Note file={notes[props.index]} />
