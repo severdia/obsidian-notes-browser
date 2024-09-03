@@ -13,12 +13,26 @@
 .onb-ml-6 {
     margin-left: 1.5rem
 }
+.onb-line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2
+}
+.onb-line-clamp-6 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6
+}
+.onb-line-clamp-\[7\] {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7
+}
 .onb-flex {
     display: flex
-}
-.onb-size-5 {
-    width: 1.25rem;
-    height: 1.25rem
 }
 .onb-size-6 {
     width: 1.5rem;
@@ -30,6 +44,10 @@
     height: -moz-fit-content;
     height: fit-content
 }
+.onb-size-9 {
+    width: 2.25rem;
+    height: 2.25rem
+}
 .onb-h-9 {
     height: 2.25rem
 }
@@ -39,6 +57,27 @@
 }
 .onb-h-full {
     height: 100%
+}
+.onb-h-16 {
+    height: 4rem
+}
+.onb-h-24 {
+    height: 6rem
+}
+.onb-h-\[196px\] {
+    height: 196px
+}
+.onb-h-\[1px\] {
+    height: 1px
+}
+.onb-h-\[186px\] {
+    height: 186px
+}
+.onb-h-\[148px\] {
+    height: 148px
+}
+.onb-h-7 {
+    height: 1.75rem
 }
 .onb-min-h-6 {
     min-height: 1.5rem
@@ -67,13 +106,11 @@
     min-width: -moz-fit-content;
     min-width: fit-content
 }
+.onb-max-w-full {
+    max-width: 100%
+}
 .onb-flex-grow {
     flex-grow: 1
-}
-.onb-scale-150 {
-    --tw-scale-x: 1.5;
-    --tw-scale-y: 1.5;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 .onb-list-none {
     list-style-type: none
@@ -105,6 +142,12 @@
 .onb-gap-2 {
     gap: 0.5rem
 }
+.onb-gap-7 {
+    gap: 1.75rem
+}
+.onb-gap-3 {
+    gap: 0.75rem
+}
 .onb-overflow-scroll {
     overflow: scroll
 }
@@ -125,11 +168,17 @@
 .onb-rounded-sm {
     border-radius: 0.125rem
 }
+.onb-rounded-lg {
+    border-radius: 0.5rem
+}
 .onb-border {
     border-width: 1px
 }
 .onb-border-0 {
     border-width: 0px
+}
+.onb-border-2 {
+    border-width: 2px
 }
 .onb-border-b-\[1\.5px\] {
     border-bottom-width: 1.5px
@@ -144,6 +193,10 @@
 .onb-border-gray-400 {
     --tw-border-opacity: 1;
     border-color: rgb(156 163 175 / var(--tw-border-opacity))
+}
+.onb-border-\[\#eaeaea\] {
+    --tw-border-opacity: 1;
+    border-color: rgb(234 234 234 / var(--tw-border-opacity))
 }
 .onb-border-b-\[var\(--divider-color\)\] {
     border-bottom-color: var(--divider-color)
@@ -167,15 +220,26 @@
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
-.onb-bg-blue-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(147 197 253 / var(--tw-bg-opacity))
+.onb-object-contain {
+    -o-object-fit: contain;
+       object-fit: contain
+}
+.onb-object-cover {
+    -o-object-fit: cover;
+       object-fit: cover
+}
+.onb-object-top {
+    -o-object-position: top;
+       object-position: top
 }
 .onb-p-2 {
     padding: 0.5rem
 }
 .onb-p-3 {
     padding: 0.75rem
+}
+.onb-p-0 {
+    padding: 0px
 }
 .onb-px-2 {
     padding-left: 0.5rem;
@@ -189,14 +253,18 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem
 }
+.onb-px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem
+}
 .onb-pl-2 {
     padding-left: 0.5rem
 }
-.onb-pl-6 {
-    padding-left: 1.5rem
-}
 .onb-pr-2 {
     padding-right: 0.5rem
+}
+.onb-pt-3 {
+    padding-top: 0.75rem
 }
 .onb-text-\[12px\] {
     font-size: 12px
@@ -209,6 +277,9 @@
 }
 .onb-font-semibold {
     font-weight: 600
+}
+.onb-font-bold {
+    font-weight: 700
 }
 .\!onb-text-white {
     --tw-text-opacity: 1 !important;

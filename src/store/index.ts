@@ -1,12 +1,16 @@
 import { TFile } from "obsidian";
 import { create } from "zustand";
 
+type NotesViewType = "LIST" | "GRID";
+
 interface State {
   notes: TFile[];
   currentActiveFilePath: string;
   currentActiveFolderPath: string;
   forceFilesyetemUpdate: number;
   forceNotesViewUpdate: number;
+  notesViewType: NotesViewType;
+  setNotesViewType: (notesViewType: NotesViewType) => void;
   setNotes: (notes: TFile[]) => void;
   setCurrentActiveFilePath: (file: string | null) => void;
   setCurrentActiveFolderPath: (folder: string | null) => void;
@@ -17,7 +21,10 @@ interface State {
 export const useStore = create<State>()((set) => ({
   notes: [],
   forceFilesyetemUpdate: 0,
+  notesViewType: "LIST",
   forceNotesViewUpdate: 0,
+  setNotesViewType: (notesViewType) =>
+    set((state) => ({ ...state, notesViewType: notesViewType })),
   setForceFilesystemUpdate: () =>
     set((state) => ({
       ...state,

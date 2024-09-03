@@ -5,9 +5,11 @@ import {
 } from "components/CustomModals";
 import { useDragHandlers, usePlugin } from "hooks";
 import { Menu, TFile } from "obsidian";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useStore } from "store";
 import { getLastModified } from "utils";
+import { NoteListView } from "./NoteListView";
+import { NoteGridView } from "./NoteGridView";
 
 interface NoteProps {
   file: TFile;
@@ -17,7 +19,11 @@ export const Note = memo(({ file }: NoteProps) => {
   const currentActiveFilePath = useStore(
     (state) => state.currentActiveFilePath
   );
-  const forceNotesViewUpdate = useStore((state) => state.forceNotesViewUpdate);
+  const { forceNotesViewUpdate, notesViewType } = useStore((state) => ({
+    forceNotesViewUpdate: state.forceNotesViewUpdate,
+    notesViewType: state.notesViewType,
+  }));
+
   const { app, settings } = usePlugin();
   const [imageLink, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
@@ -66,7 +72,7 @@ export const Note = memo(({ file }: NoteProps) => {
         app.fileManager
           .getAvailablePathForAttachment("")
           .then((path) => {
-            //remove trailing slashed -> "//"
+            //remove trailing slashed : "//" -> ""
             const attachmentFolder = path.slice(0, -2);
             const imageAbstractFile = app.vault.getAbstractFileByPath(
               `${attachmentFolder}/${imageFilename}`
@@ -81,7 +87,7 @@ export const Note = memo(({ file }: NoteProps) => {
     });
   }, [forceNotesViewUpdate]);
 
-  const openFile = () => {
+  const openFile = useCallback(() => {
     if (!app) return;
     const fileToOpen = app.vault.getAbstractFileByPath(file.path);
     if (!fileToOpen) return;
@@ -92,9 +98,9 @@ export const Note = memo(({ file }: NoteProps) => {
     });
 
     leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
-  };
+  }, []);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     if (!app) return;
     const confirmation = new BaseModal(app, () => (
       <ConfirmDeleteModal
@@ -105,16 +111,16 @@ export const Note = memo(({ file }: NoteProps) => {
     ));
 
     confirmation.open();
-  };
+  }, []);
 
-  const handleRename = () => {
+  const handleRename = useCallback(() => {
     if (!app) return;
     const renameFileModal = new BaseModal(app, () => (
       <RenameModal modal={renameFileModal} file={file} />
     ));
 
     renameFileModal.open();
-  };
+  }, []);
 
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!app) return;
@@ -146,34 +152,36 @@ export const Note = memo(({ file }: NoteProps) => {
   };
 
   return (
-    <div
-      className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row onb-items-center"`}
-      onClick={openFile}
-      draggable={settings.isDraggingFilesAndFoldersEnabled}
-      onDragStart={onDragStart}
-      data-path={file.path}
-      onContextMenu={handleContextMenu}
-    >
-      <div className="onb-flex-grow onb-flex-col onb-truncate">
-        <div className="onb-text-[14px] onb-font-semibold onb-truncate">
-          {file.basename}
-        </div>
-        <div className="onb-flex onb-flex-row onb-gap-2 onb-w-full">
-          <div className="onb-text-[12px] onb-font-normal onb-text-[#272727] onb-text-nowrap">
-            {getLastModified(file)}
-          </div>
-          <div className="onb-text-[#808080] onb-truncate onb-text-[12px]">
-            {description}
-          </div>
-        </div>
-      </div>
-      {imageLink && (
-        <img
-          src={imageLink}
-          alt=""
-          className="onb-border onb-h-9 onb-border-gray-300 onb-rounded"
+    <>
+      {notesViewType === "LIST" && (
+        <NoteListView
+          className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-row onb-items-center"`}
+          onClick={openFile}
+          draggable={settings.isDraggingFilesAndFoldersEnabled}
+          onDragStart={onDragStart}
+          data-path={file.path}
+          onContextMenu={handleContextMenu}
+          title={file.basename}
+          description={description}
+          imageLink={imageLink}
+          lastModificationTimeOrDate={getLastModified(file)}
         />
       )}
-    </div>
+
+      {notesViewType === "GRID" && (
+        <NoteGridView
+          className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
+          onClick={openFile}
+          draggable={settings.isDraggingFilesAndFoldersEnabled}
+          onDragStart={onDragStart}
+          data-path={file.path}
+          onContextMenu={handleContextMenu}
+          title={file.basename}
+          description={description}
+          imageLink={imageLink}
+          lastModificationTimeOrDate={getLastModified(file)}
+        />
+      )}
+    </>
   );
 });

@@ -61,7 +61,7 @@ export default class NotesBrowser extends Plugin {
   };
 
   onCreate = () => {
-    useStore.getState().setForceFilesystemUpdate();
+    this.updateNotesView();
   };
 
   onRename = () => {

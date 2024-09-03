@@ -1,28 +1,32 @@
 import { useStore } from "store";
-import { Note } from "components/Note";
-import { ReactNode } from "react";
+import { memo, useMemo } from "react";
 import { AutoSizer, List, ListRowProps } from "react-virtualized";
 import { List as ListIcon } from "components/Icons/List";
 import { Grid } from "components/Icons/Grid";
 import { Trash } from "components/Icons/Trash";
+import { Note } from "components/Note";
 
-const Tab = ({ children }: { children: ReactNode }) => (
-  <div className="onb-h-fit onb-px-2 onb-flex onb-items-center onb-justify-center">
-    {children}
+const Tab = (props: React.ComponentProps<"div">) => (
+  <div
+    className="onb-h-fit onb-px-2 onb-flex onb-items-center onb-justify-center"
+    {...props}
+  >
+    {props.children}
   </div>
 );
 
-const NotesViewHeader = (props: React.ComponentProps<"div">) => {
+const NotesViewHeader = memo((props: React.ComponentProps<"div">) => {
+  const setNotesViewType = useStore((state) => state.setNotesViewType);
   return (
     <div
       className="onb-flex onb-w-full onb-flex-row onb-border-0 onb-items-center onb-py-2 onb-border-b-[var(--divider-color)] onb-border-b-[1.5px] onb-justify-between onb-border-solid onb-px-2 onb-text-[var(--icon-color)]"
       {...props}
     >
       <div className="onb-flex onb-w-fit onb-flex-row onb-items-center onb-justify-between">
-        <Tab>
+        <Tab onClick={() => setNotesViewType("LIST")}>
           <ListIcon style={{ transform: "scale(1.5)" }} />
         </Tab>
-        <Tab>
+        <Tab onClick={() => setNotesViewType("GRID")}>
           <Grid style={{ transform: "scale(1.5)" }} />
         </Tab>
       </div>
@@ -31,11 +35,19 @@ const NotesViewHeader = (props: React.ComponentProps<"div">) => {
       </Tab>
     </div>
   );
-};
+});
 
 export function NotesView() {
-  const files = useStore((state) => state.notes);
-  const notes = files.filter((file) => file.extension == "md");
+  const { files, notesViewType } = useStore((state) => ({
+    files: state.notes,
+    notesViewType: state.notesViewType,
+  }));
+
+  const notes = useMemo(
+    () => files.filter((file) => file.extension == "md"),
+    [files]
+  );
+  
   const RowRenderer = (props: ListRowProps) => (
     <div aria-label="" key={notes[props.index].path} style={props.style}>
       <Note file={notes[props.index]} />
@@ -46,15 +58,16 @@ export function NotesView() {
     <div className="onb-flex onb-flex-col onb-bg-white onb-h-full onb-w-full  onb-flex-grow">
       <NotesViewHeader />
 
-      <div className="onb-w-full onb-h-full onb-p-2 onb-gap-2">
+      <div className="onb-w-full onb-h-full onb-py-2 onb-pl-2 onb-gap-2">
         {notes.length > 0 && (
           <AutoSizer>
             {({ height, width }) => (
               <List
+                className="onb-pr-2"
                 width={width}
                 height={height}
                 rowCount={notes.length}
-                rowHeight={64}
+                rowHeight={notesViewType === "LIST" ? 64 : 302}
                 rowRenderer={RowRenderer}
                 aria-label=""
               />
