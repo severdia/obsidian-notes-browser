@@ -152,6 +152,8 @@ export function Folder(props: Readonly<FolderProps>) {
     folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
+  const folderStyleClasses = isActive ? "onb-text-white" : "onb-text-[#006EF6]";
+
   return (
     <Dropzone
       onDragOver={enableDroppingEffect}
@@ -161,7 +163,7 @@ export function Folder(props: Readonly<FolderProps>) {
       onDragLeave={disableDroppingEffect}
       onDrop={handleOnDropFiles}
       noClick={true}
-      noDrag={settings.isDraggingFilesAndFoldersEnabled}
+      noDrag={settings.isDraggingFilesAndFoldersdisabled}
     >
       {({ getRootProps, getInputProps }) => (
         <div
@@ -173,7 +175,7 @@ export function Folder(props: Readonly<FolderProps>) {
           onDragLeave={disableDroppingEffect}
           onDrop={onDrop}
           data-path={props.folder.path}
-          draggable={settings.isDraggingFilesAndFoldersEnabled}
+          draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}
           onContextMenu={handleFolderContextMenu}
         >
@@ -210,14 +212,13 @@ export function Folder(props: Readonly<FolderProps>) {
             >
               <div className="onb-flex onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
                 <FolderOutline
-                  fill={isActive ? "white" : "#699FF9"}
-                  className="onb-size-fit onb-min-w-fit onb-min-h-fit"
+                  className={`onb-size-fit ${folderStyleClasses} onb-min-w-fit onb-min-h-fit`}
                 />
                 <div className="onb-truncate onb-text-[14px]">
                   {props.folder.name}
                 </div>
               </div>
-              <div className="onb-size-fit min-h-fit onb-min-w-fit">
+              <div className="onb-size-fit onb-text-[#9f9ea4] onb-text-[14px] min-h-fit onb-min-w-fit">
                 {props.folder.children?.length !== 0 && (
                   <span>{getNumberOfNotes(props.folder.children)}</span>
                 )}

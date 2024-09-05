@@ -4,13 +4,13 @@ import { useStore } from "store";
 import { SettingTab } from "./SettingTab";
 
 interface NotesBrowserSettings {
-  isDraggingFilesAndFoldersEnabled: boolean;
-  showAttachmentFolder: boolean;
+  isDraggingFilesAndFoldersdisabled: boolean;
+  hideAttachmentFolder: boolean;
 }
 
 const DEFAULT_SETTINGS: NotesBrowserSettings = {
-  isDraggingFilesAndFoldersEnabled: true,
-  showAttachmentFolder: true,
+  isDraggingFilesAndFoldersdisabled: false,
+  hideAttachmentFolder: false,
 };
 
 export default class NotesBrowser extends Plugin {

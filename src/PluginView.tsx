@@ -1,7 +1,7 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
 import { PluginUI } from "components/PluginView";
-import { PluginContext } from "utils";
+import { ObsidianConfigContext, PluginContext } from "utils";
 import NotesBrowser from "main";
 
 export const VIEW_TYPE = "obsidian-notes-browser";
@@ -29,10 +29,16 @@ export class PluginView extends ItemView {
 
   async onOpen() {
     this.root = createRoot(this.containerEl.children[1]);
+    const obsidianDefaultConfig = await this.plugin.app.vault.adapter.read(
+      `${this.plugin.app.vault.configDir}/app.json`
+    );
+
     this.root.render(
-      <PluginContext.Provider value={this.plugin}>
-        <PluginUI />
-      </PluginContext.Provider>
+      <ObsidianConfigContext.Provider value={JSON.parse(obsidianDefaultConfig)}>
+        <PluginContext.Provider value={this.plugin}>
+          <PluginUI />
+        </PluginContext.Provider>
+      </ObsidianConfigContext.Provider>
     );
   }
 

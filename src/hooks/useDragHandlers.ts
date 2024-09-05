@@ -12,6 +12,7 @@ export function useDragHandlers(abstractFile: TAbstractFile) {
 				"application/json",
 				JSON.stringify({ path: abstractFile.path, type: type })
 			);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const dragManager = (app as any).dragManager;
 			const dragData = dragManager.dragFile(e.nativeEvent, abstractFile);
 			dragManager.onDragStart(e.nativeEvent, dragData);

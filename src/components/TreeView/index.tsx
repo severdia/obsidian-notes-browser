@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useApp, usePlugin } from "hooks";
+import { useApp, useObsidianConfig, usePlugin } from "hooks";
 import { TFolder, TAbstractFile, TFile } from "obsidian";
 import { useStore } from "store";
 import { sortFilesAlphabetically, toBoolean } from "utils";
@@ -11,6 +11,7 @@ import { NewFolderModal } from "components/CustomModals";
 export function TreeView() {
   const app = useApp();
   const [root, setRoot] = useState<TAbstractFile | null>(null);
+
   const forceFilesystemUpdate = useStore(
     (state) => state.forceFilesyetemUpdate
   );
@@ -37,7 +38,7 @@ export function TreeView() {
   }, [forceFilesystemUpdate]);
 
   return (
-    <div className="onb-flex onb-flex-col onb-h-full onb-w-full onb-py-2 onb-pl-2">
+    <div className="onb-flex onb-flex-col onb-bg-[#e6e5e8] onb-overflow-x-hidden custom-scrollbar onb-h-full onb-w-full onb-py-2 onb-pl-2">
       <div className="onb-flex onb-flex-grow onb-overflow-scroll onb-flex-col onb-h-full onb-w-full onb-p-2">
         {root instanceof TFolder && <FilesystemItem folder={root} />}
       </div>
@@ -59,6 +60,9 @@ interface FilesystemItemProps {
 export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
   const { folder } = props;
   const setNotes = useStore((state) => state.setNotes);
+  const attachementFolderName = (
+    useObsidianConfig().attachmentFolderPath as string
+  ).replace("./", "");
   const setCurrentActiveFolderPath = useStore(
     (state) => state.setCurrentActiveFolderPath
   );
@@ -67,15 +71,6 @@ export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
   const [isOpen, setIsOpen] = useState<boolean>(
     toBoolean(localStorage.getItem(folder.path))
   );
-  const [attachmentFolder, setAttachmentFolder] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!app) return;
-    app.fileManager
-      .getAvailablePathForAttachment("")
-      .then((path) => setAttachmentFolder(path.slice(0, -2)))
-      .catch(() => setAttachmentFolder(null));
-  }, [app]);
 
   const showNotesUnderFolder = useCallback((folder: TFolder) => {
     if (!app) return;
@@ -95,9 +90,9 @@ export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
     [isOpen]
   );
 
-  const isAttachmentFolder = folder.path === attachmentFolder;
+  const isAttachmentFolder = folder.name === attachementFolderName;
 
-  if (!settings.showAttachmentFolder && isAttachmentFolder) {
+  if (settings.hideAttachmentFolder && isAttachmentFolder) {
     return null;
   }
 
@@ -115,8 +110,8 @@ export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
           {sortFilesAlphabetically(folder.children).map((child) => {
             if (child instanceof TFolder) {
               if (
-                settings.showAttachmentFolder ||
-                child.path !== attachmentFolder
+                settings.hideAttachmentFolder ||
+                child.name !== attachementFolderName
               ) {
                 return <FilesystemItem folder={child} key={child.path} />;
               }

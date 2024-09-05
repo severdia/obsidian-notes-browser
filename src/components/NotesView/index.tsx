@@ -5,6 +5,13 @@ import { List as ListIcon } from "components/Icons/List";
 import { Grid } from "components/Icons/Grid";
 import { Trash } from "components/Icons/Trash";
 import { Note } from "components/Note";
+import { Pencil } from "components/Icons/Pencil";
+import { useApp } from "hooks";
+import {
+  BaseModal,
+  ConfirmDeleteModal,
+  NewNoteModal,
+} from "components/CustomModals";
 
 interface TabProps extends HTMLAttributes<HTMLDivElement> {
   tabId?: "LIST" | "GRID";
@@ -24,7 +31,7 @@ const Tab = (props: TabProps) => {
 
   return (
     <div
-      className={`onb-px-4 ${styleClasses} onb-py-4 onb-rounded-md  onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer`}
+      className={`onb-px-4 ${styleClasses} onb-py-4 onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer`}
       onClick={() => tabId && setNotesViewType(tabId)}
       {...divProps}
     >
@@ -33,6 +40,38 @@ const Tab = (props: TabProps) => {
   );
 };
 const NotesViewHeader = memo((props: React.ComponentProps<"div">) => {
+  const app = useApp();
+  const { currentActiveFilePath, currentActiveFolderPath } = useStore(
+    (state) => ({
+      currentActiveFilePath: state.currentActiveFilePath,
+      currentActiveFolderPath: state.currentActiveFolderPath,
+    })
+  );
+
+  const handleDelete = () => {
+    if (!app) return;
+    const file = app.vault.getAbstractFileByPath(currentActiveFilePath);
+    if (!file) return;
+
+    const confirmation = new BaseModal(app, () => (
+      <ConfirmDeleteModal
+        modal={confirmation}
+        abstractFileName={file.name}
+        abstractFilePath={file.path}
+      />
+    ));
+
+    confirmation.open();
+  };
+
+  const handleNewNote = () => {
+    if (!app || currentActiveFolderPath === "null") return;
+    const newNoteModal = new BaseModal(app, () => (
+      <NewNoteModal modal={newNoteModal} folderPath={currentActiveFolderPath} />
+    ));
+    newNoteModal.open();
+  };
+
   return (
     <div
       className="onb-flex onb-w-full onb-flex-row onb-h-12 onb-border-0 onb-items-center onb-py-2 onb-border-b-[var(--divider-color)] onb-border-b-[1.5px] onb-justify-between onb-border-solid onb-px-2 onb-text-[var(--icon-color)]"
@@ -46,9 +85,20 @@ const NotesViewHeader = memo((props: React.ComponentProps<"div">) => {
           <Grid style={{ transform: "scale(1.75)" }} />
         </Tab>
       </div>
-      <Tab>
-        <Trash style={{ transform: "scale(1.75)" }} />
-      </Tab>
+      <div className="onb-flex onb-w-fit onb-flex-row onb-gap-1 onb-items-center onb-justify-between">
+        <div
+          className="onb-px-3 onb-py-4 onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
+          onClick={handleNewNote}
+        >
+          <Pencil style={{ transform: "scale(1.75)" }} />
+        </div>
+        <div
+          className="onb-px-3 onb-py-4 onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
+          onClick={handleDelete}
+        >
+          <Trash style={{ transform: "scale(1.75)" }} />
+        </div>
+      </div>
     </div>
   );
 });

@@ -157,7 +157,7 @@ export const Note = memo(({ file }: NoteProps) => {
         <NoteListView
           className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-select-none onb-flex onb-flex-row onb-items-center"`}
           onClick={openFile}
-          draggable={settings.isDraggingFilesAndFoldersEnabled}
+          draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}
           data-path={file.path}
           onContextMenu={handleContextMenu}
@@ -172,7 +172,7 @@ export const Note = memo(({ file }: NoteProps) => {
         <NoteGridView
           className={`onb-p-3 ${backgroundColorClass} onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
           onClick={openFile}
-          draggable={settings.isDraggingFilesAndFoldersEnabled}
+          draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}
           data-path={file.path}
           onContextMenu={handleContextMenu}

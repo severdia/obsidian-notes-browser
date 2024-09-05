@@ -21,7 +21,6 @@ export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
 
   const deleteFile = () => {
     if (!app) {
-      console.log('There is no app here')
       props.modal.close();
       return;
     }

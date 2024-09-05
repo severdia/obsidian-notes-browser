@@ -1,6 +1,6 @@
 export function Pencil(props: Readonly<React.SVGProps<SVGSVGElement>>) {
   return (
-    <svg width="12.9097" height="13.0041" {...props}>
+    <svg version="1.1" width="12.9097" height="13.0041" {...props}>
       <g>
         <rect height="13.0041" opacity="0" width="12.9097" x="0" y="0" />
         <path

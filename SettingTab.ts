@@ -16,23 +16,24 @@ export class SettingTab extends PluginSettingTab {
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName("Enable dragging folders & files")
+      .setName("Disable dragging folders and files")
       .addToggle((toggleComp) => {
         toggleComp.setValue(
-          this.plugin.settings.isDraggingFilesAndFoldersEnabled
+          this.plugin.settings.isDraggingFilesAndFoldersdisabled
         );
         toggleComp.onChange(async (value: boolean) => {
-          this.plugin.settings.isDraggingFilesAndFoldersEnabled = value;
+          this.plugin.settings.isDraggingFilesAndFoldersdisabled = value;
           this.updateSettings();
         });
       });
 
     new Setting(containerEl)
-      .setName("Show attachments folder")
+      .setName("Hide attachment folders")
+      .setDesc("This setting hides all folders with the name you set in the Files & Links setting.")
       .addToggle((toggleComp) => {
-        toggleComp.setValue(this.plugin.settings.showAttachmentFolder);
+        toggleComp.setValue(this.plugin.settings.hideAttachmentFolder);
         toggleComp.onChange(async (value: boolean) => {
-          this.plugin.settings.showAttachmentFolder = value;
+          this.plugin.settings.hideAttachmentFolder = value;
           this.updateSettings();
         });
       });
