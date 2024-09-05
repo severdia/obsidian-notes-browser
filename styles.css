@@ -7,6 +7,12 @@
 .\!onb-top-0 {
     top: 0px !important;
 }
+.onb-left-0 {
+    left: 0px;
+}
+.onb-top-0 {
+    top: 0px;
+}
 .onb-m-0 {
     margin: 0px;
 }
@@ -58,6 +64,12 @@
 .onb-h-full {
     height: 100%;
 }
+.onb-h-\[\] {
+    height: ;
+}
+.onb-h-\[275px\] {
+    height: 275px;
+}
 .onb-min-h-6 {
     min-height: 1.5rem;
 }
@@ -75,12 +87,24 @@
 .onb-w-full {
     width: 100%;
 }
+.onb-w-\[365px\] {
+    width: 365px;
+}
 .onb-min-w-6 {
     min-width: 1.5rem;
 }
 .onb-min-w-fit {
     min-width: -moz-fit-content;
     min-width: fit-content;
+}
+.onb-min-w-\[365px\] {
+    min-width: 365px;
+}
+.onb-min-w-\[3px\] {
+    min-width: 3px;
+}
+.onb-min-w-\[370px\] {
+    min-width: 370px;
 }
 .onb-max-w-full {
     max-width: 100%;
@@ -131,6 +155,12 @@
 }
 .onb-gap-7 {
     gap: 1.75rem;
+}
+.onb-gap-\[75px\] {
+    gap: 75px;
+}
+.onb-overflow-hidden {
+    overflow: hidden;
 }
 .onb-overflow-scroll {
     overflow: scroll;
@@ -211,6 +241,18 @@
 .onb-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.onb-bg-red-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
+.onb-bg-red-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+.onb-bg-green-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
 .onb-object-cover {
     -o-object-fit: cover;
@@ -316,6 +358,9 @@
 .onb-text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.onb-text-\[var\(--List-color\)\] {
+    color: var(--List-color);
 }
   .custom-scrollbar::-webkit-scrollbar {
     background-color: #e0dee4;

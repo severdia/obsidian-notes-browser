@@ -1,0 +1,27 @@
+import { Note } from "components/Note";
+import { TFile } from "obsidian";
+import { AutoSizer, List, ListRowProps } from "react-virtualized";
+
+export const ListView = ({ notes }: { notes: TFile[] }) => {
+  const RowRenderer = (props: ListRowProps) => (
+    <div aria-label="" key={notes[props.index].path} style={props.style}>
+      <Note file={notes[props.index]} />
+    </div>
+  );
+
+  return (
+    <AutoSizer>
+      {({ height, width }) => (
+        <List
+          className="onb-pr-2"
+          width={width}
+          height={height}
+          rowCount={notes.length}
+          rowHeight={64}
+          rowRenderer={RowRenderer}
+          aria-label=""
+        />
+      )}
+    </AutoSizer>
+  );
+};
