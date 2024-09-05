@@ -28,6 +28,7 @@ export class PluginView extends ItemView {
   }
 
   async onOpen() {
+    this.containerEl.setAttribute("id", "obsidian-note-browser")
     this.root = createRoot(this.containerEl.children[1]);
     const obsidianDefaultConfig = await this.plugin.app.vault.adapter.read(
       `${this.plugin.app.vault.configDir}/app.json`
