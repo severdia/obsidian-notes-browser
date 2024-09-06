@@ -1,8 +1,9 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { ItemView, TFile, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
 import { PluginUI } from "components/PluginView";
 import { ObsidianConfigContext, PluginContext } from "utils";
 import NotesBrowser from "main";
+import { useStore } from "store";
 
 export const VIEW_TYPE = "obsidian-notes-browser";
 
@@ -28,14 +29,39 @@ export class PluginView extends ItemView {
   }
 
   async onOpen() {
-    this.containerEl.setAttribute("id", "obsidian-note-browser")
+    this.containerEl.setAttribute("id", "obsidian-note-browser");
     this.root = createRoot(this.containerEl.children[1]);
-    const obsidianDefaultConfig = await this.plugin.app.vault.adapter.read(
+    const obsidianConfig = await this.plugin.app.vault.adapter.read(
       `${this.plugin.app.vault.configDir}/app.json`
     );
 
+    const workspaceRawData = await this.plugin.app.vault.adapter.read(
+      `${this.plugin.app.vault.configDir}/workspace.json`
+    );
+
+    const workspaceParsedData = JSON.parse(workspaceRawData);
+
+    const latestActiveFile = workspaceParsedData.lastOpenFiles[0];
+    const latestActiveFolder =
+      this.app.vault.getFileByPath(latestActiveFile)?.parent;
+
+    if (latestActiveFolder) {
+      useStore.getState().setCurrentActiveFolderPath(latestActiveFolder.path);
+      useStore.getState().setCurrentActiveFilePath(latestActiveFile);
+
+      const filesUnderFolder = latestActiveFolder.children;
+
+      useStore
+        .getState()
+        .setNotes(
+          filesUnderFolder.filter(
+            (abstractFile) => abstractFile instanceof TFile
+          )
+        );
+    }
+
     this.root.render(
-      <ObsidianConfigContext.Provider value={JSON.parse(obsidianDefaultConfig)}>
+      <ObsidianConfigContext.Provider value={JSON.parse(obsidianConfig)}>
         <PluginContext.Provider value={this.plugin}>
           <PluginUI />
         </PluginContext.Provider>

@@ -35,8 +35,8 @@ export const useStore = create<State>()((set) => ({
       ...state,
       forceNotesViewUpdate: state.forceNotesViewUpdate + 1,
     })),
-  currentActiveFilePath: `${localStorage.getItem("LatestActiveFile")}`,
-  currentActiveFolderPath: `${localStorage.getItem("LatestActiveFolder")}`,
+  currentActiveFilePath: "",
+  currentActiveFolderPath: "",
   setNotes: (newNotes) => set((state) => ({ ...state, notes: newNotes })),
   setCurrentActiveFilePath: (path: string | null) =>
     set((state) => {

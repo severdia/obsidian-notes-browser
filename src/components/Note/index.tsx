@@ -170,7 +170,7 @@ export const Note = memo(({ file }: NoteProps) => {
 
       {notesViewType === "GRID" && (
         <NoteGridView
-          className={`onb-p-3 ${backgroundColorClass} onb-w-[365px] onb-h-[275px] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
+          className={`onb-p-3 ${backgroundColorClass} onb-max-w-[365px] onb-w-full onb-h-[300px] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
           onClick={openFile}
           draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}

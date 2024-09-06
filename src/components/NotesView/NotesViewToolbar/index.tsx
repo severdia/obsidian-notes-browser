@@ -60,13 +60,13 @@ export const NotesViewToolbar = memo((props: React.ComponentProps<"div">) => {
       </div>
       <div className="onb-flex onb-w-fit onb-flex-row onb-gap-1 onb-items-center onb-justify-between">
         <div
-          className="onb-px-3 onb-py-4 onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
+          className="onb-px-3 onb-py-4 onb-text-[#757575] onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
           onClick={handleNewNote}
         >
           <Pencil style={{ transform: "scale(1.75)" }} />
         </div>
         <div
-          className="onb-px-3 onb-py-4 onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
+          className="onb-px-3 onb-py-4 onb-text-[#757575] onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
           onClick={handleDelete}
         >
           <Trash style={{ transform: "scale(1.75)" }} />
