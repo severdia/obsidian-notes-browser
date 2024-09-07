@@ -28,8 +28,12 @@ export const Note = memo(({ file }: NoteProps) => {
   const [imageLink, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
-  const backgroundColorClass =
-    currentActiveFilePath == file.path ? "onb-bg-gray-200" : "onb-bg-white";
+  const isSelected = currentActiveFilePath == file.path;
+  const backgroundColorClass = isSelected
+    ? "onb-bg-gray-200 onb-rounded-md onb-z-10"
+    : "onb-bg-white";
+
+  const seperatorClasses = isSelected ? "" : "onb-bg-gray-400  -onb-mt-[1px]";
 
   useEffect(() => {
     if (!app) return;
@@ -154,18 +158,25 @@ export const Note = memo(({ file }: NoteProps) => {
   return (
     <>
       {notesViewType === "LIST" && (
-        <NoteListView
-          className={`onb-p-3 ${backgroundColorClass} onb-rounded onb-select-none onb-flex onb-flex-row onb-items-center"`}
-          onClick={openFile}
-          draggable={!settings.isDraggingFilesAndFoldersdisabled}
-          onDragStart={onDragStart}
-          data-path={file.path}
-          onContextMenu={handleContextMenu}
-          title={file.basename}
-          description={description}
-          imageLink={imageLink}
-          lastModificationTimeOrDate={getLastModified(file)}
-        />
+        <div
+          className={`onb-size-full onb-flex onb-flex-col onb-justify-between ${backgroundColorClass}`}
+        >
+          <div className="onb-w-full onb-px-[30px] onb-h-fit">
+            <div className={`onb-w-full ${seperatorClasses} onb-h-[1px]`} />
+          </div>
+          <NoteListView
+            className={`onb-p-3 ${backgroundColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}
+            onClick={openFile}
+            draggable={!settings.isDraggingFilesAndFoldersdisabled}
+            onDragStart={onDragStart}
+            data-path={file.path}
+            onContextMenu={handleContextMenu}
+            title={file.basename}
+            description={description}
+            imageLink={imageLink}
+            lastModificationTimeOrDate={getLastModified(file)}
+          />
+        </div>
       )}
 
       {notesViewType === "GRID" && (
