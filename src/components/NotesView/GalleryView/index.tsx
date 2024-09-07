@@ -13,12 +13,7 @@ export const GalleryView = ({ notes }: { notes: TFile[] }) => (
 
       const GridRowRenderer = (props: ListRowProps) => (
         <div aria-label="" key={notes[props.index].path} style={props.style}>
-          <div
-            className="onb-flex onb-flex-row onb-justify-between"
-            style={{
-              gap: "min(175px, max(40px, (100% - 365px * maxColumns) / (maxColumns - 1)))",
-            }}
-          >
+          <div className="onb-flex onb-flex-row onb-justify-between">
             {notes
               .slice(
                 maxColumns * props.index,

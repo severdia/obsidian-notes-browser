@@ -1,6 +1,4 @@
-export function FolderOutline(
-  props: Readonly<React.SVGProps<SVGSVGElement>>
-) {
+export function FolderOutline(props: Readonly<React.SVGProps<SVGSVGElement>>) {
   return (
     <svg width="16.1279" height="12.8408" {...props}>
       <g>

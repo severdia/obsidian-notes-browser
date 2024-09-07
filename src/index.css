@@ -1,5 +1,33 @@
 @tailwind utilities;
 @layer utilities {
+  :root {
+    /* Notes related variables */
+    /* --> Common */
+    --onb-note-background-active: #e5e7eb;
+    --onb-note-text-title-size: 14px;
+    --onb-note-text-description-size: 12px;
+    --onb-note-text-description-color: #808080;
+    --onb-note-text-date-color: #272727;
+
+    /* --> Grid View*/
+    --onb-note-grid-width: 365px;
+    --onb-note-grid-height: 300px;
+    --onb-note-grid-border-color: #eaeaea;
+    --onb-note-grid-thumbnail-height: 148px;
+
+    /* Divider related variables */
+    --onb-divider-background: #e6e6e6;
+    --onb-divider-padding-x: 30px;
+    --onb-divider-height: 1px;
+
+    /* Folder related variables */
+    --onb-folder-background-active: #6aa0f9;
+    --onb-folder-icon-color: #006ef6;
+    --onb-folder-background-hover: #c7c6ca;
+    --onb-folder-text-color: #9f9ea4;
+    --onb-folder-text-size: 14px;
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     background-color: #e0dee4;
   }
@@ -19,12 +47,12 @@
     -webkit-background-clip: padding;
     background-clip: padding-box;
   }
-  
+
   .Resizer:hover {
     -webkit-transition: all 2s ease;
     transition: all 2s ease;
   }
-  
+
   .Resizer.vertical {
     width: 11px;
     z-index: 100;
@@ -33,11 +61,11 @@
     border-right: 5px solid rgba(255, 255, 255, 0);
     cursor: col-resize;
   }
-  
+
   .Resizer.disabled {
     cursor: not-allowed;
   }
-  
+
   .Resizer.disabled:hover {
     border-color: transparent;
   }

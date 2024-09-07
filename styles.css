@@ -10,17 +10,14 @@
 .onb-z-10 {
     z-index: 10;
 }
-.onb-z-20 {
-    z-index: 20;
-}
 .onb-m-0 {
     margin: 0px;
 }
+.-onb-mt-\[--onb-divider-height\] {
+    margin-top: calc(var(--onb-divider-height) * -1);
+}
 .onb-ml-6 {
     margin-left: 1.5rem;
-}
-.-onb-mt-\[1px\] {
-    margin-top: -1px;
 }
 .onb-line-clamp-2 {
     overflow: hidden;
@@ -64,14 +61,14 @@
 .onb-h-5 {
     height: 1.25rem;
 }
-.onb-h-\[148px\] {
-    height: 148px;
+.onb-h-\[--onb-divider-height\] {
+    height: var(--onb-divider-height);
 }
-.onb-h-\[1px\] {
-    height: 1px;
+.onb-h-\[--onb-note-grid-height\] {
+    height: var(--onb-note-grid-height);
 }
-.onb-h-\[300px\] {
-    height: 300px;
+.onb-h-\[--onb-note-grid-thumbnail-height\] {
+    height: var(--onb-note-grid-thumbnail-height);
 }
 .onb-h-fit {
     height: -moz-fit-content;
@@ -104,8 +101,8 @@
     min-width: -moz-fit-content;
     min-width: fit-content;
 }
-.onb-max-w-\[365px\] {
-    max-width: 365px;
+.onb-max-w-\[--onb-note-grid-width\] {
+    max-width: var(--onb-note-grid-width);
 }
 .onb-max-w-full {
     max-width: 100%;
@@ -157,9 +154,6 @@
 .onb-gap-7 {
     gap: 1.75rem;
 }
-.onb-overflow-visible {
-    overflow: visible;
-}
 .onb-overflow-scroll {
     overflow: scroll;
 }
@@ -204,12 +198,8 @@
 .onb-border-solid {
     border-style: solid;
 }
-.onb-border-none {
-    border-style: none;
-}
-.onb-border-\[\#eaeaea\] {
-    --tw-border-opacity: 1;
-    border-color: rgb(234 234 234 / var(--tw-border-opacity));
+.onb-border-\[color\:--onb-note-grid-border-color\] {
+    border-color: var(--onb-note-grid-border-color);
 }
 .onb-border-gray-300 {
     --tw-border-opacity: 1;
@@ -222,29 +212,25 @@
 .onb-border-b-\[var\(--divider-color\)\] {
     border-bottom-color: var(--divider-color);
 }
-.onb-bg-\[\#6AA0F9\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(106 160 249 / var(--tw-bg-opacity));
-}
 .onb-bg-\[\#F2F2F2\] {
     --tw-bg-opacity: 1;
     background-color: rgb(242 242 242 / var(--tw-bg-opacity));
-}
-.onb-bg-\[\#c7c6ca\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(199 198 202 / var(--tw-bg-opacity));
 }
 .onb-bg-\[\#e6e5e8\] {
     --tw-bg-opacity: 1;
     background-color: rgb(230 229 232 / var(--tw-bg-opacity));
 }
-.onb-bg-gray-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+.onb-bg-\[--onb-divider-background\] {
+    background-color: var(--onb-divider-background);
 }
-.onb-bg-gray-400 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+.onb-bg-\[--onb-folder-background-active\] {
+    background-color: var(--onb-folder-background-active);
+}
+.onb-bg-\[--onb-folder-background-hover\] {
+    background-color: var(--onb-folder-background-hover);
+}
+.onb-bg-\[--onb-note-background-active\] {
+    background-color: var(--onb-note-background-active);
 }
 .onb-bg-white {
     --tw-bg-opacity: 1;
@@ -276,9 +262,9 @@
     padding-left: 1rem;
     padding-right: 1rem;
 }
-.onb-px-\[30px\] {
-    padding-left: 30px;
-    padding-right: 30px;
+.onb-px-\[--onb-divider-padding-x\] {
+    padding-left: var(--onb-divider-padding-x);
+    padding-right: var(--onb-divider-padding-x);
 }
 .onb-py-1 {
     padding-top: 0.25rem;
@@ -301,11 +287,23 @@
 .onb-pt-3 {
     padding-top: 0.75rem;
 }
-.onb-text-\[12px\] {
-    font-size: 12px;
-}
 .onb-text-\[14px\] {
     font-size: 14px;
+}
+.onb-text-\[length\:--onb-note-text-description-color\] {
+    font-size: var(--onb-note-text-description-color);
+}
+.onb-text-\[length\:--onb-note-text-description-size\] {
+    font-size: var(--onb-note-text-description-size);
+}
+.onb-text-\[length\:--onb-note-text-title-size\] {
+    font-size: var(--onb-note-text-title-size);
+}
+.onb-text-\[length\:14px\] {
+    font-size: 14px;
+}
+.onb-text-\[length\:--onb-folder-text-size\] {
+    font-size: var(--onb-folder-text-size);
 }
 .onb-font-bold {
     font-weight: 700;
@@ -320,14 +318,6 @@
     --tw-text-opacity: 1 !important;
     color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
-.onb-text-\[\#006EF6\] {
-    --tw-text-opacity: 1;
-    color: rgb(0 110 246 / var(--tw-text-opacity));
-}
-.onb-text-\[\#272727\] {
-    --tw-text-opacity: 1;
-    color: rgb(39 39 39 / var(--tw-text-opacity));
-}
 .onb-text-\[\#494a49\] {
     --tw-text-opacity: 1;
     color: rgb(73 74 73 / var(--tw-text-opacity));
@@ -340,13 +330,17 @@
     --tw-text-opacity: 1;
     color: rgb(117 117 117 / var(--tw-text-opacity));
 }
-.onb-text-\[\#808080\] {
-    --tw-text-opacity: 1;
-    color: rgb(128 128 128 / var(--tw-text-opacity));
+.onb-text-\[--onb-folder-icon-color\] {
+    color: var(--onb-folder-icon-color);
 }
-.onb-text-\[\#9f9ea4\] {
-    --tw-text-opacity: 1;
-    color: rgb(159 158 164 / var(--tw-text-opacity));
+.onb-text-\[color\:--onb-folder-text-color\] {
+    color: var(--onb-folder-text-color);
+}
+.onb-text-\[color\:--onb-note-text-date-color\] {
+    color: var(--onb-note-text-date-color);
+}
+.onb-text-\[color\:--onb-note-text-description-color\] {
+    color: var(--onb-note-text-description-color);
 }
 .onb-text-\[var\(--List-color\)\] {
     color: var(--List-color);
@@ -359,13 +353,41 @@
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+  :root {
+    /* Notes related variables */
+    /* --> Common */
+    --onb-note-background-active: #e5e7eb;
+    --onb-note-text-title-size: 14px;
+    --onb-note-text-description-size: 12px;
+    --onb-note-text-description-color: #808080;
+    --onb-note-text-date-color: #272727;
+
+    /* --> Grid View*/
+    --onb-note-grid-width: 365px;
+    --onb-note-grid-height: 300px;
+    --onb-note-grid-border-color: #eaeaea;
+    --onb-note-grid-thumbnail-height: 148px;
+
+    /* Divider related variables */
+    --onb-divider-background: #e6e6e6;
+    --onb-divider-padding-x: 30px;
+    --onb-divider-height: 1px;
+
+    /* Folder related variables */
+    --onb-folder-background-active: #6aa0f9;
+    --onb-folder-icon-color: #006ef6;
+    --onb-folder-background-hover: #c7c6ca;
+    --onb-folder-text-color: #9f9ea4;
+    --onb-folder-text-size: 14px;
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     background-color: #e0dee4;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #afaeb2;
   }
-  
+
   .Resizer.vertical {
     width: 11px;
     z-index: 100;

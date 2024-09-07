@@ -15,14 +15,14 @@ export const NoteListView = memo(
     return (
       <div {...divProps}>
         <div className="onb-flex-grow onb-flex-col onb-truncate">
-          <div className="onb-text-[14px] onb-font-semibold onb-truncate">
+          <div className="onb-text-[length:--onb-note-text-title-size] onb-font-semibold onb-truncate">
             {title}
           </div>
           <div className="onb-flex onb-flex-row onb-gap-2 onb-w-full">
-            <div className="onb-text-[12px] onb-font-normal onb-text-[#272727] onb-text-nowrap">
+            <div className="onb-text-[length:--onb-note-text-description-size] onb-font-normal onb-text-[color:--onb-note-text-date-color] onb-text-nowrap">
               {lastModificationTimeOrDate}
             </div>
-            <div className="onb-text-[#808080] onb-truncate onb-text-[12px]">
+            <div className="onb-text-[color:--onb-note-text-description-color] onb-truncate onb-text-[length:--onb-note-text-description-size]">
               {description}
             </div>
           </div>

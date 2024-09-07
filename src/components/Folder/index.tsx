@@ -33,7 +33,7 @@ export function Folder(props: Readonly<FolderProps>) {
 
   const isActive = currentActiveFolderPath === props.folder.path;
   const activeBackgroundColor = isActive
-    ? "onb-bg-[#6AA0F9] !onb-text-white"
+    ? "onb-bg-[--onb-folder-background-active] !onb-text-white"
     : "";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
@@ -152,7 +152,9 @@ export function Folder(props: Readonly<FolderProps>) {
     folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
-  const folderStyleClasses = isActive ? "onb-text-white" : "onb-text-[#006EF6]";
+  const folderStyleClasses = isActive
+    ? "onb-text-white"
+    : "onb-text-[--onb-folder-icon-color]";
 
   return (
     <Dropzone
@@ -168,7 +170,9 @@ export function Folder(props: Readonly<FolderProps>) {
       {({ getRootProps, getInputProps }) => (
         <div
           className={`onb-w-full ${activeBackgroundColor} onb-flex onb-rounded-sm onb-items-center onb-justify-between onb-pr-2 ${
-            !isActive && isDropping ? "onb-bg-[#c7c6ca]" : ""
+            !isActive && isDropping
+              ? "onb-bg-[--onb-folder-background-hover]"
+              : ""
           }`}
           onDragOver={enableDroppingEffect}
           onDragEnter={enableDroppingEffect}
@@ -182,7 +186,9 @@ export function Folder(props: Readonly<FolderProps>) {
           <div
             {...getRootProps()}
             className={`onb-w-full onb-flex onb-rounded-sm onb-items-center onb-justify-between ${
-              !isActive && isDropping ? "onb-bg-[#c7c6ca]" : ""
+              !isActive && isDropping
+                ? "onb-bg-[--onb-folder-background-hover]"
+                : ""
             }`}
           >
             <input {...getInputProps()} />
@@ -214,11 +220,11 @@ export function Folder(props: Readonly<FolderProps>) {
                 <FolderOutline
                   className={`onb-size-fit ${folderStyleClasses} onb-min-w-fit onb-min-h-fit`}
                 />
-                <div className="onb-truncate onb-text-[14px]">
+                <div className="onb-truncate onb-text-[length:--onb-folder-text-size]">
                   {props.folder.name}
                 </div>
               </div>
-              <div className="onb-size-fit onb-text-[#9f9ea4] onb-text-[14px] min-h-fit onb-min-w-fit">
+              <div className="onb-size-fit onb-text-[color:--onb-folder-text-color] onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit">
                 {props.folder.children?.length !== 0 && (
                   <span>{getNumberOfNotes(props.folder.children)}</span>
                 )}

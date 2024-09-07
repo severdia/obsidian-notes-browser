@@ -30,10 +30,12 @@ export const Note = memo(({ file }: NoteProps) => {
   const { onDragStart } = useDragHandlers(file);
   const isSelected = currentActiveFilePath == file.path;
   const backgroundColorClass = isSelected
-    ? "onb-bg-gray-200 onb-rounded-md onb-z-10"
+    ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
     : "onb-bg-white";
 
-  const seperatorClasses = isSelected ? "" : "onb-bg-gray-400  -onb-mt-[1px]";
+  const seperatorClasses = isSelected
+    ? ""
+    : "onb-bg-[--onb-divider-background] -onb-mt-[--onb-divider-height]";
 
   useEffect(() => {
     if (!app) return;
@@ -154,15 +156,15 @@ export const Note = memo(({ file }: NoteProps) => {
 
     fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
-
+ 
   return (
     <>
       {notesViewType === "LIST" && (
         <div
           className={`onb-size-full onb-flex onb-flex-col onb-justify-between ${backgroundColorClass}`}
         >
-          <div className="onb-w-full onb-px-[30px] onb-h-fit">
-            <div className={`onb-w-full ${seperatorClasses} onb-h-[1px]`} />
+          <div className="onb-w-full onb-px-[--onb-divider-padding-x] onb-h-fit">
+            <div className={`onb-w-full ${seperatorClasses} onb-h-[--onb-divider-height]`} />
           </div>
           <NoteListView
             className={`onb-p-3 ${backgroundColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}
@@ -181,7 +183,7 @@ export const Note = memo(({ file }: NoteProps) => {
 
       {notesViewType === "GRID" && (
         <NoteGridView
-          className={`onb-p-3 ${backgroundColorClass} onb-max-w-[365px] onb-w-full onb-h-[300px] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
+          className={`onb-p-3 ${backgroundColorClass} onb-w-full onb-max-w-[--onb-note-grid-width] onb-h-[--onb-note-grid-height] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
           onClick={openFile}
           draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}
