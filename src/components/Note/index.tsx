@@ -7,12 +7,17 @@ import { useDragHandlers, usePlugin } from "hooks";
 import { Menu, TFile } from "obsidian";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useStore } from "store";
-import { getLastModified } from "utils";
+import { extractImageLink, getLastModified } from "utils";
 import { NoteListView } from "./NoteListView";
 import { NoteGridView } from "./NoteGridView";
 
+interface CustomTFile extends TFile {
+  deleted?: boolean;
+  content?: string;
+}
+
 interface NoteProps {
-  file: TFile;
+  file: CustomTFile;
 }
 
 export const Note = memo(({ file }: NoteProps) => {
@@ -39,59 +44,26 @@ export const Note = memo(({ file }: NoteProps) => {
 
   useEffect(() => {
     if (!app) return;
-    const content = app.vault.cachedRead(file);
-    content.then((text) => {
-      setDescription(text.slice(0, Math.max(text.length, 400)));
-      const localImageRegexPattern = /!\[\[(.*?)\]\]/;
-      const firstLocalExtractedImage = RegExp(localImageRegexPattern).exec(
-        text
-      );
 
-      const remoteImageRegexPattern = /!\[\]\((https?:\/\/[^)]+)\)/;
-      const firstRemoteExtractedImage = RegExp(remoteImageRegexPattern).exec(
-        text
-      );
+    const updateContent = async (content: string) => {
+      setDescription(content.slice(0, Math.min(content.length, 400)));
+      const imageLink = await extractImageLink(app, content);
+      setImageLink(imageLink);
+    };
 
-      if (!firstLocalExtractedImage && !firstRemoteExtractedImage) {
-        setImageLink(null);
+    const getContent = async () => {
+      if (file.deleted) {
+        const content = file.content ?? "";
+        await updateContent(content);
         return;
       }
+      
+      const content = await app.vault.cachedRead(file);
+      await updateContent(content);
+    };
 
-      if (
-        (!firstLocalExtractedImage && firstRemoteExtractedImage) ||
-        (firstLocalExtractedImage &&
-          firstRemoteExtractedImage &&
-          firstLocalExtractedImage.index > firstRemoteExtractedImage.index)
-      ) {
-        setImageLink(firstRemoteExtractedImage[1]);
-        return;
-      }
-
-      if (
-        (firstLocalExtractedImage && !firstRemoteExtractedImage) ||
-        (firstLocalExtractedImage &&
-          firstRemoteExtractedImage &&
-          firstLocalExtractedImage.index < firstRemoteExtractedImage.index)
-      ) {
-        const imageFilename = firstLocalExtractedImage[1];
-
-        app.fileManager
-          .getAvailablePathForAttachment("")
-          .then((path) => {
-            //remove trailing slashed : "//" -> ""
-            const attachmentFolder = path.slice(0, -2);
-            const imageAbstractFile = app.vault.getAbstractFileByPath(
-              `${attachmentFolder}/${imageFilename}`
-            );
-            if (imageAbstractFile instanceof TFile) {
-              const imageLink = app.vault.getResourcePath(imageAbstractFile);
-              setImageLink(imageLink);
-            }
-          })
-          .catch(() => setImageLink(null));
-      }
-    });
-  }, [forceNotesViewUpdate]);
+    getContent();
+  }, [app, file, forceNotesViewUpdate]);
 
   const openFile = useCallback(() => {
     if (!app) return;
@@ -156,7 +128,7 @@ export const Note = memo(({ file }: NoteProps) => {
 
     fileMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
- 
+
   return (
     <>
       {notesViewType === "LIST" && (
@@ -164,7 +136,9 @@ export const Note = memo(({ file }: NoteProps) => {
           className={`onb-size-full onb-flex onb-flex-col onb-justify-between ${backgroundColorClass}`}
         >
           <div className="onb-w-full onb-px-[--onb-divider-padding-x] onb-h-fit">
-            <div className={`onb-w-full ${seperatorClasses} onb-h-[--onb-divider-height]`} />
+            <div
+              className={`onb-w-full ${seperatorClasses} onb-h-[--onb-divider-height]`}
+            />
           </div>
           <NoteListView
             className={`onb-p-3 ${backgroundColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}

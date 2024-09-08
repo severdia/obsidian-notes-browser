@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { useApp, useObsidianConfig, usePlugin } from "hooks";
-import { TFolder, TAbstractFile, TFile } from "obsidian";
+import { useEffect, useState } from "react";
+import { useApp } from "hooks";
+import { TFolder, TAbstractFile } from "obsidian";
 import { useStore } from "store";
-import { sortFilesAlphabetically, toBoolean } from "utils";
-import { Folder } from "components/Folder";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { BaseModal } from "components/CustomModals/BaseModal";
 import { NewFolderModal } from "components/CustomModals";
+import { TrashFolder } from "./TrashFolder";
+import { Filesystem } from "./Filesystem";
 
 export function TreeView() {
   const app = useApp();
@@ -38,10 +38,14 @@ export function TreeView() {
   }, [forceFilesystemUpdate]);
 
   return (
-    <div className="onb-flex onb-flex-col onb-bg-[#e6e5e8] onb-overflow-x-hidden custom-scrollbar onb-h-full onb-w-full onb-py-2 onb-pl-2">
-      <div className="onb-flex onb-flex-grow onb-overflow-scroll onb-flex-col onb-h-full onb-w-full onb-p-2">
-        {root instanceof TFolder && <FilesystemItem folder={root} />}
+    <div className="onb-flex onb-flex-col onb-bg-[--onb-filesystem-background-color] onb-overflow-x-hidden custom-scrollbar onb-h-full onb-w-full onb-pt-2 onb-pl-2">
+      <div className="onb-px-2 onb-overflow-scroll onb-w-full onb-flex-grow">
+        <div className="onb-flex onb-h-fit onb-flex-col onb-w-full">
+          {root instanceof TFolder && <Filesystem folder={root} />}
+        </div>
+        <TrashFolder />
       </div>
+
       <div
         onClick={handleNewFolder}
         className="onb-w-[calc(100%-8px)] onb-flex onb-flex-row onb-items-center onb-gap-1 onb-py-1 onb-px-2 onb-rounded-sm hover:onb-bg-gray-200 hover:onb-cursor-pointer"
@@ -50,75 +54,5 @@ export function TreeView() {
         <span>New Folder</span>
       </div>
     </div>
-  );
-}
-
-interface FilesystemItemProps {
-  folder: TFolder;
-}
-
-export function FilesystemItem(props: Readonly<FilesystemItemProps>) {
-  const { folder } = props;
-  const setNotes = useStore((state) => state.setNotes);
-  const attachementFolderName = (
-    useObsidianConfig().attachmentFolderPath as string
-  ).replace("./", "");
-  const setCurrentActiveFolderPath = useStore(
-    (state) => state.setCurrentActiveFolderPath
-  );
-
-  const { app, settings } = usePlugin();
-  const [isOpen, setIsOpen] = useState<boolean>(
-    toBoolean(localStorage.getItem(folder.path))
-  );
-
-  const showNotesUnderFolder = useCallback((folder: TFolder) => {
-    if (!app) return;
-    const filesUnderFolder = app.vault.getFolderByPath(folder.path)?.children;
-    if (!filesUnderFolder) return;
-    setCurrentActiveFolderPath(folder.path);
-    setNotes(
-      filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
-    );
-  }, []);
-
-  const showSubfolders = useCallback(
-    (folder: TFolder) => {
-      localStorage.setItem(folder.path, `${!isOpen}`);
-      setIsOpen(!isOpen);
-    },
-    [isOpen]
-  );
-
-  const isAttachmentFolder = folder.name === attachementFolderName;
-
-  if (settings.hideAttachmentFolder && isAttachmentFolder) {
-    return null;
-  }
-
-  return (
-    <li key={folder.path} className="onb-list-none onb-w-full">
-      <Folder
-        folder={folder}
-        onClickChevron={() => showSubfolders(folder)}
-        onClickFolder={() => showNotesUnderFolder(folder)}
-        isOpen={isOpen}
-      />
-
-      {isOpen && (
-        <ul className="onb-pl-2 onb-list-none onb-m-0">
-          {sortFilesAlphabetically(folder.children).map((child) => {
-            if (child instanceof TFolder) {
-              if (
-                settings.hideAttachmentFolder ||
-                child.name !== attachementFolderName
-              ) {
-                return <FilesystemItem folder={child} key={child.path} />;
-              }
-            }
-          })}
-        </ul>
-      )}
-    </li>
   );
 }

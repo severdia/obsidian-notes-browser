@@ -4,7 +4,12 @@ import { AutoSizer, List, ListRowProps } from "react-virtualized";
 
 export const ListView = ({ notes }: { notes: TFile[] }) => {
   const RowRenderer = (props: ListRowProps) => (
-    <div aria-label="" key={notes[props.index].path} style={props.style} className="onb-overflow-y-visible">
+    <div
+      aria-label=""
+      key={notes[props.index].path}
+      style={props.style}
+      className="onb-overflow-y-visible"
+    >
       <Note file={notes[props.index]} />
     </div>
   );

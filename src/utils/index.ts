@@ -1,5 +1,5 @@
 import { useObsidianConfig } from "hooks";
-import { TAbstractFile, TFile, TFolder } from "obsidian";
+import { App, TAbstractFile, TFile, TFolder } from "obsidian";
 
 export { PluginContext } from "./PluginContext";
 export { AppContext } from "./AppContext";
@@ -49,3 +49,48 @@ export function getLastModified(note: TFile) {
     return lastModified.toLocaleDateString();
   }
 }
+
+export const extractImageLink = async (app: App, text: string) => {
+  const localImageRegexPattern = /!\[\[(.*?)\]\]/;
+  const firstLocalExtractedImage = RegExp(localImageRegexPattern).exec(text);
+
+  const remoteImageRegexPattern = /!\[\]\((https?:\/\/[^)]+)\)/;
+  const firstRemoteExtractedImage = RegExp(remoteImageRegexPattern).exec(text);
+
+  if (!firstLocalExtractedImage && !firstRemoteExtractedImage) {
+    return null;
+  }
+
+  if (
+    (!firstLocalExtractedImage && firstRemoteExtractedImage) ||
+    (firstLocalExtractedImage &&
+      firstRemoteExtractedImage &&
+      firstLocalExtractedImage.index > firstRemoteExtractedImage.index)
+  ) {
+    return firstRemoteExtractedImage[1];
+  }
+
+  if (
+    (firstLocalExtractedImage && !firstRemoteExtractedImage) ||
+    (firstLocalExtractedImage &&
+      firstRemoteExtractedImage &&
+      firstLocalExtractedImage.index < firstRemoteExtractedImage.index)
+  ) {
+    const imageFilename = firstLocalExtractedImage[1];
+
+    try {
+      const path = await app.fileManager.getAvailablePathForAttachment("");
+      const attachmentFolder = path.slice(0, -2); // remove trailing slashes
+      const imageAbstractFile = app.vault.getAbstractFileByPath(
+        `${attachmentFolder}/${imageFilename}`
+      );
+      if (imageAbstractFile instanceof TFile) {
+        return app.vault.getResourcePath(imageAbstractFile);
+      }
+    } catch (error) {
+      console.error("Error extracting local image:", error);
+    }
+  }
+
+  return null;
+};

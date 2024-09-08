@@ -28,7 +28,7 @@ export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
       props.abstractFilePath
     );
     if (!fileToDelete) return;
-    app.vault.trash(fileToDelete, true);
+    app.fileManager.trashFile(fileToDelete);
     setForceNotesViewUpdate();
     props.modal.close();
   };

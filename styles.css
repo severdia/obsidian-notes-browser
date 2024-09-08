@@ -77,6 +77,9 @@
 .onb-h-full {
     height: 100%;
 }
+.onb-h-\[30px\] {
+    height: 30px;
+}
 .onb-min-h-6 {
     min-height: 1.5rem;
 }
@@ -94,6 +97,9 @@
 .onb-w-full {
     width: 100%;
 }
+.onb-w-4 {
+    width: 1rem;
+}
 .onb-min-w-6 {
     min-width: 1.5rem;
 }
@@ -109,6 +115,11 @@
 }
 .onb-flex-grow {
     flex-grow: 1;
+}
+.onb-scale-125 {
+    --tw-scale-x: 1.25;
+    --tw-scale-y: 1.25;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .onb-cursor-pointer {
     cursor: pointer;
@@ -153,6 +164,9 @@
 }
 .onb-gap-7 {
     gap: 1.75rem;
+}
+.onb-overflow-visible {
+    overflow: visible;
 }
 .onb-overflow-scroll {
     overflow: scroll;
@@ -216,12 +230,11 @@
     --tw-bg-opacity: 1;
     background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 }
-.onb-bg-\[\#e6e5e8\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(230 229 232 / var(--tw-bg-opacity));
-}
 .onb-bg-\[--onb-divider-background\] {
     background-color: var(--onb-divider-background);
+}
+.onb-bg-\[--onb-filesystem-background-color\] {
+    background-color: var(--onb-filesystem-background-color);
 }
 .onb-bg-\[--onb-folder-background-active\] {
     background-color: var(--onb-folder-background-active);
@@ -235,6 +248,10 @@
 .onb-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.onb-bg-red-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
 .onb-object-cover {
     -o-object-fit: cover;
@@ -287,23 +304,23 @@
 .onb-pt-3 {
     padding-top: 0.75rem;
 }
-.onb-text-\[14px\] {
-    font-size: 14px;
+.onb-pt-2 {
+    padding-top: 0.5rem;
 }
-.onb-text-\[length\:--onb-note-text-description-color\] {
-    font-size: var(--onb-note-text-description-color);
+.onb-pb-\[50px\] {
+    padding-bottom: 50px;
+}
+.onb-pl-6 {
+    padding-left: 1.5rem;
+}
+.onb-text-\[length\:--onb-folder-text-size\] {
+    font-size: var(--onb-folder-text-size);
 }
 .onb-text-\[length\:--onb-note-text-description-size\] {
     font-size: var(--onb-note-text-description-size);
 }
 .onb-text-\[length\:--onb-note-text-title-size\] {
     font-size: var(--onb-note-text-title-size);
-}
-.onb-text-\[length\:14px\] {
-    font-size: 14px;
-}
-.onb-text-\[length\:--onb-folder-text-size\] {
-    font-size: var(--onb-folder-text-size);
 }
 .onb-font-bold {
     font-weight: 700;
@@ -353,6 +370,12 @@
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+.onb-text-\[color\:--onb-folder\] {
+    color: var(--onb-folder);
+}
+.onb-text-\[color\:--onb-folder-icon-color\] {
+    color: var(--onb-folder-icon-color);
+}
   :root {
     /* Notes related variables */
     /* --> Common */
@@ -375,10 +398,13 @@
 
     /* Folder related variables */
     --onb-folder-background-active: #6aa0f9;
-    --onb-folder-icon-color: #006ef6;
     --onb-folder-background-hover: #c7c6ca;
-    --onb-folder-text-color: #9f9ea4;
     --onb-folder-text-size: 14px;
+    --onb-folder-text-color: #9f9ea4;
+    --onb-folder-icon-color: #006ef6;
+
+    /*Filesystem related variables*/
+    --onb-filesystem-background-color: #e6e5e8;
   }
 
   .custom-scrollbar::-webkit-scrollbar {

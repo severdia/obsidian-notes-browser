@@ -48,6 +48,13 @@ export function Folder(props: Readonly<FolderProps>) {
     });
   };
 
+  const restoreFileOrFolder = async (path: string) => {
+    const slashSpliter = path.split("/");
+    const filename = slashSpliter.last();
+    await app.vault.adapter.rename(path, `${props.folder.path}/${filename}`);
+    useStore.getState().setForceNotesViewUpdate();
+  };
+
   const onDrop: DragEventHandler<HTMLDivElement> = (dropEvent) => {
     setIsDropping(false);
     if (!app) return;
@@ -58,8 +65,12 @@ export function Folder(props: Readonly<FolderProps>) {
 
     const { type, path } = JSON.parse(data);
     const abstractFilePath = app.vault.getAbstractFileByPath(path);
-    if (!abstractFilePath) return;
-
+    if (!abstractFilePath) {
+      if (currentActiveFolderPath === ".trash") {
+        restoreFileOrFolder(path);
+      }
+      return;
+    }
     switch (type) {
       case "file":
         app.vault

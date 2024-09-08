@@ -13,8 +13,8 @@ export function NotesView() {
   const notes = useMemo(
     () =>
       files
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .filter((file) => file.extension == "md"),
+        .filter((file) => file.extension == "md")
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [files]
   );
 

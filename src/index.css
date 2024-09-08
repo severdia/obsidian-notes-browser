@@ -22,10 +22,13 @@
 
     /* Folder related variables */
     --onb-folder-background-active: #6aa0f9;
-    --onb-folder-icon-color: #006ef6;
     --onb-folder-background-hover: #c7c6ca;
-    --onb-folder-text-color: #9f9ea4;
     --onb-folder-text-size: 14px;
+    --onb-folder-text-color: #9f9ea4;
+    --onb-folder-icon-color: #006ef6;
+
+    /*Filesystem related variables*/
+    --onb-filesystem-background-color: #e6e5e8;
   }
 
   .custom-scrollbar::-webkit-scrollbar {

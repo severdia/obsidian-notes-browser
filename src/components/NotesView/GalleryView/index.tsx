@@ -1,14 +1,13 @@
 import { Note } from "components/Note";
 import { TFile } from "obsidian";
 import { AutoSizer, ListRowProps, List } from "react-virtualized";
+import { CELL_WIDTH, COLUMN_GAP, ROW_HEIGHT } from "./constant";
 
 export const GalleryView = ({ notes }: { notes: TFile[] }) => (
   <AutoSizer>
     {({ height, width }) => {
-      const itemWidth = 365;
-      const cellWidth = Math.floor(width / (itemWidth + 40));
-      const maxColumns = Math.max(1, cellWidth);
-
+      const virtualCellWidth = Math.floor(width / (CELL_WIDTH + COLUMN_GAP));
+      const maxColumns = Math.max(1, virtualCellWidth);
       const rowCount = Math.ceil(notes.length / maxColumns);
 
       const GridRowRenderer = (props: ListRowProps) => (
@@ -32,7 +31,7 @@ export const GalleryView = ({ notes }: { notes: TFile[] }) => (
           width={width}
           height={height}
           rowCount={rowCount}
-          rowHeight={275 + 75}
+          rowHeight={ROW_HEIGHT}
           rowRenderer={GridRowRenderer}
           aria-label=""
         />
