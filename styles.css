@@ -77,6 +77,9 @@
 .onb-h-full {
     height: 100%;
 }
+.onb-h-8 {
+    height: 2rem;
+}
 .onb-min-h-6 {
     min-height: 1.5rem;
 }
@@ -294,6 +297,12 @@
 }
 .onb-pt-3 {
     padding-top: 0.75rem;
+}
+.onb-pl-7 {
+    padding-left: 1.75rem;
+}
+.onb-pl-8 {
+    padding-left: 2rem;
 }
 .onb-text-\[length\:--onb-folder-text-size\] {
     font-size: var(--onb-folder-text-size);

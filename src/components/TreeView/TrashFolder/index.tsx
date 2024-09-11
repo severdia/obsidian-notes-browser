@@ -88,7 +88,7 @@ export const TrashFolder = () => {
 
   return (
     <div
-      className={`onb-truncate onb-pl-6 onb-select-none ${activeBackgroundColor} onb-pr-2 onb-py-1 onb-flex onb-rounded-sm onb-items-center`}
+      className={`onb-truncate onb-pl-8 onb-h-8 onb-select-none ${activeBackgroundColor} onb-pr-2 onb-py-1 onb-flex onb-rounded-sm onb-items-center`}
       onClick={showDeletedNotes}
     >
       <div className="onb-flex onb-h-fit onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">

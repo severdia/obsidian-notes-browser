@@ -12,7 +12,7 @@ export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
   const app = useLocalApp();
 
   useEffect(() => {
-    modal.setTitle("Create folder");
+    modal.setTitle("New folder");
     inputRef.current?.focus();
   });
 
@@ -38,12 +38,10 @@ export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
       <input
         ref={inputRef}
         className="onb-w-full onb-p-2 onb-border-solid onb-border onb-rounded-md onb-border-gray-400"
-        placeholder="folder name .."
-        defaultValue="Untitled"
       />
       <div className="modal-button-container">
         <button className="mod-cta" onClick={createFolder}>
-          create
+          Create
         </button>
         <button className="mod-cancel" onClick={cancel}>
           Cancel

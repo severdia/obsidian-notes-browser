@@ -42,12 +42,10 @@ export function NewNoteModal({
       <input
         ref={inputRef}
         className="onb-w-full onb-p-2 onb-border-solid onb-border onb-rounded-md onb-border-gray-400"
-        placeholder="note name .."
-        defaultValue="Untitled"
       />
       <div className="modal-button-container">
         <button className="mod-cta" onClick={createNote}>
-          create
+          Create
         </button>
         <button className="mod-cancel" onClick={cancel}>
           Cancel

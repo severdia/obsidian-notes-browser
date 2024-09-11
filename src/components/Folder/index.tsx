@@ -153,7 +153,7 @@ export function Folder(props: Readonly<FolderProps>) {
     });
 
     folderMenu.addItem((menuItem) => {
-      menuItem.setTitle("New Folder");
+      menuItem.setTitle("New folder");
       menuItem.setIcon("folder");
       menuItem.onClick(handleNewFolder);
     });
@@ -213,7 +213,7 @@ export function Folder(props: Readonly<FolderProps>) {
         >
           <div
             {...getRootProps()}
-            className={`onb-w-full onb-flex onb-rounded-sm onb-items-center onb-justify-between ${
+            className={`onb-w-full onb-flex onb-h-8 onb-rounded-sm onb-items-center onb-justify-between ${
               !isActive && isDropping
                 ? "onb-bg-[--onb-folder-background-hover]"
                 : ""
