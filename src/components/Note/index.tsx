@@ -48,11 +48,13 @@ export const Note = memo(({ file }: NoteProps) => {
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
+
       if (imageLink) {
         const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
           imageLink,
           file.path
         );
+
         if (firstImageLinkpathDest) {
           const resourceImagePath = app.vault.getResourcePath(
             firstImageLinkpathDest
