@@ -1,19 +1,15 @@
 import { useLocalApp } from "hooks";
-import { Modal, Notice } from "obsidian";
+import { Modal, Notice, TFolder } from "obsidian";
 import { useEffect, useRef } from "react";
-import { useStore } from "store";
 
 interface CustomModalProps {
   modal: Modal;
+  file: TFolder;
 }
 
-export function NewFolderModal({ modal }: Readonly<CustomModalProps>) {
+export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
   const app = useLocalApp();
-
-  const currentActiveFolderPath = useStore(
-    (state) => state.currentActiveFolderPath
-  );
 
   useEffect(() => {
     modal.setTitle("Create folder");
@@ -26,16 +22,8 @@ export function NewFolderModal({ modal }: Readonly<CustomModalProps>) {
       return;
     }
 
-    if (currentActiveFolderPath === "") {
-      new Notice(
-        "You should select the parent folder first before creating the new one"
-      );
-      modal.close();
-      return;
-    }
-
     app.vault
-      .createFolder(`${currentActiveFolderPath}/${inputRef.current.value}`)
+      .createFolder(`${file.path}/${inputRef.current.value}`)
       .catch((e) => {
         new Notice(e);
       });

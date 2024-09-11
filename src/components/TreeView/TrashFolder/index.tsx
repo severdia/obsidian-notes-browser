@@ -38,21 +38,25 @@ export const TrashFolder = () => {
 
       for (const filePath of files) {
         if (filePath.endsWith(".md")) {
-          const normalizeFilePath = normalizePath(filePath);
-          const stat = await app.vault.adapter.stat(normalizeFilePath);
-          const content = await app.vault.adapter.read(
-            normalizePath(normalizeFilePath)
-          );
-          const name = filePath.replace(`${folderPath}/`, "");
-          deletedFiles.push({
-            deleted: true,
-            content: content,
-            stat: stat,
-            basename: name,
-            extension: "md",
-            name: name,
-            path: filePath,
-          });
+          try {
+            const normalizeFilePath = normalizePath(filePath);
+            const stat = await app.vault.adapter.stat(normalizeFilePath);
+            const content = await app.vault.adapter.read(
+              normalizePath(normalizeFilePath)
+            );
+            const name = filePath.replace(`${folderPath}/`, "");
+            deletedFiles.push({
+              deleted: true,
+              content: content,
+              stat: stat,
+              basename: name,
+              extension: "md",
+              name: name,
+              path: filePath,
+            });
+          } catch (e) {
+            console.log("we couldn't list deleted files");
+          }
         }
       }
 

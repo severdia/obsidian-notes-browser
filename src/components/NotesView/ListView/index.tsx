@@ -18,7 +18,7 @@ export const ListView = ({ notes }: { notes: TFile[] }) => {
     <AutoSizer>
       {({ height, width }) => (
         <List
-          className="onb-pr-2"
+          className="onb-pr-2 custom-scrollbar"
           width={width}
           height={height}
           rowCount={notes.length}

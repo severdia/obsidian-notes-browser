@@ -37,8 +37,8 @@ export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
 
   return (
     <>
-      <p>Are you sure you want to delete “${props.abstractFileName}”?</p>
-      <p>It will be moved to your system trash.</p>
+      <p>Are you sure you want to delete “{props.abstractFileName}”?</p>
+      <p>The file will be moved to the trash location defined in the Files & Links setting.</p>
       <div className="modal-button-container">
         <button className="mod-warning" onClick={deleteFile}>
           Delete

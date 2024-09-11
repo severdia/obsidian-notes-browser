@@ -39,27 +39,40 @@ export const Note = memo(({ file }: NoteProps) => {
     : "onb-bg-white";
 
   const seperatorClasses = isSelected
-    ? ""
+    ? "" 
     : "onb-bg-[--onb-divider-background] -onb-mt-[--onb-divider-height]";
 
   useEffect(() => {
     if (!app) return;
 
-    const updateContent = async (content: string) => {
+    const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
-      const imageLink = await extractImageLink(app, content);
+      const imageLink = extractImageLink(content);
+      if (imageLink) {
+        const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
+          imageLink,
+          file.path
+        );
+        if (firstImageLinkpathDest) {
+          const resourceImagePath = app.vault.getResourcePath(
+            firstImageLinkpathDest
+          );
+          setImageLink(resourceImagePath);
+          return;
+        }
+      }
       setImageLink(imageLink);
     };
 
     const getContent = async () => {
       if (file.deleted) {
         const content = file.content ?? "";
-        await updateContent(content);
+        updateContent(content);
         return;
       }
-      
+
       const content = await app.vault.cachedRead(file);
-      await updateContent(content);
+      updateContent(content);
     };
 
     getContent();

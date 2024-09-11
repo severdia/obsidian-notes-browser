@@ -47,9 +47,9 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
   if (settings.hideAttachmentFolder && isAttachmentFolder) {
     return null;
   }
-
+ 
   return (
-    <li key={folder.path} className="onb-list-none onb-w-full">
+    <li key={folder.path} className="onb-list-none onb-w-full custom-scrollbar">
       <Folder
         folder={folder}
         onClickChevron={() => showSubfolders(folder)}

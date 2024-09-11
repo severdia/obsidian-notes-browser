@@ -1,5 +1,6 @@
 import {
   ConfirmDeleteModal,
+  NewFolderModal,
   NewNoteModal,
   RenameModal,
 } from "components/CustomModals";
@@ -35,6 +36,8 @@ export function Folder(props: Readonly<FolderProps>) {
   const activeBackgroundColor = isActive
     ? "onb-bg-[--onb-folder-background-active] !onb-text-white"
     : "";
+
+  const folderCountClasses = isActive ? "onb-text-white" : "onb-text-[color:--onb-folder-text-color]";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
     if (!app) return;
@@ -125,6 +128,14 @@ export function Folder(props: Readonly<FolderProps>) {
     newNoteModal.open();
   };
 
+  const handleNewFolder = () => {
+    if (!app) return;
+    const newFolderModal = new BaseModal(app, () => (
+      <NewFolderModal modal={newFolderModal} file={props.folder}/>
+    ));
+    newFolderModal.open();
+  };
+
   const disableDroppingEffect = () => setIsDropping(false);
   const enableDroppingEffect = () => setIsDropping(true);
 
@@ -139,6 +150,12 @@ export function Folder(props: Readonly<FolderProps>) {
       menuItem.setTitle("New note");
       menuItem.setIcon("edit");
       menuItem.onClick(handleNewNote);
+    });
+
+    folderMenu.addItem((menuItem) => {
+      menuItem.setTitle("New Folder");
+      menuItem.setIcon("folder");
+      menuItem.onClick(handleNewFolder);
     });
 
     folderMenu.addItem((menuItem) => {
@@ -235,7 +252,7 @@ export function Folder(props: Readonly<FolderProps>) {
                   {props.folder.name}
                 </div>
               </div>
-              <div className="onb-size-fit onb-text-[color:--onb-folder-text-color] onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit">
+              <div className={`onb-size-fit ${folderCountClasses} onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit`}>
                 {props.folder.children?.length !== 0 && (
                   <span>{getNumberOfNotes(props.folder.children)}</span>
                 )}

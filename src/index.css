@@ -32,10 +32,10 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    background-color: #e0dee4;
+    background-color: #e0dee4 !important;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #afaeb2;
+    background: #afaeb2 !important;
   }
 
   .Resizer {

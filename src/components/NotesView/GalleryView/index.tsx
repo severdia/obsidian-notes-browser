@@ -27,7 +27,7 @@ export const GalleryView = ({ notes }: { notes: TFile[] }) => (
 
       return (
         <List
-          className="onb-pr-2"
+          className="onb-pr-2 custom-scrollbar"
           width={width}
           height={height}
           rowCount={rowCount}

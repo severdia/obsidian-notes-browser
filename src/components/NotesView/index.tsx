@@ -22,7 +22,7 @@ export function NotesView() {
     <div className="onb-flex onb-flex-col onb-bg-white onb-h-full onb-w-full  onb-flex-grow">
       <NotesViewToolbar />
 
-      <div className="onb-w-full onb-h-full onb-py-2 onb-pl-2 onb-gap-2">
+      <div className="onb-w-full onb-h-full onb-py-2 onb-pl-2 onb-gap-2 custom-scrollbar">
         {notes.length > 0 && notesViewType === "LIST" && (
           <ListView notes={notes} />
         )}
