@@ -19,7 +19,7 @@ export const GalleryView = ({ notes }: { notes: TFile[] }) => (
                 maxColumns * props.index + maxColumns
               )
               .map((note) => (
-                <Note file={note} key={note.path} />
+                <Note file={note} key={note.path} isFirst={props.index === 0} />
               ))}
           </div>
         </div>

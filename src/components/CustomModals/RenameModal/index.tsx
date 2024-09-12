@@ -18,7 +18,7 @@ export function RenameModal({ modal, file }: Readonly<CustomModalProps>) {
   useEffect(() => {
     modal.setTitle("Rename file");
     inputRef.current?.focus();
-  });
+  }, []);
 
   const renameFile = () => {
     if (!app || !inputRef.current) {

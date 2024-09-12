@@ -116,6 +116,9 @@
 .onb-cursor-pointer {
     cursor: pointer;
 }
+.onb-cursor-not-allowed {
+    cursor: not-allowed;
+}
 .onb-select-none {
     -webkit-user-select: none;
        -moz-user-select: none;
@@ -241,6 +244,9 @@
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.onb-bg-\[--background-secondary\] {
+    background-color: var(--background-secondary);
+}
 .onb-object-cover {
     -o-object-fit: cover;
        object-fit: cover;
@@ -282,6 +288,12 @@
 .onb-py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+.onb-pb-2 {
+    padding-bottom: 0.5rem;
+}
+.onb-pb-3 {
+    padding-bottom: 0.75rem;
 }
 .onb-pl-2 {
     padding-left: 0.5rem;
@@ -387,13 +399,27 @@
 
     /*Filesystem related variables*/
     --onb-filesystem-background-color: #e6e5e8;
+    /* Scrollbar variables*/
+    /*  --scrolbar: #e0dee4; */
+    --scrollbar-thumb: #afaeb2;
+    --scrollbar-thumb-hover: #727174;
+    --scrollbar-files: #fafafa;
+    --scrollbar-files-thumb: #c2c2c2;
+    --scrollbar-files-thumb-hover: #7d7d7d;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    background-color: #e0dee4 !important;
+    background-color: var(--onb-filesystem-background-color) !important;
+    width: 8px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #afaeb2 !important;
+    background: var(--scrollbar-thumb) !important;
+    border-radius: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover) !important;
   }
 
   .Resizer.vertical {
@@ -407,4 +433,7 @@
 .hover\:onb-bg-\[\#F2F2F2\]:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(242 242 242 / var(--tw-bg-opacity));
+}
+.hover\:onb-bg-\[--background-secondary\]:hover {
+    background-color: var(--background-secondary);
 }

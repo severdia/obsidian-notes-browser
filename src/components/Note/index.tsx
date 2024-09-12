@@ -18,9 +18,10 @@ interface CustomTFile extends TFile {
 
 interface NoteProps {
   file: CustomTFile;
+  isFirst?: boolean;
 }
 
-export const Note = memo(({ file }: NoteProps) => {
+export const Note = memo(({ file, isFirst }: NoteProps) => {
   const currentActiveFilePath = useStore(
     (state) => state.currentActiveFilePath
   );
@@ -39,19 +40,32 @@ export const Note = memo(({ file }: NoteProps) => {
     : "onb-bg-white";
 
   const seperatorClasses = isSelected
-    ? "" 
+    ? ""
     : "onb-bg-[--onb-divider-background] -onb-mt-[--onb-divider-height]";
 
   useEffect(() => {
     if (!app) return;
+    const hasSameParentFolder =
+      app.vault.getFileByPath(currentActiveFilePath)?.parent?.path ===
+      file.parent?.path;
+
+    if (isFirst && !hasSameParentFolder) {
+      openFile();
+    }
 
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
 
       if (imageLink) {
+        let decodedImageURL = imageLink;
+
+        try {
+          decodedImageURL = decodeURIComponent(imageLink);
+        } catch (e) {}
+
         const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
-          imageLink,
+          decodedImageURL,
           file.path
         );
 

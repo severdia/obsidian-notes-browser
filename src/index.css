@@ -29,13 +29,27 @@
 
     /*Filesystem related variables*/
     --onb-filesystem-background-color: #e6e5e8;
+    /* Scrollbar variables*/
+    /*  --scrolbar: #e0dee4; */
+    --scrollbar-thumb: #afaeb2;
+    --scrollbar-thumb-hover: #727174;
+    --scrollbar-files: #fafafa;
+    --scrollbar-files-thumb: #c2c2c2;
+    --scrollbar-files-thumb-hover: #7d7d7d;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    background-color: #e0dee4 !important;
+    background-color: var(--onb-filesystem-background-color) !important;
+    width: 8px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #afaeb2 !important;
+    background: var(--scrollbar-thumb) !important;
+    border-radius: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover) !important;
   }
 
   .Resizer {

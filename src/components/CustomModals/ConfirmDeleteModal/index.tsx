@@ -17,7 +17,7 @@ export function ConfirmDeleteModal(props: Readonly<CustomModalProps>) {
 
   useEffect(() => {
     props.modal.setTitle("Delete file");
-  });
+  }, []);
 
   const deleteFile = () => {
     if (!app) {

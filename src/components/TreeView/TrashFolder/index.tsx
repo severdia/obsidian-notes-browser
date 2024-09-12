@@ -25,6 +25,10 @@ export const TrashFolder = () => {
     ? "onb-text-white"
     : "onb-text-[color:--onb-folder-icon-color]";
 
+  const countClasses = isActive
+    ? "onb-text-white"
+    : "onb-text-[color:--onb-folder-text-color]";
+
   const listDeletedFilesRecursively = async (
     folderPath: string
   ): Promise<any[]> => {
@@ -73,12 +77,13 @@ export const TrashFolder = () => {
   };
 
   useEffect(() => {
+    console.log("listing deleted files runs detector");
     const getFileCount = async () => {
       const deletedFiles = await listDeletedFilesRecursively(TRASH_ROOT);
       setFilesCount(deletedFiles.length.toString());
     };
     getFileCount();
-  });
+  }, []);
 
   const showDeletedNotes = async () => {
     setCurrentActiveFolderPath(TRASH_ROOT);
@@ -88,7 +93,7 @@ export const TrashFolder = () => {
 
   return (
     <div
-      className={`onb-truncate onb-pl-8 onb-h-8 onb-select-none ${activeBackgroundColor} onb-pr-2 onb-py-1 onb-flex onb-rounded-sm onb-items-center`}
+      className={`onb-truncate onb-pl-8 onb-h-8 onb-pb-2 onb-select-none ${activeBackgroundColor} onb-pr-2 onb-py-1 onb-flex onb-rounded-sm onb-items-center`}
       onClick={showDeletedNotes}
     >
       <div className="onb-flex onb-h-fit onb-flex-grow onb-truncate onb-gap-1.5 onb-flex-row onb-flex-nowrap onb-items-center">
@@ -103,7 +108,9 @@ export const TrashFolder = () => {
           Recently Deleted
         </div>
       </div>
-      <div className="onb-size-fit onb-text-[color:--onb-folder-text-color] onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit">
+      <div
+        className={`onb-size-fit ${countClasses}  onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit`}
+      >
         <span>{filesCount}</span>
       </div>
     </div>

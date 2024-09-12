@@ -10,7 +10,7 @@ export const ListView = ({ notes }: { notes: TFile[] }) => {
       style={props.style}
       className="onb-overflow-y-visible"
     >
-      <Note file={notes[props.index]} />
+      <Note file={notes[props.index]} isFirst={props.index === 0} />
     </div>
   );
 

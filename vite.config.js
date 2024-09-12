@@ -53,7 +53,7 @@ export default defineConfig({
 		},
 		target: "es2018",
 		sourcemap: prod ? false : "inline",
-		minify: prod,
+		minify: false,
 	},
 	plugins: [
 		{
