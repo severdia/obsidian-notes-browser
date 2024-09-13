@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { NoteCommonProps } from "./types";
 
-
 export const NoteListView = memo(
   ({
     description,
@@ -12,7 +11,11 @@ export const NoteListView = memo(
   }: NoteCommonProps) => {
     return (
       <div {...divProps}>
-        <div className="onb-flex-grow onb-flex-col onb-truncate">
+        <div
+          className={`onb-flex-grow onb-flex-col onb-truncate ${
+            imageLink && "onb-pr-2"
+          }`}
+        >
           <div className="onb-text-[length:--onb-note-text-title-size] onb-font-semibold onb-truncate">
             {title}
           </div>
@@ -28,7 +31,7 @@ export const NoteListView = memo(
         {imageLink && (
           <img
             src={imageLink}
-            className="onb-border onb-object-fit onb-object-top onb-size-9 onb-border-gray-300 onb-rounded"
+            className="onb-border onb-object-cover onb-object-top onb-size-9 onb-border-gray-300 onb-rounded"
           />
         )}
       </div>

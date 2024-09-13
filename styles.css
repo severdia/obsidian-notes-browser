@@ -113,11 +113,11 @@
 .onb-flex-grow {
     flex-grow: 1;
 }
-.onb-cursor-pointer {
-    cursor: pointer;
-}
 .onb-cursor-not-allowed {
     cursor: not-allowed;
+}
+.onb-cursor-pointer {
+    cursor: pointer;
 }
 .onb-select-none {
     -webkit-user-select: none;
@@ -225,6 +225,9 @@
     --tw-bg-opacity: 1;
     background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 }
+.onb-bg-\[--background-secondary\] {
+    background-color: var(--background-secondary);
+}
 .onb-bg-\[--onb-divider-background\] {
     background-color: var(--onb-divider-background);
 }
@@ -243,9 +246,6 @@
 .onb-bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.onb-bg-\[--background-secondary\] {
-    background-color: var(--background-secondary);
 }
 .onb-object-cover {
     -o-object-fit: cover;

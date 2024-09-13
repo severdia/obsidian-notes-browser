@@ -51,8 +51,8 @@ export function getLastModified(note: TFile) {
 }
 
 export const extractImageLink = (text: string) => {
-  const localImageRegex = /!\[\[(.*?)\]\]/;
-  const remoteImageRegex = /!\[.*?\]\((https?:\/\/[^\s)]+|[^\s)]+)\)/;
+  const localImageRegex = /!\[\[(.*?\.(?:png|jpe?g|gif|bmp|webp|svg))\]\]/i;
+  const remoteImageRegex = /!\[.*?\]\((https?:\/\/[^\s)]+\.(?:png|jpe?g|gif|bmp|webp|svg))\)/i;
 
   const firstLocalExtractedImage = RegExp(localImageRegex).exec(text);
   const firstRemoteExtractedImage = RegExp(remoteImageRegex).exec(text);

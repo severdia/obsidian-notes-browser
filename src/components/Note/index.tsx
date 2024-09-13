@@ -58,22 +58,21 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
       const imageLink = extractImageLink(content);
 
       if (imageLink) {
-        let decodedImageURL = imageLink;
-
         try {
-          decodedImageURL = decodeURIComponent(imageLink);
-        } catch (e) {}
-
-        const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
-          decodedImageURL,
-          file.path
-        );
-
-        if (firstImageLinkpathDest) {
-          const resourceImagePath = app.vault.getResourcePath(
-            firstImageLinkpathDest
+          const decodedImageURL = decodeURIComponent(imageLink);
+          const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
+            decodedImageURL,
+            file.path
           );
-          setImageLink(resourceImagePath);
+
+          if (firstImageLinkpathDest) {
+            const resourceImagePath = app.vault.getResourcePath(
+              firstImageLinkpathDest
+            );
+            setImageLink(resourceImagePath);
+            return;
+          }
+        } catch {
           return;
         }
       }
