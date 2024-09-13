@@ -12,6 +12,7 @@ interface FilesystemProps {
 export function Filesystem(props: Readonly<FilesystemProps>) {
   const { folder } = props;
   const setNotes = useStore((state) => state.setNotes);
+  const setIsFolderFocused = useStore((state) => state.setIsFolderFocused);
   const attachementFolderName = (
     useObsidianConfig().attachmentFolderPath as string
   ).replace("./", "");
@@ -47,13 +48,16 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
   if (settings.hideAttachmentFolder && isAttachmentFolder) {
     return null;
   }
- 
+
   return (
     <li key={folder.path} className="onb-list-none onb-w-full custom-scrollbar">
       <Folder
         folder={folder}
         onClickChevron={() => showSubfolders(folder)}
-        onClickFolder={() => showNotesUnderFolder(folder)}
+        onClickFolder={() => {
+          setIsFolderFocused(true);
+          showNotesUnderFolder(folder);
+        }}
         isOpen={isOpen}
       />
 

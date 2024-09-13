@@ -9,6 +9,10 @@ interface State {
   currentActiveFolderPath: string;
   forceFilesyetemUpdate: number;
   forceNotesViewUpdate: number;
+  isFolderFocused: boolean;
+  setIsFolderFocused: (
+    isFocused: boolean
+  ) => void;
   notesViewType: NotesViewType;
   setNotesViewType: (notesViewType: NotesViewType) => void;
   setNotes: (notes: TFile[]) => void;
@@ -23,6 +27,9 @@ export const useStore = create<State>()((set) => ({
   forceFilesyetemUpdate: 0,
   notesViewType: "LIST",
   forceNotesViewUpdate: 0,
+  isFolderFocused: true,
+  setIsFolderFocused: (isFocused) =>
+    set((state) => ({ ...state, isFolderFocused: isFocused })),
   setNotesViewType: (notesViewType) =>
     set((state) => ({ ...state, notesViewType: notesViewType })),
   setForceFilesystemUpdate: () =>

@@ -25,9 +25,16 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
   const currentActiveFilePath = useStore(
     (state) => state.currentActiveFilePath
   );
-  const { forceNotesViewUpdate, notesViewType } = useStore((state) => ({
+  const {
+    forceNotesViewUpdate,
+    notesViewType,
+    setIsFolderFocused,
+    isFolderFocused,
+  } = useStore((state) => ({
     forceNotesViewUpdate: state.forceNotesViewUpdate,
     notesViewType: state.notesViewType,
+    setIsFolderFocused: state.setIsFolderFocused,
+    isFolderFocused: state.isFolderFocused,
   }));
 
   const { app, settings } = usePlugin();
@@ -36,7 +43,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
   const { onDragStart } = useDragHandlers(file);
   const isSelected = currentActiveFilePath == file.path;
   const backgroundColorClass = isSelected
-    ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
+    ? isFolderFocused ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10" : "onb-bg-[#016efe] onb-rounded-md onb-z-10"
     : "onb-bg-white";
 
   const seperatorClasses = isSelected
@@ -93,17 +100,21 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     getContent();
   }, [app, file, forceNotesViewUpdate]);
 
-  const openFile = useCallback(() => {
+  const openFile = () => {
     if (!app) return;
     const fileToOpen = app.vault.getAbstractFileByPath(file.path);
     if (!fileToOpen) return;
-
     const leaf = app.workspace.getLeaf(false);
     app.workspace.setActiveLeaf(leaf, {
       focus: true,
     });
 
     leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
+  };
+
+  const onClickOpenFile = useCallback(() => {
+    openFile();
+    isFolderFocused !== false && setIsFolderFocused(false);
   }, []);
 
   const handleDelete = useCallback(() => {
@@ -170,7 +181,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
           </div>
           <NoteListView
             className={`onb-p-3 ${backgroundColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}
-            onClick={openFile}
+            onClick={onClickOpenFile}
             draggable={!settings.isDraggingFilesAndFoldersdisabled}
             onDragStart={onDragStart}
             data-path={file.path}
@@ -179,6 +190,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
             description={description}
             imageLink={imageLink}
             lastModificationTimeOrDate={getLastModified(file)}
+            isSelected={isSelected}
           />
         </div>
       )}

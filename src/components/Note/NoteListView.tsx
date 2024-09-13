@@ -1,14 +1,28 @@
 import { memo } from "react";
 import { NoteCommonProps } from "./types";
+import { useStore } from "store";
 
 export const NoteListView = memo(
   ({
     description,
     imageLink,
     title,
+    isSelected,
     lastModificationTimeOrDate,
     ...divProps
   }: NoteCommonProps) => {
+    const isFolderFocused = useStore((state) => state.isFolderFocused);
+    const titleClasses =
+      isSelected && !isFolderFocused ? "onb-text-white" : "onb-text-black";
+    const descriptionClasses =
+      isSelected && !isFolderFocused
+        ? "onb-text-white"
+        : "onb-text-[color:--onb-note-text-description-color]";
+    const timeClasses =
+      isSelected && !isFolderFocused
+        ? "onb-text-white"
+        : "onb-text-[color:--onb-note-text-date-color]";
+
     return (
       <div {...divProps}>
         <div
@@ -16,14 +30,20 @@ export const NoteListView = memo(
             imageLink && "onb-pr-2"
           }`}
         >
-          <div className="onb-text-[length:--onb-note-text-title-size] onb-font-semibold onb-truncate">
+          <div
+            className={`${titleClasses} onb-text-[length:--onb-note-text-title-size] onb-font-semibold onb-truncate`}
+          >
             {title}
           </div>
           <div className="onb-flex onb-flex-row onb-gap-2 onb-w-full">
-            <div className="onb-text-[length:--onb-note-text-description-size] onb-font-normal onb-text-[color:--onb-note-text-date-color] onb-text-nowrap">
+            <div
+              className={`${timeClasses} onb-text-[length:--onb-note-text-description-size] onb-font-normal onb-text-nowrap`}
+            >
               {lastModificationTimeOrDate}
             </div>
-            <div className="onb-text-[color:--onb-note-text-description-color] onb-truncate onb-text-[length:--onb-note-text-description-size]">
+            <div
+              className={`${descriptionClasses} onb-truncate onb-text-[length:--onb-note-text-description-size]`}
+            >
               {description}
             </div>
           </div>

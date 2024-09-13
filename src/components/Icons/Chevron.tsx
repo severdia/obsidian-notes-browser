@@ -2,20 +2,17 @@ import { IcChevronBase } from "./ChevronBase";
 
 export const Chevron = ({
   direction,
-  isActive,
+  className,
 }: {
   direction: "forward" | "down";
-  isActive: boolean;
+  className: string;
 }) => {
   const style = direction == "forward" ? {} : { transform: "rotate(90deg)" };
-  const chevronStyleClasses = isActive
-    ? "onb-text-white"
-    : "onb-text-[#616064]";
     
   return (
     <IcChevronBase
       style={style}
-      className={`onb-size-fit ${chevronStyleClasses}  onb-min-w-fit`}
+      className={`onb-size-fit ${className}  onb-min-w-fit`}
     />
   );
 };

@@ -32,12 +32,25 @@ export function Folder(props: Readonly<FolderProps>) {
     (state) => state.currentActiveFolderPath
   );
 
+  const isFolderFocused = useStore((state) => state.isFolderFocused);
   const isActive = currentActiveFolderPath === props.folder.path;
   const activeBackgroundColor = isActive
-    ? "onb-bg-[--onb-folder-background-active] !onb-text-white"
+    ? isFolderFocused
+      ? "onb-bg-[--onb-folder-background-active] !onb-text-white"
+      : "onb-bg-[--onb-folder-background-inactive] onb-text-[color:--onb-folder-inactive-text-color]"
     : "";
 
-  const folderCountClasses = isActive ? "onb-text-white" : "onb-text-[color:--onb-folder-text-color]";
+  const folderCountClasses = isActive
+    ? isFolderFocused
+      ? "onb-text-white"
+      : "onb-text-[color:--onb-folder-inactive-text-color]"
+    : "onb-text-[color:--onb-folder-text-color]";
+
+  const folderStyleClasses = isActive
+    ? isFolderFocused
+      ? "onb-text-white"
+      : "onb-text-[color:--onb-folder-inactive-text-color]"
+    : "onb-text-[color:--onb-folder-icon-color]";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
     if (!app) return;
@@ -131,13 +144,10 @@ export function Folder(props: Readonly<FolderProps>) {
   const handleNewFolder = () => {
     if (!app) return;
     const newFolderModal = new BaseModal(app, () => (
-      <NewFolderModal modal={newFolderModal} file={props.folder}/>
+      <NewFolderModal modal={newFolderModal} file={props.folder} />
     ));
     newFolderModal.open();
   };
-
-  const disableDroppingEffect = () => setIsDropping(false);
-  const enableDroppingEffect = () => setIsDropping(true);
 
   const handleFolderContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!app) return;
@@ -180,9 +190,8 @@ export function Folder(props: Readonly<FolderProps>) {
     folderMenu.showAtPosition({ x: e.pageX, y: e.pageY });
   };
 
-  const folderStyleClasses = isActive
-    ? "onb-text-white"
-    : "onb-text-[--onb-folder-icon-color]";
+  const disableDroppingEffect = () => setIsDropping(false);
+  const enableDroppingEffect = () => setIsDropping(true);
 
   return (
     <Dropzone
@@ -229,11 +238,17 @@ export function Folder(props: Readonly<FolderProps>) {
                 <div
                   className="onb-size-6 onb-min-w-6 onb-flex onb-items-center onb-justify-center onb-min-h-6"
                   onClick={props.onClickChevron}
-                >
+                > 
                   {props.folder.children && (
                     <Chevron
                       direction={!props.isOpen ? "forward" : "down"}
-                      isActive={isActive}
+                      className={
+                        isActive
+                          ? isFolderFocused
+                            ? "onb-text-white"
+                            : "onb-text-[color:--onb-folder-inactive-text-color]"
+                          : "onb-text-[#616064]"
+                      }
                     />
                   )}
                 </div>
@@ -252,7 +267,9 @@ export function Folder(props: Readonly<FolderProps>) {
                   {props.folder.name}
                 </div>
               </div>
-              <div className={`onb-size-fit ${folderCountClasses} onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit`}>
+              <div
+                className={`onb-size-fit ${folderCountClasses} onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit`}
+              >
                 {props.folder.children?.length !== 0 && (
                   <span>{getNumberOfNotes(props.folder.children)}</span>
                 )}
