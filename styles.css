@@ -318,8 +318,8 @@
     background-color: var(--onb-folder-background-hover);
 
 }
-.onb-bg-\[--onb-folder-background-inactive\] {
-    background-color: var(--onb-folder-background-inactive);
+.onb-bg-\[--onb-folder-focused-background\] {
+    background-color: var(--onb-folder-focused-background);
 
 }
 .onb-bg-\[--onb-note-background-active\] {
@@ -456,12 +456,12 @@
     color: rgb(117 117 117 / var(--tw-text-opacity));
 
 }
-.onb-text-\[color\:--onb-folder-icon-color\] {
-    color: var(--onb-folder-icon-color);
+.onb-text-\[color\:--onb-folder-focused-text-color\] {
+    color: var(--onb-folder-focused-text-color);
 
 }
-.onb-text-\[color\:--onb-folder-inactive-text-color\] {
-    color: var(--onb-folder-inactive-text-color);
+.onb-text-\[color\:--onb-folder-icon-color\] {
+    color: var(--onb-folder-icon-color);
 
 }
 .onb-text-\[color\:--onb-folder-text-color\] {
@@ -517,8 +517,8 @@
 
     /* Folder related variables */
     --onb-folder-background-active: #6aa0f9;
-    --onb-folder-background-inactive: #d4d4d4;
-    --onb-folder-inactive-text-color: #606060;
+    --onb-folder-focused-background: #d4d4d4;
+    --onb-folder-focused-text-color: #606060;
     --onb-folder-background-hover: #c7c6ca;
     --onb-folder-text-size: 14px;
     --onb-folder-text-color: #9f9ea4;

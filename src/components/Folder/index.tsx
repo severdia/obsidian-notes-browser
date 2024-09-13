@@ -37,19 +37,19 @@ export function Folder(props: Readonly<FolderProps>) {
   const activeBackgroundColor = isActive
     ? isFolderFocused
       ? "onb-bg-[--onb-folder-background-active] !onb-text-white"
-      : "onb-bg-[--onb-folder-background-inactive] onb-text-[color:--onb-folder-inactive-text-color]"
+      : "onb-bg-[--onb-folder-focused-background] onb-text-[color:--onb-folder-focused-text-color]"
     : "";
 
   const folderCountClasses = isActive
     ? isFolderFocused
       ? "onb-text-white"
-      : "onb-text-[color:--onb-folder-inactive-text-color]"
+      : "onb-text-[color:--onb-folder-focused-text-color]"
     : "onb-text-[color:--onb-folder-text-color]";
 
   const folderStyleClasses = isActive
     ? isFolderFocused
       ? "onb-text-white"
-      : "onb-text-[color:--onb-folder-inactive-text-color]"
+      : "onb-text-[color:--onb-folder-focused-text-color]"
     : "onb-text-[color:--onb-folder-icon-color]";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
@@ -238,7 +238,7 @@ export function Folder(props: Readonly<FolderProps>) {
                 <div
                   className="onb-size-6 onb-min-w-6 onb-flex onb-items-center onb-justify-center onb-min-h-6"
                   onClick={props.onClickChevron}
-                > 
+                >
                   {props.folder.children && (
                     <Chevron
                       direction={!props.isOpen ? "forward" : "down"}
@@ -246,7 +246,7 @@ export function Folder(props: Readonly<FolderProps>) {
                         isActive
                           ? isFolderFocused
                             ? "onb-text-white"
-                            : "onb-text-[color:--onb-folder-inactive-text-color]"
+                            : "onb-text-[color:--onb-folder-focused-text-color]"
                           : "onb-text-[#616064]"
                       }
                     />
