@@ -14,15 +14,15 @@ import { Trash } from "components/Icons/Trash";
 
 export const NotesViewToolbar = memo((props: React.ComponentProps<"div">) => {
   const app = useApp();
-  const { currentActiveFilePath, currentActiveFolderPath } = useStore(
-    (state) => ({
+  const { currentActiveFilePath, currentActiveFolderPath, isFolderFocused } =
+    useStore((state) => ({
       currentActiveFilePath: state.currentActiveFilePath,
       currentActiveFolderPath: state.currentActiveFolderPath,
-    })
-  );
+      isFolderFocused: state.isFolderFocused,
+    }));
 
   const handleDelete = () => {
-    if (!app) return;
+    if (!app || isFolderFocused) return;
     const file = app.vault.getAbstractFileByPath(currentActiveFilePath);
     if (!file) return;
 
@@ -66,7 +66,11 @@ export const NotesViewToolbar = memo((props: React.ComponentProps<"div">) => {
           <Pencil style={{ transform: "scale(1.75)" }} />
         </div>
         <div
-          className="onb-px-3 onb-py-4 onb-text-[#757575] onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center onb-cursor-pointer"
+          className={`onb-px-3 onb-py-4 ${
+            isFolderFocused
+              ? "onb-text-[#BFBFBF] onb-cursor-not-allowed"
+              : "onb-text-[#757575] onb-cursor-pointer"
+          } onb-rounded-md hover:onb-bg-[#F2F2F2] onb-h-5 onb-flex onb-items-center onb-justify-center`}
           onClick={handleDelete}
         >
           <Trash style={{ transform: "scale(1.75)" }} />

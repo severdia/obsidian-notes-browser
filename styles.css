@@ -339,10 +339,6 @@
     background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 
 }
-.onb-bg-\[--onb-folder-background-focused\] {
-    background-color: var(--onb-folder-background-focused);
-
-}
 .onb-object-cover {
     -o-object-fit: cover;
        object-fit: cover;
@@ -473,6 +469,11 @@
     color: rgb(117 117 117 / var(--tw-text-opacity));
 
 }
+.onb-text-\[\#BFBFBF\] {
+    --tw-text-opacity: 1;
+    color: rgb(191 191 191 / var(--tw-text-opacity));
+
+}
 .onb-text-\[color\:--onb-folder-focused-text-color\] {
     color: var(--onb-folder-focused-text-color);
 
@@ -510,10 +511,6 @@
 .onb-text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
-
-}
-.onb-text-\[color\:--onb-folder-background-focused-text-color\] {
-    color: var(--onb-folder-background-focused-text-color);
 
 }
   :root {
