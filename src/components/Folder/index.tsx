@@ -49,7 +49,7 @@ export function Folder(props: Readonly<FolderProps>) {
   const folderStyleClasses = isActive
     ? isFolderFocused
       ? "onb-text-white"
-      : "onb-text-[color:--onb-folder-focused-text-color]"
+      : "onb-text-[color:--onb-folder-icon-color]"
     : "onb-text-[color:--onb-folder-icon-color]";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {

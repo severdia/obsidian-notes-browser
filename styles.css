@@ -518,7 +518,7 @@
     /* Folder related variables */
     --onb-folder-background-active: #6aa0f9;
     --onb-folder-focused-background: #d4d4d4;
-    --onb-folder-focused-text-color: #606060;
+    --onb-folder-focused-text-color: #000000;
     --onb-folder-background-hover: #c7c6ca;
     --onb-folder-text-size: 14px;
     --onb-folder-text-color: #9f9ea4;

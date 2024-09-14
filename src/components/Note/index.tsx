@@ -43,7 +43,9 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
   const { onDragStart } = useDragHandlers(file);
   const isSelected = currentActiveFilePath == file.path;
   const backgroundColorClass = isSelected
-    ? isFolderFocused ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10" : "onb-bg-[#016efe] onb-rounded-md onb-z-10"
+    ? isFolderFocused
+      ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
+      : "onb-bg-[#016efe] onb-rounded-md onb-z-10"
     : "onb-bg-white";
 
   const seperatorClasses = isSelected
@@ -63,26 +65,31 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
+      console.log(imageLink)
 
       if (imageLink) {
+        let decodedImageURL = imageLink;
+
         try {
-          const decodedImageURL = decodeURIComponent(imageLink);
-          const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
-            decodedImageURL,
-            file.path
+          decodedImageURL = decodeURIComponent(imageLink);
+        } catch (e) {}
+
+        const firstImageLinkpathDest = app.metadataCache.getFirstLinkpathDest(
+          decodedImageURL,
+          file.path
+        );
+
+
+        if (firstImageLinkpathDest) {
+          const resourceImagePath = app.vault.getResourcePath(
+            firstImageLinkpathDest
           );
 
-          if (firstImageLinkpathDest) {
-            const resourceImagePath = app.vault.getResourcePath(
-              firstImageLinkpathDest
-            );
-            setImageLink(resourceImagePath);
-            return;
-          }
-        } catch {
+          setImageLink(resourceImagePath);
           return;
         }
       }
+      
       setImageLink(imageLink);
     };
 
