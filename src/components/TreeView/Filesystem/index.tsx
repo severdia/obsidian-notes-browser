@@ -13,14 +13,11 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
   const { folder } = props;
   const setNotes = useStore((state) => state.setNotes);
   const setIsFolderFocused = useStore((state) => state.setIsFolderFocused);
-  const attachementFolderName = (
-    useObsidianConfig().attachmentFolderPath as string
-  ).replace("./", "");
   const setCurrentActiveFolderPath = useStore(
     (state) => state.setCurrentActiveFolderPath
   );
 
-  const { app, settings } = usePlugin();
+  const { app } = usePlugin();
   const [isOpen, setIsOpen] = useState<boolean>(
     toBoolean(localStorage.getItem(folder.path))
   );
@@ -43,40 +40,26 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
     [isOpen]
   );
 
-  const isAttachmentFolder = folder.name === attachementFolderName;
-  console.log(settings.hideAttachmentFolder);
-
-  if (settings.hideAttachmentFolder && isAttachmentFolder) {
-    console.log("hit");
-    return null;
-  }
-
   return (
     <li key={folder.path} className="onb-list-none onb-w-full custom-scrollbar">
       <Folder
         folder={folder}
         onClickChevron={() => showSubfolders(folder)}
+        isOpen={isOpen}
         onClickFolder={() => {
           setIsFolderFocused(true);
           showNotesUnderFolder(folder);
         }}
-        isOpen={isOpen}
       />
 
       {isOpen && (
         <ul className="onb-pl-2 onb-list-none onb-m-0">
-          {sortFilesAlphabetically(folder.children).map((child) => {
-            if (child instanceof TFolder) {
-              if (
-                settings.hideAttachmentFolder &&
-                child.name === attachementFolderName
-              ) {
-                return null;
-              }
-
-              return <Filesystem folder={child} key={child.path} />;
-            }
-          })}
+          {sortFilesAlphabetically(folder.children).map(
+            (child) =>
+              child instanceof TFolder && (
+                <Filesystem folder={child} key={child.path} />
+              )
+          )}
         </ul>
       )}
     </li>

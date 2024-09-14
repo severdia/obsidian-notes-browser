@@ -1,4 +1,4 @@
-import { useObsidianConfig } from "hooks";
+import { useObsidianConfig, usePlugin } from "hooks";
 import { TAbstractFile, TFile, TFolder } from "obsidian";
 
 export { PluginContext } from "./PluginContext";
@@ -6,14 +6,21 @@ export { AppContext } from "./AppContext";
 export { ObsidianConfigContext } from "./ObsidianConfigContext";
 
 export function isContainFolders(folder: TFolder) {
+  const { settings } = usePlugin();
   const attachementFolderName = (
     useObsidianConfig().attachmentFolderPath as string
   ).replace("./", "");
 
+  if (settings.hideAttachmentFolder) {
+    return folder.children.some(
+      (abstractFile) =>
+        abstractFile instanceof TFolder &&
+        abstractFile.name !== attachementFolderName
+    );
+  }
+
   return folder.children.some(
-    (abstractFile) =>
-      abstractFile instanceof TFolder &&
-      abstractFile.name !== attachementFolderName
+    (abstractFile) => abstractFile instanceof TFolder
   );
 }
 

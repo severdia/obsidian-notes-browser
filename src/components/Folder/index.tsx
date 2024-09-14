@@ -7,7 +7,7 @@ import {
 import { BaseModal } from "components/CustomModals/BaseModal";
 import { Chevron } from "components/Icons/Chevron";
 import { FolderOutline } from "components/Icons/FolderOutline";
-import { useDragHandlers, usePlugin } from "hooks";
+import { useDragHandlers, useObsidianConfig, usePlugin } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
 import { useState, DragEventHandler } from "react";
 import Dropzone from "react-dropzone";
@@ -20,6 +20,7 @@ interface FolderProps {
   onClickChevron: () => void;
   onClickFolder: () => void;
   folder: TFolder;
+  isAttachment?: boolean;
 }
 
 export function Folder(props: Readonly<FolderProps>) {
@@ -27,6 +28,11 @@ export function Folder(props: Readonly<FolderProps>) {
   const containsFolders = isContainFolders(props.folder);
   const { app, settings } = usePlugin();
   const { onDragStart } = useDragHandlers(props.folder);
+  const attachementFolderName = (
+    useObsidianConfig().attachmentFolderPath as string
+  ).replace("./", "");
+
+  const isAttachmentFolder = props.folder.name === attachementFolderName;
 
   const currentActiveFolderPath = useStore(
     (state) => state.currentActiveFolderPath
@@ -193,6 +199,10 @@ export function Folder(props: Readonly<FolderProps>) {
   const disableDroppingEffect = () => setIsDropping(false);
   const enableDroppingEffect = () => setIsDropping(true);
 
+  if (isAttachmentFolder && settings.hideAttachmentFolder) {
+    return null;
+  }
+
   return (
     <Dropzone
       onDragOver={enableDroppingEffect}
@@ -271,7 +281,11 @@ export function Folder(props: Readonly<FolderProps>) {
                 className={`onb-size-fit ${folderCountClasses} onb-text-[length:--onb-folder-text-size] min-h-fit onb-min-w-fit`}
               >
                 {props.folder.children?.length !== 0 && (
-                  <span>{getNumberOfNotes(props.folder.children)}</span>
+                  <span>
+                    {isAttachmentFolder
+                      ? props.folder.children.length
+                      : getNumberOfNotes(props.folder.children)}
+                  </span>
                 )}
               </div>
             </div>

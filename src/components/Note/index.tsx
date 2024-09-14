@@ -70,7 +70,6 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
-      console.log(imageLink);
 
       if (imageLink) {
         let decodedImageURL = imageLink;

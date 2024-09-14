@@ -58,9 +58,7 @@ export const TrashFolder = () => {
               name: name,
               path: filePath,
             });
-          } catch (e) {
-            console.log("we couldn't list deleted files");
-          }
+          } catch (e) {}
         }
       }
 
@@ -77,7 +75,6 @@ export const TrashFolder = () => {
   };
 
   useEffect(() => {
-    console.log("listing deleted files runs detector");
     const getFileCount = async () => {
       const deletedFiles = await listDeletedFilesRecursively(TRASH_ROOT);
       setFilesCount(deletedFiles.length.toString());
