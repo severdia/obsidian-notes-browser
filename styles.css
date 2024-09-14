@@ -107,6 +107,10 @@
     min-height: 1.5rem;
 
 }
+.onb-min-h-9 {
+    min-height: 2.25rem;
+
+}
 .onb-min-h-fit {
     min-height: -moz-fit-content;
     min-height: fit-content;
@@ -127,6 +131,10 @@
 }
 .onb-min-w-6 {
     min-width: 1.5rem;
+
+}
+.onb-min-w-9 {
+    min-width: 2.25rem;
 
 }
 .onb-min-w-fit {
@@ -334,6 +342,11 @@
 .onb-object-cover {
     -o-object-fit: cover;
        object-fit: cover;
+
+}
+.onb-object-fill {
+    -o-object-fit: fill;
+       object-fit: fill;
 
 }
 .onb-object-top {
@@ -559,14 +572,12 @@
     border-right: 5px solid rgba(255, 255, 255, 0);
     cursor: col-resize;
   }
-
-  .hover\:onb-bg-\[\#F2F2F2\]:hover {
+.hover\:onb-bg-\[\#F2F2F2\]:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 
 }
-
-  .hover\:onb-bg-\[--background-secondary\]:hover {
+.hover\:onb-bg-\[--background-secondary\]:hover {
     background-color: var(--background-secondary);
 
 }

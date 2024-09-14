@@ -42,10 +42,15 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const isSelected = currentActiveFilePath == file.path;
-  const backgroundColorClass = isSelected
+
+  const backgroundListColorClass = isSelected
     ? isFolderFocused
       ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
       : "onb-bg-[#016efe] onb-rounded-md onb-z-10"
+    : "onb-bg-white";
+
+  const backgroundGridColorClass = isSelected
+    ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
     : "onb-bg-white";
 
   const seperatorClasses = isSelected
@@ -65,7 +70,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
-      console.log(imageLink)
+      console.log(imageLink);
 
       if (imageLink) {
         let decodedImageURL = imageLink;
@@ -79,7 +84,6 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
           file.path
         );
 
-
         if (firstImageLinkpathDest) {
           const resourceImagePath = app.vault.getResourcePath(
             firstImageLinkpathDest
@@ -89,7 +93,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
           return;
         }
       }
-      
+
       setImageLink(imageLink);
     };
 
@@ -179,7 +183,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     <>
       {notesViewType === "LIST" && (
         <div
-          className={`onb-size-full onb-flex onb-flex-col onb-justify-between ${backgroundColorClass}`}
+          className={`onb-size-full onb-flex onb-flex-col onb-justify-between ${backgroundListColorClass}`}
         >
           <div className="onb-w-full onb-px-[--onb-divider-padding-x] onb-h-fit">
             <div
@@ -187,7 +191,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
             />
           </div>
           <NoteListView
-            className={`onb-p-3 ${backgroundColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}
+            className={`onb-p-3 ${backgroundListColorClass} onb-h-full onb-select-none onb-flex onb-flex-row onb-items-center`}
             onClick={onClickOpenFile}
             draggable={!settings.isDraggingFilesAndFoldersdisabled}
             onDragStart={onDragStart}
@@ -204,7 +208,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
 
       {notesViewType === "GRID" && (
         <NoteGridView
-          className={`onb-p-3 ${backgroundColorClass} onb-w-full onb-max-w-[--onb-note-grid-width] onb-h-[--onb-note-grid-height] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
+          className={`onb-p-3 ${backgroundGridColorClass} onb-w-full onb-max-w-[--onb-note-grid-width] onb-h-[--onb-note-grid-height] onb-select-none onb-rounded onb-flex onb-flex-col onb-items-center onb-gap-3`}
           onClick={openFile}
           draggable={!settings.isDraggingFilesAndFoldersdisabled}
           onDragStart={onDragStart}

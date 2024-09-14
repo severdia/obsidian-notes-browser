@@ -51,7 +51,7 @@ export const NoteListView = memo(
         {imageLink && (
           <img
             src={imageLink}
-            className="onb-border onb-object-cover onb-object-top onb-size-9 onb-border-gray-300 onb-rounded"
+            className="onb-border onb-object-fill onb-object-top onb-min-w-9 onb-min-h-9 onb-size-9 onb-border-gray-300 onb-rounded"
           />
         )}
       </div>

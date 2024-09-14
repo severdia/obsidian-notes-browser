@@ -44,8 +44,10 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
   );
 
   const isAttachmentFolder = folder.name === attachementFolderName;
+  console.log(settings.hideAttachmentFolder);
 
   if (settings.hideAttachmentFolder && isAttachmentFolder) {
+    console.log("hit");
     return null;
   }
 
@@ -66,11 +68,13 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
           {sortFilesAlphabetically(folder.children).map((child) => {
             if (child instanceof TFolder) {
               if (
-                settings.hideAttachmentFolder ||
-                child.name !== attachementFolderName
+                settings.hideAttachmentFolder &&
+                child.name === attachementFolderName
               ) {
-                return <Filesystem folder={child} key={child.path} />;
+                return null;
               }
+
+              return <Filesystem folder={child} key={child.path} />;
             }
           })}
         </ul>
