@@ -1,23 +1,25 @@
-import { TFile } from "obsidian";
+import { App, TFile } from "obsidian";
 import { create } from "zustand";
 
 type NotesViewType = "LIST" | "GRID";
 
 interface State {
   notes: TFile[];
+  app?: App;
   currentActiveFilePath: string;
   currentActiveFolderPath: string;
   forceFilesyetemUpdate: number;
   forceNotesViewUpdate: number;
   isFolderFocused: boolean;
-  setIsFolderFocused: (
-    isFocused: boolean
-  ) => void;
+  setIsFolderFocused: (isFocused: boolean) => void;
   notesViewType: NotesViewType;
   setNotesViewType: (notesViewType: NotesViewType) => void;
   setNotes: (notes: TFile[]) => void;
   setCurrentActiveFilePath: (file: string | null) => void;
-  setCurrentActiveFolderPath: (folder: string | null) => void;
+  setCurrentActiveFolderPath: (
+    folder: string | null,
+    options?: { isTrashFolder: boolean }
+  ) => void;
   setForceFilesystemUpdate: () => void;
   setForceNotesViewUpdate: () => void;
 }
@@ -50,9 +52,22 @@ export const useStore = create<State>()((set) => ({
       if (!path) return state;
       return { ...state, currentActiveFilePath: path };
     }),
-  setCurrentActiveFolderPath: (path: string | null) =>
+  setCurrentActiveFolderPath: (path: string | null, options) =>
     set((state) => {
-      if (!path) return state;
-      return { ...state, currentActiveFolderPath: path };
+      console.log("run setCurrentActiveFolderPath");
+      if (!path || !state.app) return state;
+      else if (options?.isTrashFolder)
+        return { ...state, currentActiveFolderPath: path, notes: [] };
+
+      const filesUnderFolder = state.app.vault.getFolderByPath(path)?.children;
+      if (!filesUnderFolder) return { ...state, currentActiveFolderPath: path };
+
+      return {
+        ...state,
+        currentActiveFolderPath: path,
+        notes: filesUnderFolder.filter(
+          (abstractFile) => abstractFile instanceof TFile
+        ),
+      };
     }),
 }));

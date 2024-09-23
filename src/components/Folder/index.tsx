@@ -7,9 +7,9 @@ import {
 import { BaseModal } from "components/CustomModals/BaseModal";
 import { Chevron } from "components/Icons/Chevron";
 import { FolderOutline } from "components/Icons/FolderOutline";
-import { useDragHandlers, useObsidianConfig, usePlugin } from "hooks";
+import { useApp, useDragHandlers, useObsidianConfig, usePlugin } from "hooks";
 import { TFolder, Notice, Menu } from "obsidian";
-import { useState, DragEventHandler } from "react";
+import { useState, DragEventHandler, memo } from "react";
 import Dropzone from "react-dropzone";
 
 import { useStore } from "store";
@@ -23,10 +23,11 @@ interface FolderProps {
   isAttachment?: boolean;
 }
 
-export function Folder(props: Readonly<FolderProps>) {
+export const Folder = memo((props: Readonly<FolderProps>) => {
   const [isDropping, setIsDropping] = useState(false);
   const containsFolders = isContainFolders(props.folder);
-  const { app, settings } = usePlugin();
+  const app = useApp();
+  const { settings } = usePlugin();
   const { onDragStart } = useDragHandlers(props.folder);
   const attachementFolderName = (
     useObsidianConfig().attachmentFolderPath as string
@@ -59,7 +60,6 @@ export function Folder(props: Readonly<FolderProps>) {
     : "onb-text-[color:--onb-folder-icon-color]";
 
   const handleOnDropFiles = (droppabaleFiles: File[]) => {
-    if (!app) return;
     droppabaleFiles.map((file) => {
       file.arrayBuffer().then((content) => {
         app.vault.adapter.writeBinary(
@@ -294,4 +294,4 @@ export function Folder(props: Readonly<FolderProps>) {
       )}
     </Dropzone>
   );
-}
+});

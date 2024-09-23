@@ -1,6 +1,5 @@
 import { Folder } from "components/Folder";
-import { useObsidianConfig, usePlugin } from "hooks";
-import { TFolder, TFile } from "obsidian";
+import { TFolder } from "obsidian";
 import { useState, useCallback } from "react";
 import { toBoolean, sortFilesAlphabetically } from "utils";
 import { useStore } from "store";
@@ -11,26 +10,13 @@ interface FilesystemProps {
 
 export function Filesystem(props: Readonly<FilesystemProps>) {
   const { folder } = props;
-  const setNotes = useStore((state) => state.setNotes);
   const setIsFolderFocused = useStore((state) => state.setIsFolderFocused);
   const setCurrentActiveFolderPath = useStore(
     (state) => state.setCurrentActiveFolderPath
   );
-
-  const { app } = usePlugin();
   const [isOpen, setIsOpen] = useState<boolean>(
     toBoolean(localStorage.getItem(folder.path))
   );
-
-  const showNotesUnderFolder = useCallback((folder: TFolder) => {
-    if (!app) return;
-    const filesUnderFolder = app.vault.getFolderByPath(folder.path)?.children;
-    if (!filesUnderFolder) return;
-    setCurrentActiveFolderPath(folder.path);
-    setNotes(
-      filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
-    );
-  }, []);
 
   const showSubfolders = useCallback(
     (folder: TFolder) => {
@@ -47,8 +33,9 @@ export function Filesystem(props: Readonly<FilesystemProps>) {
         onClickChevron={() => showSubfolders(folder)}
         isOpen={isOpen}
         onClickFolder={() => {
+          console.log("clicked folder");
           setIsFolderFocused(true);
-          showNotesUnderFolder(folder);
+          setCurrentActiveFolderPath(folder.path);
         }}
       />
 

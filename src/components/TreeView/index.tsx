@@ -14,12 +14,11 @@ export function TreeView() {
   );
 
   useEffect(() => {
-    if (!app) return;
     const rootFolder = app.vault.getAbstractFileByPath(
       app.vault.getRoot().path
     );
 
-    if (app && rootFolder) {
+    if (rootFolder) {
       rootFolder.name = app.vault.getName();
     }
 

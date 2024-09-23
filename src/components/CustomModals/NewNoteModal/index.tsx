@@ -1,12 +1,6 @@
-import { useLocalApp } from "hooks";
-import { Modal, Notice } from "obsidian";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useApp } from "hooks";
+import { Modal, Notice, TFile } from "obsidian";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 interface CustomModalProps {
   modal: Modal;
@@ -18,7 +12,7 @@ export function NewNoteModal({
   folderPath,
 }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const app = useLocalApp();
+  const app = useApp();
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -27,7 +21,7 @@ export function NewNoteModal({
   }, []);
 
   const createNote = () => {
-    if (!app || !inputRef.current) {
+    if (!inputRef.current) {
       modal.close();
       return;
     }
@@ -39,7 +33,20 @@ export function NewNoteModal({
 
     app.vault
       .createBinary(`${folderPath}/${inputValue}.md`, new ArrayBuffer(0))
-      .catch((e) => new Notice(e));
+      .then((tfile) => {
+        if (!app) return;
+        const fileToOpen = app.vault.getAbstractFileByPath(tfile.path);
+        if (!fileToOpen) return;
+        const leaf = app.workspace.getLeaf(false);
+        app.workspace.setActiveLeaf(leaf, {
+          focus: true,
+        });
+
+        leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
+      })
+      .catch((e) => {
+        new Notice(e);
+      });
 
     modal.close();
   };
@@ -62,6 +69,7 @@ export function NewNoteModal({
       <input
         ref={inputRef}
         onChange={onChange}
+        onKeyDown={(e) => e.key === "Enter" && createNote()}
         className="onb-w-full onb-p-2 onb-border-solid onb-border onb-rounded-md onb-border-gray-400"
       />
       <div className="modal-button-container">

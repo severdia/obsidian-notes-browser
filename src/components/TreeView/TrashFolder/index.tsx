@@ -1,11 +1,11 @@
 import { useApp } from "hooks";
 import { normalizePath } from "obsidian";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useStore } from "store";
 import { TRASH_ROOT } from "./constant";
 import { Trash } from "components/Icons/Trash";
 
-export const TrashFolder = () => {
+export const TrashFolder = memo(() => {
   const app = useApp();
   const setNotes = useStore((state) => state.setNotes);
   const [filesCount, setFilesCount] = useState("..");
@@ -32,8 +32,6 @@ export const TrashFolder = () => {
   const listDeletedFilesRecursively = async (
     folderPath: string
   ): Promise<any[]> => {
-    if (!app) return [];
-
     try {
       const folderContent = await app.vault.adapter.list(folderPath);
       const { files, folders } = folderContent;
@@ -83,7 +81,7 @@ export const TrashFolder = () => {
   }, []);
 
   const showDeletedNotes = async () => {
-    setCurrentActiveFolderPath(TRASH_ROOT);
+    setCurrentActiveFolderPath(TRASH_ROOT, { isTrashFolder: true });
     const deletedFiles = await listDeletedFilesRecursively(TRASH_ROOT);
     setNotes(deletedFiles);
   };
@@ -112,4 +110,4 @@ export const TrashFolder = () => {
       </div>
     </div>
   );
-};
+});

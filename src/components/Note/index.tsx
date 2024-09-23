@@ -3,7 +3,7 @@ import {
   ConfirmDeleteModal,
   RenameModal,
 } from "components/CustomModals";
-import { useDragHandlers, usePlugin } from "hooks";
+import { useApp, useDragHandlers, usePlugin } from "hooks";
 import { Menu, TFile } from "obsidian";
 import { memo, useCallback, useEffect, useState } from "react";
 import { useStore } from "store";
@@ -37,17 +37,22 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     isFolderFocused: state.isFolderFocused,
   }));
 
-  const { app, settings } = usePlugin();
+  const { settings } = usePlugin();
+  const app = useApp();
   const [imageLink, setImageLink] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("loading");
   const { onDragStart } = useDragHandlers(file);
   const isSelected = currentActiveFilePath == file.path;
 
-  const backgroundListColorClass = isSelected
-    ? isFolderFocused
-      ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
-      : "onb-bg-[#016efe] onb-rounded-md onb-z-10"
-    : "onb-bg-white";
+  const backgroundListColorClass = (() => {
+    if (!isSelected) return "onb-bg-white";
+
+    if (isFolderFocused) {
+      return "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10";
+    }
+
+    return "onb-bg-[#016efe] onb-rounded-md onb-z-10";
+  })();
 
   const backgroundGridColorClass = isSelected
     ? "onb-bg-[--onb-note-background-active] onb-rounded-md onb-z-10"
@@ -58,15 +63,6 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     : "onb-bg-[--onb-divider-background] -onb-mt-[--onb-divider-height]";
 
   useEffect(() => {
-    if (!app) return;
-    const hasSameParentFolder =
-      app.vault.getFileByPath(currentActiveFilePath)?.parent?.path ===
-      file.parent?.path;
-
-    if (isFirst && !hasSameParentFolder) {
-      openFile();
-    }
-
     const updateContent = (content: string) => {
       setDescription(content.slice(0, Math.min(content.length, 400)));
       const imageLink = extractImageLink(content);
@@ -108,9 +104,19 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     };
 
     getContent();
-  }, [app, file, forceNotesViewUpdate]);
+  }, [file, forceNotesViewUpdate]);
 
-  const openFile = () => {
+  useEffect(() => {
+    const hasSameParentFolder =
+      app.vault.getFileByPath(currentActiveFilePath)?.parent?.path ===
+      file.parent?.path;
+
+    if (isFirst && !hasSameParentFolder) {
+      openFile();
+    }
+  }, []);
+
+  const openFile = useCallback(() => {
     if (!app) return;
     const fileToOpen = app.vault.getAbstractFileByPath(file.path);
     if (!fileToOpen) return;
@@ -120,7 +126,7 @@ export const Note = memo(({ file, isFirst }: NoteProps) => {
     });
 
     leaf.openFile(fileToOpen as TFile, { eState: { focus: true } });
-  };
+  }, []);
 
   const onClickOpenFile = useCallback(() => {
     openFile();

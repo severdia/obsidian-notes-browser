@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { PluginContext } from "utils";
 import { App } from "obsidian";
+import { useStore } from "store";
 
-export const useApp = (): App | undefined => {
-  return useContext(PluginContext)?.app;
+export const useApp = (): App => {
+  return useStore((state) => state.app)!;
 };

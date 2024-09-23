@@ -1,4 +1,4 @@
-import { useLocalApp } from "hooks";
+import { useApp } from "hooks";
 import { Modal, Notice, TFolder } from "obsidian";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
@@ -9,7 +9,7 @@ interface CustomModalProps {
 
 export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const app = useLocalApp();
+  const app = useApp();
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
   }, []);
 
   const createFolder = () => {
-    if (!app || !inputRef.current) {
+    if (!inputRef.current) {
       modal.close();
       return;
     }
@@ -53,6 +53,7 @@ export function NewFolderModal({ modal, file }: Readonly<CustomModalProps>) {
       <input
         ref={inputRef}
         onChange={onChange}
+        onKeyDown={(e) => e.key === "Enter" && createFolder()}
         className="onb-w-full onb-p-2 onb-border-solid onb-border onb-rounded-md onb-border-gray-400"
       />
       <div className="modal-button-container">

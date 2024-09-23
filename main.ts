@@ -18,6 +18,8 @@ export default class NotesBrowser extends Plugin {
 
   async onload() {
     await this.loadSettings();
+    useStore.getState().app = this.app;
+
     this.addSettingTab(new SettingTab(this.app, this));
     this.registerView(VIEW_TYPE, (leaf) => new PluginView(leaf, this));
 
@@ -41,19 +43,8 @@ export default class NotesBrowser extends Plugin {
   }
 
   updateNotesView = () => {
-    const { currentActiveFolderPath, setForceFilesystemUpdate, setNotes } =
-      useStore.getState();
-
+    const { setForceFilesystemUpdate } = useStore.getState();
     setForceFilesystemUpdate();
-
-    const filesUnderFolder = this.app.vault.getFolderByPath(
-      currentActiveFolderPath
-    )?.children;
-    if (!filesUnderFolder) return;
-
-    setNotes(
-      filesUnderFolder.filter((abstractFile) => abstractFile instanceof TFile)
-    );
   };
 
   onDelete = () => {
@@ -72,10 +63,12 @@ export default class NotesBrowser extends Plugin {
     useStore.getState().setForceNotesViewUpdate();
   };
 
-  onActiveLeafChange = () => {
+  onActiveLeafChange = (leaf: WorkspaceLeaf | null) => {
+    if (leaf?.getViewState().type !== "markdown") return;
     const currentOpenFile = this.app.workspace.getActiveFile();
-    if (!currentOpenFile) return;
+    if (!currentOpenFile?.parent) return;
     useStore.getState().setCurrentActiveFilePath(currentOpenFile.path);
+    useStore.getState().setCurrentActiveFolderPath(currentOpenFile.parent.path);
   };
 
   async loadSettings() {

@@ -46,18 +46,8 @@ export class PluginView extends ItemView {
       this.app.vault.getFileByPath(latestActiveFile)?.parent;
 
     if (latestActiveFolder) {
-      useStore.getState().setCurrentActiveFolderPath(latestActiveFolder.path);
       useStore.getState().setCurrentActiveFilePath(latestActiveFile);
-
-      const filesUnderFolder = latestActiveFolder.children;
-
-      useStore
-        .getState()
-        .setNotes(
-          filesUnderFolder.filter(
-            (abstractFile) => abstractFile instanceof TFile
-          )
-        );
+      useStore.getState().setCurrentActiveFolderPath(latestActiveFolder.path);
     }
 
     this.root.render(
